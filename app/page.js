@@ -1,6 +1,8 @@
 import Link from 'next/link';
 import { client } from '@/lib/sanity';
 import BlogCard from '@/components/blog-card';
+import AnimatedWelcome from '@/components/AnimatedWelcome';
+import GradientHeading from '@/components/GradientHeading';
 
 export default async function Home() {
   // Fetch latest 3 blog posts
@@ -12,9 +14,9 @@ export default async function Home() {
       {/* Hero Section */}
       <section className="bg-gradient-to-b from-gray-50 to-white py-20">
         <div className="text-center" style={{ marginLeft: 'clamp(1.5rem, 8vw, 6rem)', marginRight: 'clamp(1.5rem, 4vw, 1.5rem)' }}>
-          <h1 className="mb-6 leading-tight text-center" style={{ fontSize: 'clamp(1.5rem, 6vw, 3rem)' }}>
-            Welcome to<br />designDesignsDesign
-          </h1>
+          <GradientHeading className="mb-6 leading-tight text-center" style={{ fontSize: 'clamp(1.5rem, 6vw, 3rem)' }}>
+            <AnimatedWelcome /><br />designDesignsDesign
+          </GradientHeading>
           <p className="text-gray-600 mb-8 max-w-2xl mx-auto" style={{ fontSize: 'clamp(1rem, 3vw, 1.25rem)' }}>
             Discover premium digital products with instant delivery. Built with Next.js, Sanity CMS,
             and Stripe.
