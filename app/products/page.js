@@ -8,7 +8,7 @@ export default async function ProductsPage() {
     <div className="py-12" style={{ marginLeft: 'clamp(1.5rem, 8vw, 6rem)', marginRight: 'clamp(1.5rem, 4vw, 1.5rem)' }}>
       {/* Header */}
       <header className="mb-8">
-        <h1 className="text-4xl font-bold mb-4">Pricing</h1>
+        <h1 className="text-4xl mb-4">Pricing</h1>
         <p className="text-xl text-gray-600">
           Explore our digital products with instant delivery and lifetime access
         </p>

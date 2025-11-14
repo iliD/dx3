@@ -2,6 +2,28 @@ import './globals.css';
 import { Analytics } from '@vercel/analytics/react';
 import MobileNav from '@/components/MobileNav';
 import DesktopSearch from '@/components/DesktopSearch';
+import { IBM_Plex_Sans, IBM_Plex_Serif, IBM_Plex_Mono } from 'next/font/google';
+
+const ibmPlexSans = IBM_Plex_Sans({
+  weight: ['400', '700'],
+  subsets: ['latin'],
+  variable: '--font-ibm-plex-sans',
+  display: 'swap',
+});
+
+const ibmPlexSerif = IBM_Plex_Serif({
+  weight: ['400', '700'],
+  subsets: ['latin'],
+  variable: '--font-ibm-plex-serif',
+  display: 'swap',
+});
+
+const ibmPlexMono = IBM_Plex_Mono({
+  weight: ['400', '700'],
+  subsets: ['latin'],
+  variable: '--font-ibm-plex-mono',
+  display: 'swap',
+});
 
 export const metadata = {
   title: 'designDesignsDesign',
@@ -10,7 +32,7 @@ export const metadata = {
 
 export default function RootLayout({ children }) {
   return (
-    <html lang="en">
+    <html lang="en" className={`${ibmPlexSans.variable} ${ibmPlexSerif.variable} ${ibmPlexMono.variable}`}>
       <body>
         <a
           href="#main-content"
@@ -53,7 +75,7 @@ export default function RootLayout({ children }) {
             <div className="grid md:grid-cols-3 gap-12 mb-8">
               {/* Company Info */}
               <div>
-                <h2 className="font-semibold mb-4 text-base">designDesignsDesign</h2>
+                <h2 className="mb-4 text-base">designDesignsDesign</h2>
                 <div className="space-y-1 text-sm text-gray-700">
                   <p>London, United Kingdom</p>
                   <p>+44 20 1234 5678</p>
@@ -64,7 +86,7 @@ export default function RootLayout({ children }) {
 
               {/* Quick Links */}
               <div>
-                <h2 className="font-semibold mb-4 text-base">Quick Links</h2>
+                <h2 className="mb-4 text-base">Quick links</h2>
                 <ul className="space-y-2 text-sm text-gray-700">
                   <li>
                     <a href="/products" className="underline hover:no-underline hover:text-black transition-colors">
@@ -91,7 +113,7 @@ export default function RootLayout({ children }) {
 
               {/* Legal & Info */}
               <div>
-                <h2 className="font-semibold mb-4 text-base">Information</h2>
+                <h2 className="mb-4 text-base">Information</h2>
                 <ul className="space-y-2 text-sm text-gray-700">
                   <li>
                     <a href="/contact" className="underline hover:no-underline hover:text-black transition-colors">
@@ -112,8 +134,7 @@ export default function RootLayout({ children }) {
               <div className="flex flex-col items-center justify-center gap-2">
                 <p>&copy; 2025 designDesignsDesign.</p>
                 <p>
-                  <a href="/colophon" className="underline hover:no-underline hover:text-black transition-colors">Love</a>
-                  {' + '}
+                  Made with{' '}
                   <a href="https://nextjs.org" target="_blank" rel="noopener noreferrer" className="underline hover:no-underline hover:text-black transition-colors">
                     Next.js<span className="sr-only"> (opens in new tab)</span>
                   </a>

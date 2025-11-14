@@ -12,7 +12,7 @@ export default async function Home() {
       {/* Hero Section */}
       <section className="bg-gradient-to-b from-gray-50 to-white py-20">
         <div className="text-center" style={{ marginLeft: 'clamp(1.5rem, 8vw, 6rem)', marginRight: 'clamp(1.5rem, 4vw, 1.5rem)' }}>
-          <h1 className="font-bold mb-6 leading-tight text-center" style={{ fontSize: 'clamp(1.5rem, 6vw, 3rem)' }}>
+          <h1 className="mb-6 leading-tight text-center" style={{ fontSize: 'clamp(1.5rem, 6vw, 3rem)' }}>
             Welcome to<br />designDesignsDesign
           </h1>
           <p className="text-gray-600 mb-8 max-w-2xl mx-auto" style={{ fontSize: 'clamp(1rem, 3vw, 1.25rem)' }}>
@@ -47,40 +47,40 @@ export default async function Home() {
       {/* Features Section */}
       <section className="py-20">
         <div style={{ marginLeft: 'clamp(1.5rem, 8vw, 6rem)', marginRight: 'clamp(1.5rem, 4vw, 1.5rem)' }}>
-          <h2 className="font-bold text-center mb-12" style={{ fontSize: 'clamp(1.25rem, 4vw, 1.875rem)' }}>Tech stack features</h2>
+          <h2 className="text-center mb-12" style={{ fontSize: 'clamp(1.25rem, 4vw, 1.875rem)' }}>Tech stack features</h2>
           <div className="grid md:grid-cols-3 gap-8">
             <div className="p-6 border rounded-lg">
-              <h3 className="text-xl font-bold mb-3">Next.js 14+</h3>
+              <h3 className="text-xl mb-3"><a href="https://nextjs.org" target="_blank" rel="noopener noreferrer" className="underline hover:no-underline">Next.js</a> 14+</h3>
               <p className="text-gray-600">
-                Modern React framework with App Router, server components, and optimized performance.
+                Modern React framework with App Router, server components, and optimised performance.
               </p>
             </div>
             <div className="p-6 border rounded-lg">
-              <h3 className="text-xl font-bold mb-3">Sanity CMS</h3>
+              <h3 className="text-xl mb-3"><a href="https://www.sanity.io" target="_blank" rel="noopener noreferrer" className="underline hover:no-underline">Sanity CMS</a></h3>
               <p className="text-gray-600">
                 Headless CMS for managing products and content with real-time collaboration.
               </p>
             </div>
             <div className="p-6 border rounded-lg">
-              <h3 className="text-xl font-bold mb-3">Stripe Payments</h3>
+              <h3 className="text-xl mb-3"><a href="https://stripe.com" target="_blank" rel="noopener noreferrer" className="underline hover:no-underline">Stripe</a> payments</h3>
               <p className="text-gray-600">
                 Secure payment processing with support for one-time purchases and subscriptions.
               </p>
             </div>
             <div className="p-6 border rounded-lg">
-              <h3 className="text-xl font-bold mb-3">Vercel Hosting</h3>
+              <h3 className="text-xl mb-3"><a href="https://vercel.com" target="_blank" rel="noopener noreferrer" className="underline hover:no-underline">Vercel</a> hosting</h3>
               <p className="text-gray-600">
                 Zero-config deployment with automatic scaling and edge functions.
               </p>
             </div>
             <div className="p-6 border rounded-lg">
-              <h3 className="text-xl font-bold mb-3">Resend Email</h3>
+              <h3 className="text-xl mb-3"><a href="https://resend.com" target="_blank" rel="noopener noreferrer" className="underline hover:no-underline">Resend</a> email</h3>
               <p className="text-gray-600">
                 Beautiful transactional emails with React Email templates.
               </p>
             </div>
             <div className="p-6 border rounded-lg">
-              <h3 className="text-xl font-bold mb-3">shadcn/ui</h3>
+              <h3 className="text-xl mb-3"><a href="https://ui.shadcn.com" target="_blank" rel="noopener noreferrer" className="underline hover:no-underline">shadcn/ui</a></h3>
               <p className="text-gray-600">
                 Beautiful, accessible UI components built with Tailwind CSS.
               </p>
@@ -95,7 +95,7 @@ export default async function Home() {
           <div style={{ marginLeft: 'clamp(1.5rem, 8vw, 6rem)', marginRight: 'clamp(1.5rem, 4vw, 1.5rem)' }}>
             <div className="flex justify-between items-end mb-12">
               <div>
-                <h2 className="text-3xl font-bold mb-2">Latest Articles</h2>
+                <h2 className="text-3xl mb-2">Latest articles</h2>
                 <p className="text-gray-600">
                   Insights, tutorials, and updates about digital products
                 </p>
@@ -119,7 +119,7 @@ export default async function Home() {
       {/* CTA Section */}
       <section className="bg-black text-white py-20">
         <div className="text-center" style={{ marginLeft: 'clamp(1.5rem, 8vw, 6rem)', marginRight: 'clamp(1.5rem, 4vw, 1.5rem)' }}>
-          <h2 className="font-bold mb-4" style={{ fontSize: 'clamp(1.25rem, 4vw, 1.875rem)' }}>Ready to get started?</h2>
+          <h2 className="mb-4" style={{ fontSize: 'clamp(1.25rem, 4vw, 1.875rem)' }}>Ready to get started?</h2>
           <p className="mb-8 text-gray-300" style={{ fontSize: 'clamp(1rem, 2.5vw, 1.25rem)' }}>
             Start selling your digital products today with zero monthly fees.
           </p>

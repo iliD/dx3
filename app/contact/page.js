@@ -8,7 +8,7 @@ export default function ContactPage() {
     <div className="py-12 max-w-4xl" style={{ marginLeft: 'clamp(1.5rem, 8vw, 6rem)', marginRight: 'clamp(1.5rem, 4vw, 1.5rem)' }}>
       {/* Header */}
       <header className="mb-8">
-        <h1 className="text-4xl font-bold mb-4">Contact Us</h1>
+        <h1 className="text-4xl mb-4">Contact us</h1>
         <p className="text-xl text-gray-600">
           Have a question or want to work together? We'd love to hear from you.
         </p>

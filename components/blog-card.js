@@ -33,7 +33,7 @@ export default function BlogCard({ post }) {
               {format(new Date(post.publishedAt), 'MMM dd, yyyy')}
             </time>
           </div>
-          <h3 className="text-xl font-bold mb-2 hover:text-gray-700 transition-colors">
+          <h3 className="text-xl mb-2 hover:text-gray-700 transition-colors">
             {post.title}
           </h3>
           <p className="text-gray-600 mb-4 line-clamp-2">{post.excerpt}</p>
