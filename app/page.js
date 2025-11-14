@@ -1,12 +1,18 @@
 import Link from 'next/link';
+import { client } from '@/lib/sanity';
+import BlogCard from '@/components/blog-card';
 
-export default function Home() {
+export default async function Home() {
+  // Fetch latest 3 blog posts
+  const latestPosts = await client.fetch(
+    `*[_type == "blogPost"] | order(publishedAt desc)[0...3]`
+  );
   return (
     <div className="min-h-screen">
       {/* Hero Section */}
       <section className="bg-gradient-to-b from-gray-50 to-white py-20">
         <div className="container mx-auto px-6 text-center">
-          <h1 className="text-5xl font-bold mb-6">Welcome to Your Digital Products Shop</h1>
+          <h1 className="text-5xl font-bold mb-6">Welcome to designDesignsDesign</h1>
           <p className="text-xl text-gray-600 mb-8 max-w-2xl mx-auto">
             Discover premium digital products with instant delivery. Built with Next.js, Sanity CMS,
             and Stripe.
@@ -16,7 +22,7 @@ export default function Home() {
               href="/products"
               className="bg-black text-white px-8 py-3 rounded-lg hover:bg-gray-800 transition-colors"
             >
-              Browse Products
+              View Pricing
             </Link>
             <Link
               href="/studio"
@@ -72,6 +78,33 @@ export default function Home() {
           </div>
         </div>
       </section>
+
+      {/* Latest Blog Posts Section */}
+      {latestPosts.length > 0 && (
+        <section className="py-20 bg-gray-50">
+          <div className="container mx-auto px-6">
+            <div className="flex justify-between items-end mb-12">
+              <div>
+                <h2 className="text-3xl font-bold mb-2">Latest Articles</h2>
+                <p className="text-gray-600">
+                  Insights, tutorials, and updates about digital products
+                </p>
+              </div>
+              <Link
+                href="/blog"
+                className="text-black font-semibold hover:underline"
+              >
+                View all articles →
+              </Link>
+            </div>
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+              {latestPosts.map((post) => (
+                <BlogCard key={post._id} post={post} />
+              ))}
+            </div>
+          </div>
+        </section>
+      )}
 
       {/* CTA Section */}
       <section className="bg-black text-white py-20">
