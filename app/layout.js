@@ -35,13 +35,11 @@ export default function RootLayout({ children }) {
               {/* Company Info */}
               <div>
                 <h3 className="text-xl font-bold mb-4">designDesignsDesign</h3>
-                <p className="text-gray-600 mb-4 italic">
-                  "Crafting digital experiences that inspire and convert"
-                </p>
                 <div className="space-y-1 text-sm text-gray-600">
                   <p>London, United Kingdom</p>
                   <p>+44 20 1234 5678</p>
                   <p>hello@designdesignsdesign.com</p>
+                  <p className="mt-2">Monday - Friday: <span className="whitespace-nowrap">9:00 AM - 6:00 PM GMT</span></p>
                 </div>
               </div>
 
