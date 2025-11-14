@@ -8,6 +8,21 @@ export const metadata = {
 export default function ToolchainPage() {
   return (
     <div className="py-12 max-w-4xl" style={{ marginLeft: 'clamp(1.5rem, 8vw, 6rem)', marginRight: 'clamp(1.5rem, 4vw, 1.5rem)' }}>
+      {/* Navigation */}
+      <nav className="mb-8 p-4 bg-gray-50 dark:bg-[#0f0f0f] border border-gray-200 dark:border-[#2a2a2a] rounded-lg">
+        <h2 className="text-sm font-semibold text-gray-600 dark:text-gray-400 mb-3">Toolchain guides</h2>
+        <ul className="space-y-2">
+          <li>
+            <span className="text-gray-900 dark:text-gray-100 font-medium">Mac terminal setup</span>
+          </li>
+          <li>
+            <a href="/frameworks/styledictionary" className="text-gray-700 dark:text-gray-300 underline hover:no-underline hover:text-black dark:hover:text-white cursor-pointer">
+              Style Dictionary setup
+            </a>
+          </li>
+        </ul>
+      </nav>
+
       {/* Header */}
       <header className="mb-8">
         <h1 className="text-4xl mb-4">How to setup your Mac terminal</h1>
