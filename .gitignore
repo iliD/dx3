@@ -5,6 +5,10 @@
 /.pnp
 .pnp.js
 
+# Next.js
+/.next/
+/out/
+
 # Compiled Sanity Studio
 /dist
 
@@ -24,6 +28,18 @@
 
 # Typescript
 *.tsbuildinfo
+next-env.d.ts
+
+# Environment files
+.env
+.env*.local
+
+# Sanity config files (if auto-generated)
+sanity.cli.ts
+sanity.config.ts
+/schemaTypes/
+/static/
+tsconfig.json
 
 # Dotenv and similar local-only files
 *.local
