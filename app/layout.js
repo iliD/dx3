@@ -1,5 +1,7 @@
 import './globals.css';
 import { Analytics } from '@vercel/analytics/react';
+import MobileNav from '@/components/MobileNav';
+import DesktopSearch from '@/components/DesktopSearch';
 
 export const metadata = {
   title: 'designDesignsDesign',
@@ -15,7 +17,9 @@ export default function RootLayout({ children }) {
             <a href="/" className="text-xl font-bold">
               designDesignsDesign
             </a>
-            <div className="flex gap-6">
+
+            {/* Desktop Navigation */}
+            <div className="hidden md:flex gap-6 items-center">
               <a href="/products" className="hover:underline">
                 Pricing
               </a>
@@ -28,7 +32,11 @@ export default function RootLayout({ children }) {
               <a href="/studio" className="hover:underline">
                 Studio
               </a>
+              <DesktopSearch />
             </div>
+
+            {/* Mobile Navigation */}
+            <MobileNav />
           </div>
         </nav>
         {children}
