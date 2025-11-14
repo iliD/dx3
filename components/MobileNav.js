@@ -2,9 +2,12 @@
 
 import { useState } from 'react';
 import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 
 export default function MobileNav() {
   const [isOpen, setIsOpen] = useState(false);
+  const [query, setQuery] = useState('');
+  const router = useRouter();
 
   return (
     <>
@@ -84,27 +87,46 @@ export default function MobileNav() {
 
         {/* Search Section */}
         <div className="px-8 pb-8">
-          <div className="relative">
+          <form
+            onSubmit={(e) => {
+              e.preventDefault();
+              if (query.trim()) {
+                router.push(`/search?q=${encodeURIComponent(query.trim())}`);
+                setIsOpen(false);
+                setQuery('');
+              }
+            }}
+            className="relative"
+          >
             <input
               type="search"
+              value={query}
+              onChange={(e) => setQuery(e.target.value)}
+              placeholder="Search..."
               aria-label="Search"
               className="w-full h-10 px-4 pr-10 text-sm border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-black focus:border-transparent transition-all"
             />
-            <svg
-              className="absolute right-3 top-1/2 -translate-y-1/2 w-4 h-4 text-black pointer-events-none"
-              fill="none"
-              stroke="currentColor"
-              viewBox="0 0 24 24"
-              aria-hidden="true"
+            <button
+              type="submit"
+              className="absolute right-3 top-1/2 -translate-y-1/2 w-4 h-4"
+              aria-label="Submit search"
             >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth={2}
-                d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
-              />
-            </svg>
-          </div>
+              <svg
+                className="w-4 h-4 text-black"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+                aria-hidden="true"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
+                />
+              </svg>
+            </button>
+          </form>
         </div>
       </div>
     </>
