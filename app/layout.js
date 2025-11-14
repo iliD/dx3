@@ -3,6 +3,7 @@ import { Analytics } from '@vercel/analytics/react';
 import MobileNav from '@/components/MobileNav';
 import DesktopSearch from '@/components/DesktopSearch';
 import ThemeToggle from '@/components/ThemeToggle';
+import CommandPalette from '@/components/CommandPalette';
 import { ThemeProvider } from '@/components/ThemeProvider';
 import { IBM_Plex_Sans, IBM_Plex_Serif, IBM_Plex_Mono } from 'next/font/google';
 
@@ -151,6 +152,7 @@ export default function RootLayout({ children }) {
               </div>
             </div>
           </footer>
+          <CommandPalette />
           <Analytics />
         </ThemeProvider>
       </body>
