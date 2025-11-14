@@ -11,7 +11,7 @@ export default async function Home() {
     <div className="min-h-screen">
       {/* Hero Section */}
       <section className="bg-gradient-to-b from-gray-50 to-white py-20">
-        <div className="container mx-auto px-6 text-center">
+        <div className="text-center" style={{ marginLeft: 'clamp(1.5rem, 8vw, 6rem)', marginRight: 'clamp(1.5rem, 4vw, 1.5rem)' }}>
           <h1 className="font-bold mb-6 leading-tight text-center" style={{ fontSize: 'clamp(1.5rem, 6vw, 3rem)' }}>
             Welcome to<br />designDesignsDesign
           </h1>
@@ -46,7 +46,7 @@ export default async function Home() {
 
       {/* Features Section */}
       <section className="py-20">
-        <div className="container mx-auto px-6">
+        <div style={{ marginLeft: 'clamp(1.5rem, 8vw, 6rem)', marginRight: 'clamp(1.5rem, 4vw, 1.5rem)' }}>
           <h2 className="font-bold text-center mb-12" style={{ fontSize: 'clamp(1.25rem, 4vw, 1.875rem)' }}>Tech stack features</h2>
           <div className="grid md:grid-cols-3 gap-8">
             <div className="p-6 border rounded-lg">
@@ -92,7 +92,7 @@ export default async function Home() {
       {/* Latest Blog Posts Section */}
       {latestPosts.length > 0 && (
         <section className="py-20 bg-gray-50">
-          <div className="container mx-auto px-6">
+          <div style={{ marginLeft: 'clamp(1.5rem, 8vw, 6rem)', marginRight: 'clamp(1.5rem, 4vw, 1.5rem)' }}>
             <div className="flex justify-between items-end mb-12">
               <div>
                 <h2 className="text-3xl font-bold mb-2">Latest Articles</h2>
@@ -118,7 +118,7 @@ export default async function Home() {
 
       {/* CTA Section */}
       <section className="bg-black text-white py-20">
-        <div className="container mx-auto px-6 text-center">
+        <div className="text-center" style={{ marginLeft: 'clamp(1.5rem, 8vw, 6rem)', marginRight: 'clamp(1.5rem, 4vw, 1.5rem)' }}>
           <h2 className="font-bold mb-4" style={{ fontSize: 'clamp(1.25rem, 4vw, 1.875rem)' }}>Ready to get started?</h2>
           <p className="mb-8 text-gray-300" style={{ fontSize: 'clamp(1rem, 2.5vw, 1.25rem)' }}>
             Start selling your digital products today with zero monthly fees.

@@ -11,7 +11,7 @@ export default function RootLayout({ children }) {
     <html lang="en">
       <body>
         <nav className="border-b">
-          <div className="container mx-auto px-6 py-4 flex justify-between items-center">
+          <div className="py-4 flex justify-between items-center" style={{ marginLeft: 'clamp(1.5rem, 8vw, 6rem)', marginRight: 'clamp(1.5rem, 4vw, 1.5rem)' }}>
             <a href="/" className="text-xl font-bold">
               designDesignsDesign
             </a>
@@ -33,7 +33,7 @@ export default function RootLayout({ children }) {
         </nav>
         {children}
         <footer className="border-t mt-20 bg-gray-50">
-          <div className="container mx-auto px-6 py-12">
+          <div className="py-12" style={{ marginLeft: 'clamp(1.5rem, 8vw, 6rem)', marginRight: 'clamp(1.5rem, 4vw, 1.5rem)' }}>
             <div className="grid md:grid-cols-3 gap-12 mb-8">
               {/* Company Info */}
               <div>

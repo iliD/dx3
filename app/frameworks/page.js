@@ -7,7 +7,7 @@ export const metadata = {
 
 export default function FrameworksPage() {
   return (
-    <div className="container mx-auto px-6 py-12 max-w-6xl">
+    <div className="py-12 max-w-6xl" style={{ marginLeft: 'clamp(1.5rem, 8vw, 6rem)', marginRight: 'clamp(1.5rem, 4vw, 1.5rem)' }}>
       {/* Back Button */}
       <Link
         href="/"
@@ -24,114 +24,33 @@ export default function FrameworksPage() {
         </p>
       </header>
 
-      {/* Frameworks Grid */}
-      <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-        <div className="p-6 border rounded-lg hover:shadow-lg transition-shadow">
-          <h3 className="text-2xl font-bold mb-3">Next.js</h3>
-          <p className="text-gray-600 mb-4">
-            The React framework for production with server-side rendering, static site generation, and more.
-          </p>
-          <a
-            href="https://nextjs.org"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="text-black font-semibold hover:underline"
-          >
-            Learn more →
-          </a>
+      {/* Framework Categories */}
+      <div className="space-y-4">
+        <div>
+          <Link href="/frameworks/process" className="text-2xl font-bold hover:underline">
+            Process
+          </Link>
         </div>
 
-        <div className="p-6 border rounded-lg hover:shadow-lg transition-shadow">
-          <h3 className="text-2xl font-bold mb-3">React</h3>
-          <p className="text-gray-600 mb-4">
-            A JavaScript library for building user interfaces with component-based architecture.
-          </p>
-          <a
-            href="https://react.dev"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="text-black font-semibold hover:underline"
-          >
-            Learn more →
-          </a>
+        <div>
+          <Link href="/frameworks/guardrails" className="text-2xl font-bold hover:underline">
+            Guardrails
+          </Link>
         </div>
 
-        <div className="p-6 border rounded-lg hover:shadow-lg transition-shadow">
-          <h3 className="text-2xl font-bold mb-3">Tailwind CSS</h3>
-          <p className="text-gray-600 mb-4">
-            A utility-first CSS framework for rapidly building custom user interfaces.
-          </p>
-          <a
-            href="https://tailwindcss.com"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="text-black font-semibold hover:underline"
-          >
-            Learn more →
-          </a>
+        <div>
+          <Link href="/frameworks/documentation" className="text-2xl font-bold hover:underline">
+            Documentation
+          </Link>
         </div>
 
-        <div className="p-6 border rounded-lg hover:shadow-lg transition-shadow">
-          <h3 className="text-2xl font-bold mb-3">Sanity</h3>
-          <p className="text-gray-600 mb-4">
-            Headless CMS platform for structured content with real-time collaboration.
-          </p>
-          <a
-            href="https://www.sanity.io"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="text-black font-semibold hover:underline"
-          >
-            Learn more →
-          </a>
-        </div>
-
-        <div className="p-6 border rounded-lg hover:shadow-lg transition-shadow">
-          <h3 className="text-2xl font-bold mb-3">Stripe</h3>
-          <p className="text-gray-600 mb-4">
-            Payment processing platform for online businesses with powerful APIs.
-          </p>
-          <a
-            href="https://stripe.com"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="text-black font-semibold hover:underline"
-          >
-            Learn more →
-          </a>
-        </div>
-
-        <div className="p-6 border rounded-lg hover:shadow-lg transition-shadow">
-          <h3 className="text-2xl font-bold mb-3">Vercel</h3>
-          <p className="text-gray-600 mb-4">
-            Platform for frontend developers with zero-configuration deployments.
-          </p>
-          <a
-            href="https://vercel.com"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="text-black font-semibold hover:underline"
-          >
-            Learn more →
-          </a>
+        <div>
+          <Link href="/frameworks/toolchain" className="text-2xl font-bold hover:underline">
+            Toolchain
+          </Link>
         </div>
       </div>
 
-      {/* Additional Section */}
-      <section className="mt-20 pt-12 border-t">
-        <h2 className="text-3xl font-bold mb-6">Why These Frameworks?</h2>
-        <div className="space-y-4 text-gray-700">
-          <p>
-            We've carefully selected these frameworks and tools to ensure the best developer experience
-            and end-user performance. Each technology in our stack is chosen for its reliability,
-            community support, and ability to scale.
-          </p>
-          <p>
-            From Next.js's powerful server-side rendering capabilities to Sanity's flexible content
-            management, our tech stack enables us to build fast, modern, and maintainable digital products.
-          </p>
-        </div>
-      </section>
     </div>
   );
 }

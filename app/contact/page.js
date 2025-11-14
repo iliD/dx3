@@ -7,7 +7,7 @@ export const metadata = {
 
 export default function ContactPage() {
   return (
-    <div className="container mx-auto px-6 py-12 max-w-4xl">
+    <div className="py-12 max-w-4xl" style={{ marginLeft: 'clamp(1.5rem, 8vw, 6rem)', marginRight: 'clamp(1.5rem, 4vw, 1.5rem)' }}>
       {/* Back Button */}
       <Link
         href="/"
