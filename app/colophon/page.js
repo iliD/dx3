@@ -22,28 +22,28 @@ export default function ColophonPage() {
           <div>
             <h3 className="text-xl mb-4">Core framework</h3>
             <ul className="space-y-2 text-gray-700 dark:text-gray-300">
-              <li><a href="https://nextjs.org" target="_blank" rel="noopener noreferrer" className="underline hover:no-underline cursor-pointer">Next.js</a> 16 - React framework with App Router and server components</li>
-              <li><a href="https://react.dev" target="_blank" rel="noopener noreferrer" className="underline hover:no-underline">React</a> 18+ - JavaScript library for building user interfaces</li>
-              <li><a href="https://nodejs.org" target="_blank" rel="noopener noreferrer" className="underline hover:no-underline">Node.js</a> 18+ - JavaScript runtime environment</li>
+              <li><a href="https://nextjs.org" target="_blank" rel="noopener noreferrer" className="underline decoration-gray-400/50 dark:decoration-gray-500/50 hover:decoration-gray-700 dark:hover:decoration-gray-300 hover:text-black dark:hover:text-white transition-all cursor-pointer">Next.js</a> 16 - React framework with App Router and server components</li>
+              <li><a href="https://react.dev" target="_blank" rel="noopener noreferrer" className="underline decoration-gray-400/50 dark:decoration-gray-500/50 hover:decoration-gray-700 dark:hover:decoration-gray-300 hover:text-black dark:hover:text-white transition-all">React</a> 18+ - JavaScript library for building user interfaces</li>
+              <li><a href="https://nodejs.org" target="_blank" rel="noopener noreferrer" className="underline decoration-gray-400/50 dark:decoration-gray-500/50 hover:decoration-gray-700 dark:hover:decoration-gray-300 hover:text-black dark:hover:text-white transition-all">Node.js</a> 18+ - JavaScript runtime environment</li>
             </ul>
           </div>
 
           <div>
             <h3 className="text-xl mb-4">Content management</h3>
             <ul className="space-y-2 text-gray-700 dark:text-gray-300">
-              <li><a href="https://www.sanity.io" target="_blank" rel="noopener noreferrer" className="underline hover:no-underline">Sanity CMS</a> - Headless content management system</li>
-              <li><a href="https://www.sanity.io/studio" target="_blank" rel="noopener noreferrer" className="underline hover:no-underline">Sanity Studio</a> - Real-time collaborative editing environment</li>
-              <li><a href="https://www.sanity.io/docs/groq" target="_blank" rel="noopener noreferrer" className="underline hover:no-underline">GROQ</a> - Graph-Relational Object Queries for content fetching</li>
+              <li><a href="https://www.sanity.io" target="_blank" rel="noopener noreferrer" className="underline decoration-gray-400/50 dark:decoration-gray-500/50 hover:decoration-gray-700 dark:hover:decoration-gray-300 hover:text-black dark:hover:text-white transition-all">Sanity CMS</a> - Headless content management system</li>
+              <li><a href="https://www.sanity.io/studio" target="_blank" rel="noopener noreferrer" className="underline decoration-gray-400/50 dark:decoration-gray-500/50 hover:decoration-gray-700 dark:hover:decoration-gray-300 hover:text-black dark:hover:text-white transition-all">Sanity Studio</a> - Real-time collaborative editing environment</li>
+              <li><a href="https://www.sanity.io/docs/groq" target="_blank" rel="noopener noreferrer" className="underline decoration-gray-400/50 dark:decoration-gray-500/50 hover:decoration-gray-700 dark:hover:decoration-gray-300 hover:text-black dark:hover:text-white transition-all">GROQ</a> - Graph-Relational Object Queries for content fetching</li>
             </ul>
           </div>
 
           <div>
             <h3 className="text-xl mb-4">Infrastructure</h3>
             <ul className="space-y-2 text-gray-700 dark:text-gray-300">
-              <li><a href="https://vercel.com" target="_blank" rel="noopener noreferrer" className="underline hover:no-underline">Vercel</a> - Hosting and serverless deployment</li>
-              <li><a href="https://vercel.com/storage/blob" target="_blank" rel="noopener noreferrer" className="underline hover:no-underline">Vercel Blob</a> - File storage for digital products</li>
-              <li><a href="https://vercel.com/analytics" target="_blank" rel="noopener noreferrer" className="underline hover:no-underline">Vercel Analytics</a> - Performance monitoring and insights</li>
-              <li><a href="https://github.com" target="_blank" rel="noopener noreferrer" className="underline hover:no-underline">GitHub</a> - Version control and continuous deployment</li>
+              <li><a href="https://vercel.com" target="_blank" rel="noopener noreferrer" className="underline decoration-gray-400/50 dark:decoration-gray-500/50 hover:decoration-gray-700 dark:hover:decoration-gray-300 hover:text-black dark:hover:text-white transition-all">Vercel</a> - Hosting and serverless deployment</li>
+              <li><a href="https://vercel.com/storage/blob" target="_blank" rel="noopener noreferrer" className="underline decoration-gray-400/50 dark:decoration-gray-500/50 hover:decoration-gray-700 dark:hover:decoration-gray-300 hover:text-black dark:hover:text-white transition-all">Vercel Blob</a> - File storage for digital products</li>
+              <li><a href="https://vercel.com/analytics" target="_blank" rel="noopener noreferrer" className="underline decoration-gray-400/50 dark:decoration-gray-500/50 hover:decoration-gray-700 dark:hover:decoration-gray-300 hover:text-black dark:hover:text-white transition-all">Vercel Analytics</a> - Performance monitoring and insights</li>
+              <li><a href="https://github.com" target="_blank" rel="noopener noreferrer" className="underline decoration-gray-400/50 dark:decoration-gray-500/50 hover:decoration-gray-700 dark:hover:decoration-gray-300 hover:text-black dark:hover:text-white transition-all">GitHub</a> - Version control and continuous deployment</li>
             </ul>
           </div>
         </div>
@@ -57,16 +57,16 @@ export default function ColophonPage() {
           <div>
             <h3 className="text-xl mb-4">Styling framework</h3>
             <ul className="space-y-2 text-gray-700 dark:text-gray-300">
-              <li><a href="https://tailwindcss.com" target="_blank" rel="noopener noreferrer" className="underline hover:no-underline">Tailwind CSS</a> v4 - Utility-first CSS framework</li>
-              <li><a href="https://postcss.org" target="_blank" rel="noopener noreferrer" className="underline hover:no-underline">PostCSS</a> - CSS transformation and optimisation</li>
-              <li><a href="https://ui.shadcn.com" target="_blank" rel="noopener noreferrer" className="underline hover:no-underline">shadcn/ui</a> - Accessible, customisable component library</li>
+              <li><a href="https://tailwindcss.com" target="_blank" rel="noopener noreferrer" className="underline decoration-gray-400/50 dark:decoration-gray-500/50 hover:decoration-gray-700 dark:hover:decoration-gray-300 hover:text-black dark:hover:text-white transition-all">Tailwind CSS</a> v4 - Utility-first CSS framework</li>
+              <li><a href="https://postcss.org" target="_blank" rel="noopener noreferrer" className="underline decoration-gray-400/50 dark:decoration-gray-500/50 hover:decoration-gray-700 dark:hover:decoration-gray-300 hover:text-black dark:hover:text-white transition-all">PostCSS</a> - CSS transformation and optimisation</li>
+              <li><a href="https://ui.shadcn.com" target="_blank" rel="noopener noreferrer" className="underline decoration-gray-400/50 dark:decoration-gray-500/50 hover:decoration-gray-700 dark:hover:decoration-gray-300 hover:text-black dark:hover:text-white transition-all">shadcn/ui</a> - Accessible, customisable component library</li>
             </ul>
           </div>
 
           <div>
             <h3 className="text-xl mb-4">Typography</h3>
             <ul className="space-y-2 text-gray-700 dark:text-gray-300">
-              <li><a href="https://fonts.google.com/specimen/IBM+Plex+Sans" target="_blank" rel="noopener noreferrer" className="underline hover:no-underline">IBM Plex</a> - Primary typeface with system font fallbacks for optimal performance</li>
+              <li><a href="https://fonts.google.com/specimen/IBM+Plex+Sans" target="_blank" rel="noopener noreferrer" className="underline decoration-gray-400/50 dark:decoration-gray-500/50 hover:decoration-gray-700 dark:hover:decoration-gray-300 hover:text-black dark:hover:text-white transition-all">IBM Plex</a> - Primary typeface with system font fallbacks for optimal performance</li>
               <li className="pl-6 text-sm font-mono text-gray-600 dark:text-gray-400">
                 IBM Plex Sans, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif
               </li>
@@ -78,7 +78,7 @@ export default function ColophonPage() {
           <div>
             <h3 className="text-xl mb-4">Animation and motion</h3>
             <ul className="space-y-2 text-gray-700 dark:text-gray-300">
-              <li><a href="https://www.framer.com/motion/" target="_blank" rel="noopener noreferrer" className="underline hover:no-underline">Framer Motion</a> - Declarative animations and gestures</li>
+              <li><a href="https://www.framer.com/motion/" target="_blank" rel="noopener noreferrer" className="underline decoration-gray-400/50 dark:decoration-gray-500/50 hover:decoration-gray-700 dark:hover:decoration-gray-300 hover:text-black dark:hover:text-white transition-all">Framer Motion</a> - Declarative animations and gestures</li>
               <li>Transition duration - 150-300ms for micro-interactions</li>
               <li>Easing - Cubic bezier curves for natural motion</li>
             </ul>
@@ -99,7 +99,7 @@ export default function ColophonPage() {
 
           <h3 className="text-xl mt-6 mb-3">Conformance status</h3>
           <p>
-            This website strives to conform to the <a href="https://www.w3.org/WAI/WCAG21/quickref/" target="_blank" rel="noopener noreferrer" className="underline hover:no-underline cursor-pointer">Web Content Accessibility Guidelines (WCAG) 2.1</a> Level AA. These guidelines explain how to make web content more accessible for people
+            This website strives to conform to the <a href="https://www.w3.org/WAI/WCAG21/quickref/" target="_blank" rel="noopener noreferrer" className="underline decoration-gray-400/50 dark:decoration-gray-500/50 hover:decoration-gray-700 dark:hover:decoration-gray-300 hover:text-black dark:hover:text-white transition-all cursor-pointer">Web Content Accessibility Guidelines (WCAG) 2.1</a> Level AA. These guidelines explain how to make web content more accessible for people
             with disabilities and user-friendly for everyone.
           </p>
 
@@ -110,10 +110,10 @@ export default function ColophonPage() {
             plugins installed on your computer:
           </p>
           <ul className="list-disc pl-6 space-y-1">
-            <li><a href="https://html.spec.whatwg.org/" target="_blank" rel="noopener noreferrer" className="underline hover:no-underline">HTML5</a></li>
-            <li><a href="https://www.w3.org/Style/CSS/" target="_blank" rel="noopener noreferrer" className="underline hover:no-underline">CSS</a></li>
-            <li><a href="https://tc39.es/ecma262/" target="_blank" rel="noopener noreferrer" className="underline hover:no-underline">JavaScript</a></li>
-            <li><a href="https://www.w3.org/WAI/standards-guidelines/aria/" target="_blank" rel="noopener noreferrer" className="underline hover:no-underline">WAI-ARIA</a></li>
+            <li><a href="https://html.spec.whatwg.org/" target="_blank" rel="noopener noreferrer" className="underline decoration-gray-400/50 dark:decoration-gray-500/50 hover:decoration-gray-700 dark:hover:decoration-gray-300 hover:text-black dark:hover:text-white transition-all">HTML5</a></li>
+            <li><a href="https://www.w3.org/Style/CSS/" target="_blank" rel="noopener noreferrer" className="underline decoration-gray-400/50 dark:decoration-gray-500/50 hover:decoration-gray-700 dark:hover:decoration-gray-300 hover:text-black dark:hover:text-white transition-all">CSS</a></li>
+            <li><a href="https://tc39.es/ecma262/" target="_blank" rel="noopener noreferrer" className="underline decoration-gray-400/50 dark:decoration-gray-500/50 hover:decoration-gray-700 dark:hover:decoration-gray-300 hover:text-black dark:hover:text-white transition-all">JavaScript</a></li>
+            <li><a href="https://www.w3.org/WAI/standards-guidelines/aria/" target="_blank" rel="noopener noreferrer" className="underline decoration-gray-400/50 dark:decoration-gray-500/50 hover:decoration-gray-700 dark:hover:decoration-gray-300 hover:text-black dark:hover:text-white transition-all">WAI-ARIA</a></li>
           </ul>
 
           <h3 className="text-xl mt-6 mb-3">Accessibility features</h3>

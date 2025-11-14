@@ -52,37 +52,37 @@ export default async function Home() {
           <h2 className="text-center mb-12" style={{ fontSize: 'clamp(1.25rem, 4vw, 1.875rem)' }}>Tech stack features</h2>
           <div className="grid md:grid-cols-3 gap-8">
             <div className="p-6 border border-gray-200 dark:border-[#2a2a2a] rounded-lg">
-              <h3 className="text-xl mb-3"><a href="https://nextjs.org" target="_blank" rel="noopener noreferrer" className="underline hover:no-underline cursor-pointer">Next.js</a> 14+</h3>
+              <h3 className="text-xl mb-3"><a href="https://nextjs.org" target="_blank" rel="noopener noreferrer" className="underline decoration-gray-400/50 dark:decoration-gray-500/50 hover:decoration-gray-700 dark:hover:decoration-gray-300 hover:text-black dark:hover:text-white transition-all cursor-pointer">Next.js</a> 14+</h3>
               <p className="text-gray-600 dark:text-gray-400">
                 Modern React framework with App Router, server components, and optimised performance.
               </p>
             </div>
             <div className="p-6 border border-gray-200 dark:border-[#2a2a2a] rounded-lg">
-              <h3 className="text-xl mb-3"><a href="https://www.sanity.io" target="_blank" rel="noopener noreferrer" className="underline hover:no-underline cursor-pointer">Sanity CMS</a></h3>
+              <h3 className="text-xl mb-3"><a href="https://www.sanity.io" target="_blank" rel="noopener noreferrer" className="underline decoration-gray-400/50 dark:decoration-gray-500/50 hover:decoration-gray-700 dark:hover:decoration-gray-300 hover:text-black dark:hover:text-white transition-all cursor-pointer">Sanity CMS</a></h3>
               <p className="text-gray-600 dark:text-gray-400">
                 Headless CMS for managing products and content with real-time collaboration.
               </p>
             </div>
             <div className="p-6 border border-gray-200 dark:border-[#2a2a2a] rounded-lg">
-              <h3 className="text-xl mb-3"><a href="https://stripe.com" target="_blank" rel="noopener noreferrer" className="underline hover:no-underline cursor-pointer">Stripe</a> payments</h3>
+              <h3 className="text-xl mb-3"><a href="https://stripe.com" target="_blank" rel="noopener noreferrer" className="underline decoration-gray-400/50 dark:decoration-gray-500/50 hover:decoration-gray-700 dark:hover:decoration-gray-300 hover:text-black dark:hover:text-white transition-all cursor-pointer">Stripe</a> payments</h3>
               <p className="text-gray-600 dark:text-gray-400">
                 Secure payment processing with support for one-time purchases and subscriptions.
               </p>
             </div>
             <div className="p-6 border border-gray-200 dark:border-[#2a2a2a] rounded-lg">
-              <h3 className="text-xl mb-3"><a href="https://vercel.com" target="_blank" rel="noopener noreferrer" className="underline hover:no-underline cursor-pointer">Vercel</a> hosting</h3>
+              <h3 className="text-xl mb-3"><a href="https://vercel.com" target="_blank" rel="noopener noreferrer" className="underline decoration-gray-400/50 dark:decoration-gray-500/50 hover:decoration-gray-700 dark:hover:decoration-gray-300 hover:text-black dark:hover:text-white transition-all cursor-pointer">Vercel</a> hosting</h3>
               <p className="text-gray-600 dark:text-gray-400">
                 Zero-config deployment with automatic scaling and edge functions.
               </p>
             </div>
             <div className="p-6 border border-gray-200 dark:border-[#2a2a2a] rounded-lg">
-              <h3 className="text-xl mb-3"><a href="https://resend.com" target="_blank" rel="noopener noreferrer" className="underline hover:no-underline cursor-pointer">Resend</a> email</h3>
+              <h3 className="text-xl mb-3"><a href="https://resend.com" target="_blank" rel="noopener noreferrer" className="underline decoration-gray-400/50 dark:decoration-gray-500/50 hover:decoration-gray-700 dark:hover:decoration-gray-300 hover:text-black dark:hover:text-white transition-all cursor-pointer">Resend</a> email</h3>
               <p className="text-gray-600 dark:text-gray-400">
                 Beautiful transactional emails with React Email templates.
               </p>
             </div>
             <div className="p-6 border border-gray-200 dark:border-[#2a2a2a] rounded-lg">
-              <h3 className="text-xl mb-3"><a href="https://ui.shadcn.com" target="_blank" rel="noopener noreferrer" className="underline hover:no-underline cursor-pointer">shadcn/ui</a></h3>
+              <h3 className="text-xl mb-3"><a href="https://ui.shadcn.com" target="_blank" rel="noopener noreferrer" className="underline decoration-gray-400/50 dark:decoration-gray-500/50 hover:decoration-gray-700 dark:hover:decoration-gray-300 hover:text-black dark:hover:text-white transition-all cursor-pointer">shadcn/ui</a></h3>
               <p className="text-gray-600 dark:text-gray-400">
                 Beautiful, accessible UI components built with Tailwind CSS.
               </p>
@@ -104,7 +104,7 @@ export default async function Home() {
               </div>
               <Link
                 href="/blog"
-                className="text-black dark:text-white font-semibold underline hover:no-underline cursor-pointer"
+                className="text-black dark:text-white font-semibold underline decoration-gray-400/50 dark:decoration-gray-500/50 hover:decoration-gray-700 dark:hover:decoration-gray-300 transition-all cursor-pointer"
               >
                 View all articles →
               </Link>

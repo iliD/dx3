@@ -14,7 +14,7 @@ export default function StyleDictionaryPage() {
           <h2 className="text-sm font-semibold text-gray-600 dark:text-gray-400 mb-3">Toolchain guides</h2>
           <ul className="space-y-2">
             <li>
-              <a href="/frameworks/toolchain" className="text-gray-700 dark:text-gray-300 underline hover:no-underline hover:text-black dark:hover:text-white cursor-pointer">
+              <a href="/frameworks/toolchain" className="text-gray-700 dark:text-gray-300 underline decoration-gray-400/50 dark:decoration-gray-500/50 hover:decoration-gray-700 dark:hover:decoration-gray-300 hover:text-black dark:hover:text-white transition-all cursor-pointer">
                 Mac terminal setup
               </a>
             </li>

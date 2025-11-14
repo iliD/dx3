@@ -1,16 +1,19 @@
 {
   "permissions": {
     "allow": [
-      "Bash(npm install:*)",
-      "Bash(gh:*)",
-      "Bash(npm run dev:*)",
+      "Bash(git checkout:*)",
+      "Bash(mkdir:*)",
       "Bash(git add:*)",
-      "Bash(git commit -m \"$(cat <<''EOF''\nAdd contact, blog, and colophon pages with refined form styling\n\nThis commit introduces three new pages (contact, blog, and colophon) along \nwith blog functionality including a reusable BlogCard component and refined \nform styling throughout.\n\nContact Page (app/contact/page.js):\n- Professional contact form with Name, Email, Phone, Subject, and Message fields\n- Form fields use consistent spacing (space-y-4 for fields, space-y-2 for label-to-input)\n- All labels styled with text-base font-semibold for proper hierarchy\n- Inputs are h-10 (40px) with matching px-3 py-2 padding\n- Submit button matches input height (h-10) with identical padding structure\n- Contact information sidebar with Location, Phone, Email, and Hours\n- Reduced spacing between contact info items (space-y-4, mb-1 on headings)\n- Privacy and response time information in footer section\n\nBlog System:\n- Blog listing page (app/blog/page.js) with category filtering\n- Individual blog post page (app/blog/[slug]/page.js) with PortableText rendering\n- BlogCard component for consistent post display across listing and homepage\n- Sanity CMS schema for blog posts with title, slug, author, excerpt, images, categories, and tags\n- Custom PortableText components for rich content rendering (headings, blockquotes, links, code, images)\n- Category filter UI with \"All Posts\" and dynamic category buttons\n- Post metadata display with category badges and formatted dates using date-fns\n\nColophon Page (app/colophon/page.js):\n- Comprehensive tech stack documentation (Next.js 16, Sanity CMS, Vercel, Tailwind CSS v4)\n- Design system details including typography, font stack, and animation guidelines\n- Accessibility statement with WCAG 2.1 Level AA conformance details\n- Credits and acknowledgments for open-source technologies used\n\nLayout Updates (app/layout.js):\n- Updated navigation to include Articles and Studio links\n- Enhanced footer with three-column layout: Company Info, Quick Links, and Information\n- Footer links to Contact and Colophon pages\n\nHomepage Updates (app/page.js):\n- Latest blog posts section displaying 3 most recent articles\n- Integrated BlogCard component for post previews\n- \"View all articles\" link to blog listing page\n\nDependencies Added:\n- @portabletext/react: For rendering Sanity rich text content\n- date-fns: For consistent date formatting across blog pages\n\nDesign System Consistency:\n- All form elements use h-10 (40px) height with px-3 py-2 padding\n- Labels are text-base font-semibold across the site\n- Button heights match input heights for visual consistency\n- Consistent spacing patterns: space-y-4 for major sections, space-y-2 for related items\n- Sentence case for all button text (\"Send message\" not \"Send Message\")\n\n🤖 Generated with [Claude Code](https://claude.com/claude-code)\n\nCo-Authored-By: Claude <noreply@anthropic.com>\nEOF\n)\")",
+      "Bash(git commit:*)",
       "Bash(git push:*)",
-      "Bash(npx sanity@latest init:*)",
-      "Bash(npx sanity@latest manage:*)",
+      "Bash(git merge:*)",
+      "Bash(cat:*)",
+      "Bash(git branch:*)",
       "Bash(lsof:*)",
-      "Bash(xargs kill:*)"
+      "Bash(xargs kill:*)",
+      "Bash(npm run dev:*)",
+      "Bash(curl:*)",
+      "Bash(npm install:*)"
     ],
     "deny": [],
     "ask": []

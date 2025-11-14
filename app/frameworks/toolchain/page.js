@@ -16,7 +16,7 @@ export default function ToolchainPage() {
             <span className="text-gray-900 dark:text-gray-100 font-medium">Mac terminal setup</span>
           </li>
           <li>
-            <a href="/frameworks/styledictionary" className="text-gray-700 dark:text-gray-300 underline hover:no-underline hover:text-black dark:hover:text-white cursor-pointer">
+            <a href="/frameworks/styledictionary" className="text-gray-700 dark:text-gray-300 underline decoration-gray-400/50 dark:decoration-gray-500/50 hover:decoration-gray-700 dark:hover:decoration-gray-300 hover:text-black dark:hover:text-white transition-all cursor-pointer">
               Style Dictionary setup
             </a>
           </li>

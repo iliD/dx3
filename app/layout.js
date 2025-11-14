@@ -85,7 +85,7 @@ export default function RootLayout({ children }) {
                     <p>London, United Kingdom</p>
                     <p>+44 20 1234 5678</p>
                     <p>hello@designdesignsdesign.com</p>
-                    <p className="mt-2">Monday - Friday: <span className="whitespace-nowrap">9:00 AM - 6:00 PM GMT</span></p>
+                    <p className="mt-2">Monday – Friday: <span className="whitespace-nowrap">9:00 AM – 6:00 PM GMT</span></p>
                   </div>
                 </div>
 
@@ -94,22 +94,22 @@ export default function RootLayout({ children }) {
                   <h2 className="mb-4 text-base">Quick links</h2>
                   <ul className="space-y-2 text-sm text-gray-700 dark:text-gray-300">
                     <li>
-                      <a href="/products" className="underline hover:no-underline hover:text-black dark:hover:text-white transition-colors cursor-pointer">
+                      <a href="/products" className="underline decoration-gray-400/50 dark:decoration-gray-500/50 hover:decoration-gray-700 dark:hover:decoration-gray-300 hover:text-black dark:hover:text-white transition-all cursor-pointer">
                         Pricing
                       </a>
                     </li>
                     <li>
-                      <a href="/frameworks" className="underline hover:no-underline hover:text-black dark:hover:text-white transition-colors cursor-pointer">
+                      <a href="/frameworks" className="underline decoration-gray-400/50 dark:decoration-gray-500/50 hover:decoration-gray-700 dark:hover:decoration-gray-300 hover:text-black dark:hover:text-white transition-all cursor-pointer">
                         Frameworks
                       </a>
                     </li>
                     <li>
-                      <a href="/blog" className="underline hover:no-underline hover:text-black dark:hover:text-white transition-colors cursor-pointer">
+                      <a href="/blog" className="underline decoration-gray-400/50 dark:decoration-gray-500/50 hover:decoration-gray-700 dark:hover:decoration-gray-300 hover:text-black dark:hover:text-white transition-all cursor-pointer">
                         Articles
                       </a>
                     </li>
                     <li>
-                      <a href="/studio" className="underline hover:no-underline hover:text-black dark:hover:text-white transition-colors cursor-pointer">
+                      <a href="/studio" className="underline decoration-gray-400/50 dark:decoration-gray-500/50 hover:decoration-gray-700 dark:hover:decoration-gray-300 hover:text-black dark:hover:text-white transition-all cursor-pointer">
                         Studio
                       </a>
                     </li>
@@ -121,12 +121,12 @@ export default function RootLayout({ children }) {
                   <h2 className="mb-4 text-base">Information</h2>
                   <ul className="space-y-2 text-sm text-gray-700 dark:text-gray-300">
                     <li>
-                      <a href="/contact" className="underline hover:no-underline hover:text-black dark:hover:text-white transition-colors cursor-pointer">
+                      <a href="/contact" className="underline decoration-gray-400/50 dark:decoration-gray-500/50 hover:decoration-gray-700 dark:hover:decoration-gray-300 hover:text-black dark:hover:text-white transition-all cursor-pointer">
                         Contact Us
                       </a>
                     </li>
                     <li>
-                      <a href="/colophon" className="underline hover:no-underline hover:text-black dark:hover:text-white transition-colors cursor-pointer">
+                      <a href="/colophon" className="underline decoration-gray-400/50 dark:decoration-gray-500/50 hover:decoration-gray-700 dark:hover:decoration-gray-300 hover:text-black dark:hover:text-white transition-all cursor-pointer">
                         Colophon
                       </a>
                     </li>
@@ -140,11 +140,11 @@ export default function RootLayout({ children }) {
                   <p>&copy; 2025 designDesignsDesign.</p>
                   <p>
                     Made with{' '}
-                    <a href="https://nextjs.org" target="_blank" rel="noopener noreferrer" className="underline hover:no-underline hover:text-black dark:hover:text-white transition-colors cursor-pointer">
+                    <a href="https://nextjs.org" target="_blank" rel="noopener noreferrer" className="underline decoration-gray-400/50 dark:decoration-gray-500/50 hover:decoration-gray-700 dark:hover:decoration-gray-300 hover:text-black dark:hover:text-white transition-all cursor-pointer">
                       Next.js<span className="sr-only"> (opens in new tab)</span>
                     </a>
                     {' + '}
-                    <a href="https://www.sanity.io" target="_blank" rel="noopener noreferrer" className="underline hover:no-underline hover:text-black dark:hover:text-white transition-colors cursor-pointer">
+                    <a href="https://www.sanity.io" target="_blank" rel="noopener noreferrer" className="underline decoration-gray-400/50 dark:decoration-gray-500/50 hover:decoration-gray-700 dark:hover:decoration-gray-300 hover:text-black dark:hover:text-white transition-all cursor-pointer">
                       Sanity<span className="sr-only"> (opens in new tab)</span>
                     </a>
                   </p>
