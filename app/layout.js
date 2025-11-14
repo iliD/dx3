@@ -19,6 +19,9 @@ export default function RootLayout({ children }) {
               <a href="/products" className="hover:underline">
                 Pricing
               </a>
+              <a href="/frameworks" className="hover:underline">
+                Frameworks
+              </a>
               <a href="/blog" className="hover:underline">
                 Articles
               </a>
@@ -50,6 +53,11 @@ export default function RootLayout({ children }) {
                   <li>
                     <a href="/products" className="hover:text-black transition-colors">
                       Pricing
+                    </a>
+                  </li>
+                  <li>
+                    <a href="/frameworks" className="hover:text-black transition-colors">
+                      Frameworks
                     </a>
                   </li>
                   <li>
