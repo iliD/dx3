@@ -19,27 +19,32 @@ export default function FrameworksPage() {
       {/* Framework Categories */}
       <div className="space-y-4">
         <div>
-          <Link href="/frameworks/process" className="text-2xl font-bold underline hover:no-underline">
+          <Link href="/frameworks/process" className="text-2xl font-bold underline hover:no-underline cursor-pointer">
             Process
           </Link>
         </div>
 
         <div>
-          <Link href="/frameworks/guardrails" className="text-2xl font-bold underline hover:no-underline">
+          <Link href="/frameworks/guardrails" className="text-2xl font-bold underline hover:no-underline cursor-pointer">
             Guardrails
           </Link>
         </div>
 
         <div>
-          <Link href="/frameworks/documentation" className="text-2xl font-bold underline hover:no-underline">
+          <Link href="/frameworks/documentation" className="text-2xl font-bold underline hover:no-underline cursor-pointer">
             Documentation
           </Link>
         </div>
 
         <div>
-          <Link href="/frameworks/toolchain" className="text-2xl font-bold underline hover:no-underline">
-            Toolchain
-          </Link>
+          <div className="text-2xl font-bold mb-3">Toolchain</div>
+          <div className="ml-6 space-y-2">
+            <div>
+              <Link href="/frameworks/environments" className="text-lg text-gray-700 dark:text-gray-300 underline hover:no-underline hover:text-black dark:hover:text-white transition-colors cursor-pointer">
+                Environments
+              </Link>
+            </div>
+          </div>
         </div>
       </div>
 

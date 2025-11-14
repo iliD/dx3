@@ -19,6 +19,8 @@ export default function CommandPalette() {
     { title: 'Studio', description: 'Open CMS Studio', url: '/studio', category: 'Navigation' },
     { title: 'Contact', description: 'Get in touch', url: '/contact', category: 'Navigation' },
     { title: 'Colophon', description: 'Technical details', url: '/colophon', category: 'Navigation' },
+    { title: 'Development Environments', description: 'All development environments', url: '/frameworks/environments', category: 'Toolchain' },
+    { title: 'My Development Setup', description: 'Personal development setup', url: '/frameworks/environments/setup', category: 'Toolchain' },
     { title: 'Terminal Setup', description: 'Mac terminal setup guide', url: '/frameworks/toolchain', category: 'Toolchain' },
     { title: 'Style Dictionary', description: 'Style Dictionary setup guide', url: '/frameworks/styledictionary', category: 'Toolchain' },
   ];
