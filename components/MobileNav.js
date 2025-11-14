@@ -11,7 +11,7 @@ export default function MobileNav() {
       {/* Hamburger Button */}
       <button
         onClick={() => setIsOpen(!isOpen)}
-        className="md:hidden flex flex-col justify-center items-center w-10 h-10 space-y-1.5 focus:outline-none"
+        className="md:hidden flex flex-col justify-center items-center w-10 h-10 space-y-1.5 focus:outline-none focus:ring-2 focus:ring-black focus:ring-offset-2 rounded"
         aria-label="Toggle menu"
         aria-expanded={isOpen}
       >
@@ -54,28 +54,28 @@ export default function MobileNav() {
         <nav className="flex flex-col p-8 space-y-6">
           <Link
             href="/products"
-            className="text-xl font-medium hover:text-gray-600 transition-colors"
+            className="text-xl font-medium hover:text-gray-600 hover:underline transition-colors"
             onClick={() => setIsOpen(false)}
           >
             Pricing
           </Link>
           <Link
             href="/frameworks"
-            className="text-xl font-medium hover:text-gray-600 transition-colors"
+            className="text-xl font-medium hover:text-gray-600 hover:underline transition-colors"
             onClick={() => setIsOpen(false)}
           >
             Frameworks
           </Link>
           <Link
             href="/blog"
-            className="text-xl font-medium hover:text-gray-600 transition-colors"
+            className="text-xl font-medium hover:text-gray-600 hover:underline transition-colors"
             onClick={() => setIsOpen(false)}
           >
             Articles
           </Link>
           <Link
             href="/studio"
-            className="text-xl font-medium hover:text-gray-600 transition-colors"
+            className="text-xl font-medium hover:text-gray-600 hover:underline transition-colors"
             onClick={() => setIsOpen(false)}
           >
             Studio
@@ -87,14 +87,15 @@ export default function MobileNav() {
           <div className="relative">
             <input
               type="search"
-              placeholder="Search..."
+              aria-label="Search"
               className="w-full h-10 px-4 pr-10 text-sm border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-black focus:border-transparent transition-all"
             />
             <svg
-              className="absolute right-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400 pointer-events-none"
+              className="absolute right-3 top-1/2 -translate-y-1/2 w-4 h-4 text-black pointer-events-none"
               fill="none"
               stroke="currentColor"
               viewBox="0 0 24 24"
+              aria-hidden="true"
             >
               <path
                 strokeLinecap="round"

@@ -102,7 +102,7 @@ export default async function Home() {
               </div>
               <Link
                 href="/blog"
-                className="text-black font-semibold hover:underline"
+                className="text-black font-semibold underline hover:no-underline"
               >
                 View all articles →
               </Link>

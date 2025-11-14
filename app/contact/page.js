@@ -26,9 +26,9 @@ export default function ContactPage() {
                 type="text"
                 id="name"
                 name="name"
+                autoComplete="name"
                 required
                 className="flex h-10 w-full rounded-lg border border-gray-300 bg-white px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-black focus:border-transparent"
-                placeholder="Your name"
               />
             </div>
 
@@ -40,9 +40,9 @@ export default function ContactPage() {
                 type="email"
                 id="email"
                 name="email"
+                autoComplete="email"
                 required
                 className="flex h-10 w-full rounded-lg border border-gray-300 bg-white px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-black focus:border-transparent"
-                placeholder="your.email@example.com"
               />
             </div>
           </div>
@@ -55,8 +55,8 @@ export default function ContactPage() {
               type="tel"
               id="phone"
               name="phone"
+              autoComplete="tel"
               className="flex h-10 w-full rounded-lg border border-gray-300 bg-white px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-black focus:border-transparent"
-              placeholder="+44 20 1234 5678"
             />
           </div>
 
@@ -70,7 +70,6 @@ export default function ContactPage() {
               name="subject"
               required
               className="flex h-10 w-full rounded-lg border border-gray-300 bg-white px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-black focus:border-transparent"
-              placeholder="How can we help?"
             />
           </div>
 
@@ -84,7 +83,6 @@ export default function ContactPage() {
               required
               rows="5"
               className="flex min-h-[120px] w-full rounded-lg border border-gray-300 bg-white px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-black focus:border-transparent resize-none"
-              placeholder="Tell us more about your project or inquiry..."
             ></textarea>
           </div>
 

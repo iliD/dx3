@@ -19,25 +19,25 @@ export default function FrameworksPage() {
       {/* Framework Categories */}
       <div className="space-y-4">
         <div>
-          <Link href="/frameworks/process" className="text-2xl font-bold hover:underline">
+          <Link href="/frameworks/process" className="text-2xl font-bold underline hover:no-underline">
             Process
           </Link>
         </div>
 
         <div>
-          <Link href="/frameworks/guardrails" className="text-2xl font-bold hover:underline">
+          <Link href="/frameworks/guardrails" className="text-2xl font-bold underline hover:no-underline">
             Guardrails
           </Link>
         </div>
 
         <div>
-          <Link href="/frameworks/documentation" className="text-2xl font-bold hover:underline">
+          <Link href="/frameworks/documentation" className="text-2xl font-bold underline hover:no-underline">
             Documentation
           </Link>
         </div>
 
         <div>
-          <Link href="/frameworks/toolchain" className="text-2xl font-bold hover:underline">
+          <Link href="/frameworks/toolchain" className="text-2xl font-bold underline hover:no-underline">
             Toolchain
           </Link>
         </div>

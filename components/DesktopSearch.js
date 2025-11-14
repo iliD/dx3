@@ -41,7 +41,7 @@ export default function DesktopSearch() {
             <input
               ref={inputRef}
               type="search"
-              placeholder="Search..."
+              aria-label="Search"
               className="w-full h-10 px-4 pr-10 text-sm border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-black focus:border-transparent transition-all"
               onBlur={() => {
                 // Small delay to allow click on search icon
@@ -49,10 +49,11 @@ export default function DesktopSearch() {
               }}
             />
             <svg
-              className="absolute right-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400 pointer-events-none"
+              className="absolute right-3 top-1/2 -translate-y-1/2 w-4 h-4 text-black pointer-events-none"
               fill="none"
               stroke="currentColor"
               viewBox="0 0 24 24"
+              aria-hidden="true"
             >
               <path
                 strokeLinecap="round"
@@ -69,10 +70,11 @@ export default function DesktopSearch() {
             aria-label="Open search"
           >
             <svg
-              className="w-5 h-5 text-gray-700"
+              className="w-5 h-5 text-black"
               fill="none"
               stroke="currentColor"
               viewBox="0 0 24 24"
+              aria-hidden="true"
             >
               <path
                 strokeLinecap="round"
