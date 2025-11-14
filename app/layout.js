@@ -34,7 +34,7 @@ export default function RootLayout({ children }) {
             <div className="grid md:grid-cols-3 gap-12 mb-8">
               {/* Company Info */}
               <div>
-                <h3 className="text-xl font-bold mb-4">designDesignsDesign</h3>
+                <h4 className="font-semibold mb-4">designDesignsDesign</h4>
                 <div className="space-y-1 text-sm text-gray-600">
                   <p>London, United Kingdom</p>
                   <p>+44 20 1234 5678</p>

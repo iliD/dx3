@@ -12,21 +12,31 @@ export default async function Home() {
       {/* Hero Section */}
       <section className="bg-gradient-to-b from-gray-50 to-white py-20">
         <div className="container mx-auto px-6 text-center">
-          <h1 className="text-5xl font-bold mb-6">Welcome to designDesignsDesign</h1>
-          <p className="text-xl text-gray-600 mb-8 max-w-2xl mx-auto">
+          <h1 className="font-bold mb-6 leading-tight text-center" style={{ fontSize: 'clamp(1.5rem, 6vw, 3rem)' }}>
+            Welcome to<br />designDesignsDesign
+          </h1>
+          <p className="text-gray-600 mb-8 max-w-2xl mx-auto" style={{ fontSize: 'clamp(1rem, 3vw, 1.25rem)' }}>
             Discover premium digital products with instant delivery. Built with Next.js, Sanity CMS,
             and Stripe.
           </p>
-          <div className="flex gap-4 justify-center">
+          <div className="flex flex-col sm:flex-row gap-4 justify-center items-center transition-all duration-300">
             <Link
               href="/products"
-              className="bg-black text-white px-8 py-3 rounded-lg hover:bg-gray-800 transition-colors"
+              className="bg-black text-white rounded-lg hover:bg-gray-800 transition-all duration-300 whitespace-nowrap w-[50vw] sm:w-auto text-center"
+              style={{
+                fontSize: 'clamp(1rem, 2.5vw, 1.125rem)',
+                padding: 'clamp(0.5rem, 2vw, 0.75rem) clamp(1rem, 4vw, 2rem)'
+              }}
             >
               View Pricing
             </Link>
             <Link
               href="/studio"
-              className="border border-black px-8 py-3 rounded-lg hover:bg-gray-50 transition-colors"
+              className="border border-black rounded-lg hover:bg-gray-50 transition-all duration-300 whitespace-nowrap w-[50vw] sm:w-auto text-center"
+              style={{
+                fontSize: 'clamp(1rem, 2.5vw, 1.125rem)',
+                padding: 'clamp(0.5rem, 2vw, 0.75rem) clamp(1rem, 4vw, 2rem)'
+              }}
             >
               CMS Studio
             </Link>
@@ -37,7 +47,7 @@ export default async function Home() {
       {/* Features Section */}
       <section className="py-20">
         <div className="container mx-auto px-6">
-          <h2 className="text-3xl font-bold text-center mb-12">Tech Stack Features</h2>
+          <h2 className="font-bold text-center mb-12" style={{ fontSize: 'clamp(1.25rem, 4vw, 1.875rem)' }}>Tech stack features</h2>
           <div className="grid md:grid-cols-3 gap-8">
             <div className="p-6 border rounded-lg">
               <h3 className="text-xl font-bold mb-3">Next.js 14+</h3>
@@ -109,8 +119,8 @@ export default async function Home() {
       {/* CTA Section */}
       <section className="bg-black text-white py-20">
         <div className="container mx-auto px-6 text-center">
-          <h2 className="text-3xl font-bold mb-4">Ready to Get Started?</h2>
-          <p className="text-xl mb-8 text-gray-300">
+          <h2 className="font-bold mb-4" style={{ fontSize: 'clamp(1.25rem, 4vw, 1.875rem)' }}>Ready to get started?</h2>
+          <p className="mb-8 text-gray-300" style={{ fontSize: 'clamp(1rem, 2.5vw, 1.25rem)' }}>
             Start selling your digital products today with zero monthly fees.
           </p>
           <Link
