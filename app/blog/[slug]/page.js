@@ -18,10 +18,10 @@ const portableTextComponents = {
     ),
   },
   block: {
-    h1: ({ children }) => <h1 className="text-4xl font-bold mt-8 mb-4">{children}</h1>,
-    h2: ({ children }) => <h2 className="text-3xl font-bold mt-8 mb-4">{children}</h2>,
-    h3: ({ children }) => <h3 className="text-2xl font-bold mt-6 mb-3">{children}</h3>,
-    h4: ({ children }) => <h4 className="text-xl font-bold mt-6 mb-3">{children}</h4>,
+    h1: ({ children }) => <h1 className="text-4xl mt-8 mb-4">{children}</h1>,
+    h2: ({ children }) => <h2 className="text-3xl mt-8 mb-4">{children}</h2>,
+    h3: ({ children }) => <h3 className="text-2xl mt-6 mb-3">{children}</h3>,
+    h4: ({ children }) => <h4 className="text-xl mt-6 mb-3">{children}</h4>,
     normal: ({ children }) => <p className="mb-4 leading-relaxed">{children}</p>,
     blockquote: ({ children }) => (
       <blockquote className="border-l-4 border-black pl-4 my-6 italic text-gray-700">
@@ -98,7 +98,7 @@ export default async function BlogPostPage({ params }) {
             {format(new Date(post.publishedAt), 'MMMM dd, yyyy')}
           </time>
         </div>
-        <h1 className="text-5xl font-bold mb-4">{post.title}</h1>
+        <h1 className="text-5xl mb-4">{post.title}</h1>
         <p className="text-xl text-gray-600 mb-4">{post.excerpt}</p>
         <div className="flex items-center text-gray-600">
           <span>By {post.author}</span>
@@ -124,7 +124,7 @@ export default async function BlogPostPage({ params }) {
       {/* Tags */}
       {post.tags && post.tags.length > 0 && (
         <div className="mt-12 pt-8 border-t">
-          <h3 className="text-lg font-semibold mb-3">Tags</h3>
+          <h3 className="text-lg mb-3">Tags</h3>
           <div className="flex flex-wrap gap-2">
             {post.tags.map((tag, index) => (
               <span
@@ -140,7 +140,7 @@ export default async function BlogPostPage({ params }) {
 
       {/* Footer CTA */}
       <div className="mt-12 pt-8 border-t text-center">
-        <h3 className="text-2xl font-bold mb-4">Ready to get started?</h3>
+        <h3 className="text-2xl mb-4">Ready to get started?</h3>
         <p className="text-gray-600 mb-6">
           Check out our digital products and start your journey today.
         </p>

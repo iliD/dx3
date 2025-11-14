@@ -40,7 +40,7 @@ export default function ProductCard({ product }) {
         />
       )}
       <div className="p-6">
-        <h3 className="text-xl font-bold mb-2">{product.name}</h3>
+        <h3 className="text-xl mb-2">{product.name}</h3>
         <p className="text-gray-600 mb-4">{product.description}</p>
         <div className="flex justify-between items-center">
           <span className="text-2xl font-bold">${product.price}</span>

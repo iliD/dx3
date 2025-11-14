@@ -27,7 +27,7 @@ export default async function BlogPage({ searchParams }) {
   return (
     <div className="py-12" style={{ marginLeft: 'clamp(1.5rem, 8vw, 6rem)', marginRight: 'clamp(1.5rem, 4vw, 1.5rem)' }}>
       <div className="mb-8">
-        <h1 className="text-4xl font-bold mb-4">Articles</h1>
+        <h1 className="text-4xl mb-4">Articles</h1>
         <p className="text-xl text-gray-600">
           Insights, tutorials, and updates about digital products and e-commerce
         </p>
@@ -44,7 +44,7 @@ export default async function BlogPage({ searchParams }) {
                 : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
             }`}
           >
-            All Posts
+            All posts
           </a>
           {uniqueCategories.map((cat) => (
             <a

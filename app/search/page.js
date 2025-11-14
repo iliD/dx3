@@ -43,7 +43,7 @@ export default async function SearchPage({ searchParams }) {
     <div className="py-12" style={{ marginLeft: 'clamp(1.5rem, 8vw, 6rem)', marginRight: 'clamp(1.5rem, 4vw, 1.5rem)' }}>
       {/* Header */}
       <header className="mb-8">
-        <h1 className="text-4xl font-bold mb-4">Search results</h1>
+        <h1 className="text-4xl mb-4">Search results</h1>
         {query ? (
           <p className="text-xl text-gray-600">
             {totalResults === 0
@@ -101,7 +101,7 @@ export default async function SearchPage({ searchParams }) {
       {/* Products Results */}
       {results.products.length > 0 && (
         <section className="mb-12">
-          <h2 className="text-2xl font-bold mb-6">Products ({results.products.length})</h2>
+          <h2 className="text-2xl mb-6">Products ({results.products.length})</h2>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {results.products.map((product) => (
               <Link
@@ -118,7 +118,7 @@ export default async function SearchPage({ searchParams }) {
                     />
                   </div>
                 )}
-                <h3 className="text-xl font-bold mb-2">{product.name}</h3>
+                <h3 className="text-xl mb-2">{product.name}</h3>
                 <p className="text-gray-600 mb-4 line-clamp-2">{product.description}</p>
                 <p className="text-2xl font-bold">${product.price}</p>
               </Link>
@@ -130,7 +130,7 @@ export default async function SearchPage({ searchParams }) {
       {/* Blog Posts Results */}
       {results.posts.length > 0 && (
         <section className="mb-12">
-          <h2 className="text-2xl font-bold mb-6">Articles ({results.posts.length})</h2>
+          <h2 className="text-2xl mb-6">Articles ({results.posts.length})</h2>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {results.posts.map((post) => (
               <Link
@@ -148,7 +148,7 @@ export default async function SearchPage({ searchParams }) {
                   </div>
                 )}
                 <div className="p-6">
-                  <h3 className="text-xl font-bold mb-2">{post.title}</h3>
+                  <h3 className="text-xl mb-2">{post.title}</h3>
                   <p className="text-gray-600 mb-4 line-clamp-2">{post.excerpt}</p>
                   {post.category && (
                     <span className="inline-block px-3 py-1 bg-gray-100 text-sm rounded capitalize">
