@@ -9,7 +9,7 @@ export default function ColophonPage() {
       {/* Header */}
       <header className="mb-8">
         <h1 className="text-4xl mb-4">Colophon</h1>
-        <p className="text-xl text-gray-600">
+        <p className="text-xl text-gray-600 dark:text-gray-400">
           Technical details, design system, and the tools that power designDesignsDesign
         </p>
       </header>
@@ -21,8 +21,8 @@ export default function ColophonPage() {
         <div className="space-y-6">
           <div>
             <h3 className="text-xl mb-4">Core framework</h3>
-            <ul className="space-y-2 text-gray-700">
-              <li><a href="https://nextjs.org" target="_blank" rel="noopener noreferrer" className="underline hover:no-underline">Next.js</a> 16 - React framework with App Router and server components</li>
+            <ul className="space-y-2 text-gray-700 dark:text-gray-300">
+              <li><a href="https://nextjs.org" target="_blank" rel="noopener noreferrer" className="underline hover:no-underline cursor-pointer">Next.js</a> 16 - React framework with App Router and server components</li>
               <li><a href="https://react.dev" target="_blank" rel="noopener noreferrer" className="underline hover:no-underline">React</a> 18+ - JavaScript library for building user interfaces</li>
               <li><a href="https://nodejs.org" target="_blank" rel="noopener noreferrer" className="underline hover:no-underline">Node.js</a> 18+ - JavaScript runtime environment</li>
             </ul>
@@ -30,7 +30,7 @@ export default function ColophonPage() {
 
           <div>
             <h3 className="text-xl mb-4">Content management</h3>
-            <ul className="space-y-2 text-gray-700">
+            <ul className="space-y-2 text-gray-700 dark:text-gray-300">
               <li><a href="https://www.sanity.io" target="_blank" rel="noopener noreferrer" className="underline hover:no-underline">Sanity CMS</a> - Headless content management system</li>
               <li><a href="https://www.sanity.io/studio" target="_blank" rel="noopener noreferrer" className="underline hover:no-underline">Sanity Studio</a> - Real-time collaborative editing environment</li>
               <li><a href="https://www.sanity.io/docs/groq" target="_blank" rel="noopener noreferrer" className="underline hover:no-underline">GROQ</a> - Graph-Relational Object Queries for content fetching</li>
@@ -39,7 +39,7 @@ export default function ColophonPage() {
 
           <div>
             <h3 className="text-xl mb-4">Infrastructure</h3>
-            <ul className="space-y-2 text-gray-700">
+            <ul className="space-y-2 text-gray-700 dark:text-gray-300">
               <li><a href="https://vercel.com" target="_blank" rel="noopener noreferrer" className="underline hover:no-underline">Vercel</a> - Hosting and serverless deployment</li>
               <li><a href="https://vercel.com/storage/blob" target="_blank" rel="noopener noreferrer" className="underline hover:no-underline">Vercel Blob</a> - File storage for digital products</li>
               <li><a href="https://vercel.com/analytics" target="_blank" rel="noopener noreferrer" className="underline hover:no-underline">Vercel Analytics</a> - Performance monitoring and insights</li>
@@ -56,7 +56,7 @@ export default function ColophonPage() {
         <div className="space-y-6">
           <div>
             <h3 className="text-xl mb-4">Styling framework</h3>
-            <ul className="space-y-2 text-gray-700">
+            <ul className="space-y-2 text-gray-700 dark:text-gray-300">
               <li><a href="https://tailwindcss.com" target="_blank" rel="noopener noreferrer" className="underline hover:no-underline">Tailwind CSS</a> v4 - Utility-first CSS framework</li>
               <li><a href="https://postcss.org" target="_blank" rel="noopener noreferrer" className="underline hover:no-underline">PostCSS</a> - CSS transformation and optimisation</li>
               <li><a href="https://ui.shadcn.com" target="_blank" rel="noopener noreferrer" className="underline hover:no-underline">shadcn/ui</a> - Accessible, customisable component library</li>
@@ -65,9 +65,9 @@ export default function ColophonPage() {
 
           <div>
             <h3 className="text-xl mb-4">Typography</h3>
-            <ul className="space-y-2 text-gray-700">
+            <ul className="space-y-2 text-gray-700 dark:text-gray-300">
               <li><a href="https://fonts.google.com/specimen/IBM+Plex+Sans" target="_blank" rel="noopener noreferrer" className="underline hover:no-underline">IBM Plex</a> - Primary typeface with system font fallbacks for optimal performance</li>
-              <li className="pl-6 text-sm font-mono text-gray-600">
+              <li className="pl-6 text-sm font-mono text-gray-600 dark:text-gray-400">
                 IBM Plex Sans, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif
               </li>
               <li>Font sizes - Responsive scale from 14px to 48px</li>
@@ -77,7 +77,7 @@ export default function ColophonPage() {
 
           <div>
             <h3 className="text-xl mb-4">Animation and motion</h3>
-            <ul className="space-y-2 text-gray-700">
+            <ul className="space-y-2 text-gray-700 dark:text-gray-300">
               <li><a href="https://www.framer.com/motion/" target="_blank" rel="noopener noreferrer" className="underline hover:no-underline">Framer Motion</a> - Declarative animations and gestures</li>
               <li>Transition duration - 150-300ms for micro-interactions</li>
               <li>Easing - Cubic bezier curves for natural motion</li>
@@ -90,7 +90,7 @@ export default function ColophonPage() {
       {/* Accessibility Statement */}
       <section className="mb-12 border-t pt-8">
         <h2 className="text-3xl mb-6">Accessibility statement</h2>
-        <div className="space-y-4 text-gray-700">
+        <div className="space-y-4 text-gray-700 dark:text-gray-300">
           <p>
             designDesignsDesign is committed to ensuring digital accessibility for all users,
             including those with disabilities. We are continually improving the user experience
@@ -99,7 +99,7 @@ export default function ColophonPage() {
 
           <h3 className="text-xl mt-6 mb-3">Conformance status</h3>
           <p>
-            This website strives to conform to the <a href="https://www.w3.org/WAI/WCAG21/quickref/" target="_blank" rel="noopener noreferrer" className="underline hover:no-underline">Web Content Accessibility Guidelines (WCAG) 2.1</a> Level AA. These guidelines explain how to make web content more accessible for people
+            This website strives to conform to the <a href="https://www.w3.org/WAI/WCAG21/quickref/" target="_blank" rel="noopener noreferrer" className="underline hover:no-underline cursor-pointer">Web Content Accessibility Guidelines (WCAG) 2.1</a> Level AA. These guidelines explain how to make web content more accessible for people
             with disabilities and user-friendly for everyone.
           </p>
 
