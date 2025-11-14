@@ -1,5 +1,3 @@
-import Link from 'next/link';
-
 export const metadata = {
   title: 'Toolchain - Frameworks - designDesignsDesign',
   description: 'Tools and technologies in our development toolchain.',
@@ -8,17 +6,9 @@ export const metadata = {
 export default function ToolchainPage() {
   return (
     <div className="py-12 max-w-6xl" style={{ marginLeft: 'clamp(1.5rem, 8vw, 6rem)', marginRight: 'clamp(1.5rem, 4vw, 1.5rem)' }}>
-      {/* Back Button */}
-      <Link
-        href="/frameworks"
-        className="inline-flex items-center text-gray-600 hover:text-black mb-8 transition-colors"
-      >
-        ← Back to Frameworks
-      </Link>
-
       {/* Header */}
-      <header className="mb-12">
-        <h1 className="text-5xl font-bold mb-4">Toolchain</h1>
+      <header className="mb-8">
+        <h1 className="text-4xl font-bold mb-4">Toolchain</h1>
       </header>
 
       {/* Sections */}

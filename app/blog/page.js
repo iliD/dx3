@@ -25,8 +25,8 @@ export default async function BlogPage({ searchParams }) {
   const uniqueCategories = [...new Set(categories.map((c) => c.category).filter(Boolean))];
 
   return (
-    <div className="container mx-auto px-6 py-12">
-      <div className="mb-12">
+    <div className="py-12" style={{ marginLeft: 'clamp(1.5rem, 8vw, 6rem)', marginRight: 'clamp(1.5rem, 4vw, 1.5rem)' }}>
+      <div className="mb-8">
         <h1 className="text-4xl font-bold mb-4">Articles</h1>
         <p className="text-xl text-gray-600">
           Insights, tutorials, and updates about digital products and e-commerce
