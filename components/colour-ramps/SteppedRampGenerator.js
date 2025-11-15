@@ -264,7 +264,7 @@ export default function SteppedRampGenerator({ onGenerateRamp }) {
     }));
 
     onGenerateRamp({
-      name: `${steps}-Step Ramp`,
+      name: rampName || 'untitled',
       stops: stops,
       range: {
         min: 0,
@@ -286,9 +286,12 @@ export default function SteppedRampGenerator({ onGenerateRamp }) {
             type="text"
             value={rampName}
             onChange={(e) => setRampName(e.target.value)}
-            placeholder="Ramp name"
-            className="w-full px-3 py-1.5 bg-white dark:bg-[#1a1a1a] border border-gray-200 dark:border-[#2a2a2a] rounded text-gray-900 dark:text-gray-100 text-sm"
+            placeholder="Ramp name (required)"
+            className={`w-full px-3 py-1.5 bg-white dark:bg-[#1a1a1a] border rounded text-gray-900 dark:text-gray-100 text-sm ${
+              !rampName ? 'border-red-300 dark:border-red-700' : 'border-gray-200 dark:border-[#2a2a2a]'
+            }`}
             style={{ fontFamily: 'IBM Plex Sans, sans-serif' }}
+            required
           />
         </div>
 

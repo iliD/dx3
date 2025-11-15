@@ -10,7 +10,7 @@ export default function RampExport({ ramp, mode }) {
   };
 
   const [exportFormat, setExportFormat] = useState(getInitialFormat());
-  const [rampName, setRampName] = useState('primary');
+  const [casingRule, setCasingRule] = useState('kebab'); // 'kebab', 'camel', 'pascal', 'snake'
 
   // Update export format when mode changes
   useEffect(() => {
@@ -28,6 +28,29 @@ export default function RampExport({ ramp, mode }) {
       g: parseInt(result[2], 16),
       b: parseInt(result[3], 16)
     } : { r: 0, g: 0, b: 0 };
+  };
+
+  const applyCasing = (name) => {
+    if (!name) return 'untitled';
+
+    switch (casingRule) {
+      case 'camel':
+        return name.replace(/[-_\s](.)/g, (_, c) => c.toUpperCase()).replace(/^(.)/, (_, c) => c.toLowerCase());
+      case 'pascal':
+        return name.replace(/[-_\s](.)/g, (_, c) => c.toUpperCase()).replace(/^(.)/, (_, c) => c.toUpperCase());
+      case 'snake':
+        return name.replace(/[-\s]/g, '_').toLowerCase();
+      case 'kebab':
+      default:
+        return name.replace(/[_\s]/g, '-').toLowerCase();
+    }
+  };
+
+  const rampName = applyCasing(ramp.name);
+
+  // Determine if casing selector should be shown for current format
+  const showCasingSelector = () => {
+    return ['css', 'scss', 'tailwind', 'css-gradient', 'swiftui', 'compose'].includes(exportFormat);
   };
 
   const generateCSS = () => {
@@ -327,23 +350,6 @@ ${sortedStops.map((stop, i) => {
 
   return (
     <div className="space-y-4">
-      {/* Ramp Name */}
-      <div>
-        <label className="block text-sm font-semibold mb-2 text-gray-900 dark:text-gray-100">
-          Ramp name
-        </label>
-        <input
-          type="text"
-          value={rampName}
-          onChange={(e) => setRampName(e.target.value.replace(/[^a-z0-9-]/gi, '').toLowerCase())}
-          placeholder="e.g., primary, secondary, blue"
-          className="w-full px-3 py-2 bg-white dark:bg-[#1a1a1a] border border-gray-200 dark:border-[#2a2a2a] rounded-md text-gray-900 dark:text-gray-100 text-sm font-mono"
-        />
-        <p className="text-xs text-gray-500 dark:text-gray-500 mt-1">
-          Used in variable names (e.g., --{rampName}-100, --{rampName}-200)
-        </p>
-      </div>
-
       {/* Format Selector */}
       <div className="flex items-center gap-2">
         <select
@@ -375,6 +381,22 @@ ${sortedStops.map((stop, i) => {
             </>
           )}
         </select>
+
+        {/* Casing Selector - Only for applicable formats */}
+        {showCasingSelector() && (
+          <select
+            value={casingRule}
+            onChange={(e) => setCasingRule(e.target.value)}
+            className="px-3 py-2 bg-white dark:bg-[#1a1a1a] border border-gray-200 dark:border-[#2a2a2a] rounded-md text-gray-900 dark:text-gray-100 text-sm"
+            title="Naming convention"
+          >
+            <option value="kebab">kebab-case</option>
+            <option value="camel">camelCase</option>
+            <option value="pascal">PascalCase</option>
+            <option value="snake">snake_case</option>
+          </select>
+        )}
+
         <button
           onClick={downloadCode}
           className="px-4 py-2 bg-gray-900 dark:bg-gray-100 text-white dark:text-black rounded-md hover:bg-gray-800 dark:hover:bg-gray-200 transition-colors text-sm font-medium"

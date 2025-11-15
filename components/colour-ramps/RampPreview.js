@@ -2,7 +2,7 @@
 
 import { useRef, useEffect } from 'react';
 
-export default function RampPreview({ ramp }) {
+export default function RampPreview({ ramp, mode }) {
   const canvasRef = useRef(null);
 
   useEffect(() => {
@@ -109,19 +109,21 @@ export default function RampPreview({ ramp }) {
         </div>
       </div>
 
-      {/* Smooth Gradient Preview */}
-      <div>
-        <h3 className="text-sm font-medium mb-2 text-gray-900 dark:text-gray-100">Interpolated gradient</h3>
-        <canvas
-          ref={canvasRef}
-          width={800}
-          height={48}
-          className="w-full h-12 rounded-md border border-gray-200 dark:border-[#2a2a2a]"
-          style={{
-            imageRendering: 'auto'
-          }}
-        />
-      </div>
+      {/* Smooth Gradient Preview - Only show in gradient mode */}
+      {mode === 'gradient' && (
+        <div>
+          <h3 className="text-sm font-medium mb-2 text-gray-900 dark:text-gray-100">Interpolated gradient</h3>
+          <canvas
+            ref={canvasRef}
+            width={800}
+            height={48}
+            className="w-full h-12 rounded-md border border-gray-200 dark:border-[#2a2a2a]"
+            style={{
+              imageRendering: 'auto'
+            }}
+          />
+        </div>
+      )}
     </div>
   );
 }

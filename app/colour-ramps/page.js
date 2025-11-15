@@ -8,7 +8,7 @@ import SteppedRampGenerator from '@/components/colour-ramps/SteppedRampGenerator
 export default function ColourRampsPage() {
   const [mode, setMode] = useState('gradient'); // 'gradient' or 'scale'
   const [ramp, setRamp] = useState({
-    name: 'Custom Ramp',
+    name: '',
     stops: [
       { value: 0, color: '#0000ff', alpha: 1 },
       { value: 50, color: '#00ff00', alpha: 1 },
@@ -74,10 +74,12 @@ export default function ColourRampsPage() {
 
         {/* Right Column - Preview & Export */}
         <div className="space-y-6">
-          <div className="border border-gray-200 dark:border-[#2a2a2a] rounded-lg p-6">
-            <h2 className="text-lg font-semibold mb-4 text-gray-900 dark:text-gray-100">Preview</h2>
-            <RampPreview ramp={ramp} />
-          </div>
+          {mode === 'gradient' && (
+            <div className="border border-gray-200 dark:border-[#2a2a2a] rounded-lg p-6">
+              <h2 className="text-lg font-semibold mb-4 text-gray-900 dark:text-gray-100">Preview</h2>
+              <RampPreview ramp={ramp} mode={mode} />
+            </div>
+          )}
 
           <div className="border border-gray-200 dark:border-[#2a2a2a] rounded-lg p-6">
             <h2 className="text-lg font-semibold mb-4 text-gray-900 dark:text-gray-100">Export</h2>
