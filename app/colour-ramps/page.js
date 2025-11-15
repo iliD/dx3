@@ -4,9 +4,23 @@ import { useState } from 'react';
 import RampPreview from '@/components/colour-ramps/RampPreview';
 import RampExport from '@/components/colour-ramps/RampExport';
 import SteppedRampGenerator from '@/components/colour-ramps/SteppedRampGenerator';
+import GradientGenerator from '@/components/colour-ramps/GradientGenerator';
 
 export default function ColourRampsPage() {
   const [mode, setMode] = useState('gradient'); // 'gradient' or 'scale'
+
+  // State for gradients
+  const [gradient, setGradient] = useState({
+    name: '',
+    type: 'linear',
+    direction: 'to right',
+    stops: [
+      { color: '#667eea', position: 0, alpha: 1 },
+      { color: '#764ba2', position: 100, alpha: 1 }
+    ]
+  });
+
+  // State for color ramps (scale mode)
   const [ramp, setRamp] = useState({
     name: '',
     stops: [
@@ -23,6 +37,10 @@ export default function ColourRampsPage() {
 
   const generateFromSteps = (generatedRamp) => {
     setRamp(generatedRamp);
+  };
+
+  const generateGradient = (generatedGradient) => {
+    setGradient(generatedGradient);
   };
 
   return (
@@ -67,8 +85,14 @@ export default function ColourRampsPage() {
         {/* Left Column - Generator */}
         <div className="space-y-6">
           <div className="border border-gray-200 dark:border-[#2a2a2a] rounded-lg p-6">
-            <h2 className="text-lg font-normal mb-4 text-gray-900 dark:text-gray-100" style={{ fontFamily: 'IBM Plex Sans, sans-serif' }}>Colour preferences</h2>
-            <SteppedRampGenerator onGenerateRamp={generateFromSteps} />
+            <h2 className="text-lg font-normal mb-4 text-gray-900 dark:text-gray-100" style={{ fontFamily: 'IBM Plex Sans, sans-serif' }}>
+              {mode === 'gradient' ? 'Gradient configuration' : 'Colour preferences'}
+            </h2>
+            {mode === 'gradient' ? (
+              <GradientGenerator onGenerateGradient={generateGradient} />
+            ) : (
+              <SteppedRampGenerator onGenerateRamp={generateFromSteps} />
+            )}
           </div>
         </div>
 
@@ -83,7 +107,11 @@ export default function ColourRampsPage() {
 
           <div className="border border-gray-200 dark:border-[#2a2a2a] rounded-lg p-6">
             <h2 className="text-lg font-semibold mb-4 text-gray-900 dark:text-gray-100">Export</h2>
-            <RampExport ramp={ramp} mode={mode} />
+            <RampExport
+              ramp={mode === 'gradient' ? gradient : ramp}
+              mode={mode}
+              gradient={mode === 'gradient' ? gradient : null}
+            />
           </div>
         </div>
       </div>

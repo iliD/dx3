@@ -148,6 +148,28 @@ ${sortedStops.map((stop, i) => {
   };
 
   const generateCSSGradient = () => {
+    // Handle gradient mode with position-based stops
+    if (mode === 'gradient' && ramp.stops[0].hasOwnProperty('position')) {
+      const sortedStops = [...ramp.stops].sort((a, b) => a.position - b.position);
+      const direction = ramp.direction || 'to right';
+
+      return `:root {
+  /* ${rampName.charAt(0).toUpperCase() + rampName.slice(1)} Gradient */
+  --${rampName}-gradient: linear-gradient(
+    ${direction},
+${sortedStops.map(stop => {
+  return `    ${stop.color} ${stop.position}%`;
+}).join(',\n')}
+  );
+}
+
+/* Usage example */
+.${rampName}-bg {
+  background: var(--${rampName}-gradient);
+}`;
+    }
+
+    // Handle legacy ramp mode with value-based stops
     const sortedStops = [...ramp.stops].sort((a, b) => a.value - b.value);
 
     return `:root {
@@ -242,6 +264,26 @@ ${sortedStops.map(stop => {
   };
 
   const generateSVG = () => {
+    // Handle gradient mode with position-based stops
+    if (mode === 'gradient' && ramp.stops[0].hasOwnProperty('position')) {
+      const sortedStops = [...ramp.stops].sort((a, b) => a.position - b.position);
+
+      return `<!-- SVG Linear Gradient Definition -->
+<svg width="400" height="100" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="${rampName}Gradient" x1="0%" y1="0%" x2="100%" y2="0%">
+${sortedStops.map(stop => {
+  return `      <stop offset="${stop.position}%" style="stop-color:${stop.color};stop-opacity:${stop.alpha || 1}" />`;
+}).join('\n')}
+    </linearGradient>
+  </defs>
+
+  <!-- Usage example -->
+  <rect width="400" height="100" fill="url(#${rampName}Gradient)" />
+</svg>`;
+    }
+
+    // Handle legacy ramp mode with value-based stops
     const sortedStops = [...ramp.stops].sort((a, b) => a.value - b.value);
 
     return `<!-- SVG Linear Gradient Definition -->
