@@ -21,6 +21,12 @@ export default function GradientGenerator({ onGenerateGradient }) {
   const [radialSize, setRadialSize] = useState('farthest-corner'); // Size keyword
   const [radialPosition, setRadialPosition] = useState('center'); // Position keyword
 
+  // SVG Linear Gradient Coordinates (M3)
+  const [svgX1, setSvgX1] = useState(0); // Start X coordinate (%)
+  const [svgY1, setSvgY1] = useState(0); // Start Y coordinate (%)
+  const [svgX2, setSvgX2] = useState(100); // End X coordinate (%)
+  const [svgY2, setSvgY2] = useState(0); // End Y coordinate (%)
+
   // Preview tab state
   const [previewTab, setPreviewTab] = useState('css'); // 'css' or 'svg'
 
@@ -81,6 +87,13 @@ export default function GradientGenerator({ onGenerateGradient }) {
     // Add type-specific config
     if (gradientType === 'linear') {
       gradientConfig.direction = useAngle ? `${angle}deg` : direction;
+      // SVG Linear Gradient Coordinates (M3)
+      gradientConfig.svg = {
+        x1: svgX1,
+        y1: svgY1,
+        x2: svgX2,
+        y2: svgY2
+      };
     } else if (gradientType === 'radial') {
       gradientConfig.shape = radialShape;
       gradientConfig.size = radialSize;
@@ -230,6 +243,109 @@ export default function GradientGenerator({ onGenerateGradient }) {
                 <span className="text-xs text-gray-500 dark:text-gray-500 font-mono">°</span>
               </div>
             )}
+
+            {/* SVG Coordinate Controls (M3) */}
+            <div className="mt-3 pt-3 border-t border-gray-200 dark:border-[#2a2a2a]">
+              <h4 className="text-xs font-semibold text-gray-700 dark:text-gray-300 mb-2" style={{ fontFamily: 'IBM Plex Sans, sans-serif' }}>
+                SVG Coordinates
+              </h4>
+              <div className="space-y-2">
+                {/* X1, Y1 - Start Point */}
+                <div className="flex items-center gap-2">
+                  <label className="text-xs text-gray-600 dark:text-gray-400 w-12" style={{ fontFamily: 'IBM Plex Sans, sans-serif' }}>
+                    Start
+                  </label>
+                  <div className="flex items-center gap-2 flex-1">
+                    <div className="flex items-center gap-1 flex-1">
+                      <span className="text-xs text-gray-500 dark:text-gray-500 font-mono w-6">x1</span>
+                      <input
+                        type="number"
+                        min="0"
+                        max="100"
+                        step="5"
+                        value={svgX1}
+                        onChange={(e) => setSvgX1(parseFloat(e.target.value) || 0)}
+                        className="w-full px-2 py-1 bg-white dark:bg-[#1a1a1a] border border-gray-200 dark:border-[#2a2a2a] rounded text-gray-900 dark:text-gray-100 font-mono text-xs text-center"
+                      />
+                      <span className="text-xs text-gray-500 dark:text-gray-500 font-mono">%</span>
+                    </div>
+                    <div className="flex items-center gap-1 flex-1">
+                      <span className="text-xs text-gray-500 dark:text-gray-500 font-mono w-6">y1</span>
+                      <input
+                        type="number"
+                        min="0"
+                        max="100"
+                        step="5"
+                        value={svgY1}
+                        onChange={(e) => setSvgY1(parseFloat(e.target.value) || 0)}
+                        className="w-full px-2 py-1 bg-white dark:bg-[#1a1a1a] border border-gray-200 dark:border-[#2a2a2a] rounded text-gray-900 dark:text-gray-100 font-mono text-xs text-center"
+                      />
+                      <span className="text-xs text-gray-500 dark:text-gray-500 font-mono">%</span>
+                    </div>
+                  </div>
+                </div>
+
+                {/* X2, Y2 - End Point */}
+                <div className="flex items-center gap-2">
+                  <label className="text-xs text-gray-600 dark:text-gray-400 w-12" style={{ fontFamily: 'IBM Plex Sans, sans-serif' }}>
+                    End
+                  </label>
+                  <div className="flex items-center gap-2 flex-1">
+                    <div className="flex items-center gap-1 flex-1">
+                      <span className="text-xs text-gray-500 dark:text-gray-500 font-mono w-6">x2</span>
+                      <input
+                        type="number"
+                        min="0"
+                        max="100"
+                        step="5"
+                        value={svgX2}
+                        onChange={(e) => setSvgX2(parseFloat(e.target.value) || 0)}
+                        className="w-full px-2 py-1 bg-white dark:bg-[#1a1a1a] border border-gray-200 dark:border-[#2a2a2a] rounded text-gray-900 dark:text-gray-100 font-mono text-xs text-center"
+                      />
+                      <span className="text-xs text-gray-500 dark:text-gray-500 font-mono">%</span>
+                    </div>
+                    <div className="flex items-center gap-1 flex-1">
+                      <span className="text-xs text-gray-500 dark:text-gray-500 font-mono w-6">y2</span>
+                      <input
+                        type="number"
+                        min="0"
+                        max="100"
+                        step="5"
+                        value={svgY2}
+                        onChange={(e) => setSvgY2(parseFloat(e.target.value) || 0)}
+                        className="w-full px-2 py-1 bg-white dark:bg-[#1a1a1a] border border-gray-200 dark:border-[#2a2a2a] rounded text-gray-900 dark:text-gray-100 font-mono text-xs text-center"
+                      />
+                      <span className="text-xs text-gray-500 dark:text-gray-500 font-mono">%</span>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Preset Directions */}
+                <div className="grid grid-cols-3 gap-1 mt-2">
+                  <button
+                    onClick={() => { setSvgX1(0); setSvgY1(0); setSvgX2(100); setSvgY2(0); }}
+                    className="px-2 py-1 text-xs bg-white dark:bg-[#1a1a1a] border border-gray-200 dark:border-[#2a2a2a] rounded hover:bg-gray-50 dark:hover:bg-[#2a2a2a] transition-colors"
+                    style={{ fontFamily: 'IBM Plex Sans, sans-serif' }}
+                  >
+                    →
+                  </button>
+                  <button
+                    onClick={() => { setSvgX1(0); setSvgY1(0); setSvgX2(0); setSvgY2(100); }}
+                    className="px-2 py-1 text-xs bg-white dark:bg-[#1a1a1a] border border-gray-200 dark:border-[#2a2a2a] rounded hover:bg-gray-50 dark:hover:bg-[#2a2a2a] transition-colors"
+                    style={{ fontFamily: 'IBM Plex Sans, sans-serif' }}
+                  >
+                    ↓
+                  </button>
+                  <button
+                    onClick={() => { setSvgX1(0); setSvgY1(0); setSvgX2(100); setSvgY2(100); }}
+                    className="px-2 py-1 text-xs bg-white dark:bg-[#1a1a1a] border border-gray-200 dark:border-[#2a2a2a] rounded hover:bg-gray-50 dark:hover:bg-[#2a2a2a] transition-colors"
+                    style={{ fontFamily: 'IBM Plex Sans, sans-serif' }}
+                  >
+                    ↘
+                  </button>
+                </div>
+              </div>
+            </div>
           </div>
         )}
 
@@ -426,7 +542,7 @@ export default function GradientGenerator({ onGenerateGradient }) {
                     ))}
                   </radialGradient>
                 ) : (
-                  <linearGradient id="preview-gradient" x1="0%" y1="0%" x2="100%" y2="0%">
+                  <linearGradient id="preview-gradient" x1={`${svgX1}%`} y1={`${svgY1}%`} x2={`${svgX2}%`} y2={`${svgY2}%`}>
                     {generateSVGGradient().map((stop, i) => (
                       <stop
                         key={i}

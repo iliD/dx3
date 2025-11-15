@@ -301,11 +301,17 @@ ${sortedStops.map(stop => {
   <rect width="400" height="400" fill="url(#${rampName}Gradient)" />
 </svg>`;
       } else {
-        // SVG Linear Gradient
+        // SVG Linear Gradient with custom coordinates (M3)
+        const x1 = ramp.svg?.x1 !== undefined ? ramp.svg.x1 : 0;
+        const y1 = ramp.svg?.y1 !== undefined ? ramp.svg.y1 : 0;
+        const x2 = ramp.svg?.x2 !== undefined ? ramp.svg.x2 : 100;
+        const y2 = ramp.svg?.y2 !== undefined ? ramp.svg.y2 : 0;
+
         return `<!-- SVG Linear Gradient Definition -->
+<!-- Coordinates: (${x1}%, ${y1}%) to (${x2}%, ${y2}%) -->
 <svg width="400" height="100" xmlns="http://www.w3.org/2000/svg">
   <defs>
-    <linearGradient id="${rampName}Gradient" x1="0%" y1="0%" x2="100%" y2="0%">
+    <linearGradient id="${rampName}Gradient" x1="${x1}%" y1="${y1}%" x2="${x2}%" y2="${y2}%">
 ${sortedStops.map(stop => {
   return `      <stop offset="${stop.position}%" style="stop-color:${stop.color};stop-opacity:${stop.alpha || 1}" />`;
 }).join('\n')}
