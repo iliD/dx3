@@ -286,11 +286,27 @@ ${sortedStops.map(stop => {
       const sortedStops = [...ramp.stops].sort((a, b) => a.position - b.position);
 
       if (ramp.type === 'radial') {
-        // SVG Radial Gradient
+        // SVG Radial Gradient with custom coordinates (M4)
+        const cx = ramp.svg?.cx !== undefined ? ramp.svg.cx : 50;
+        const cy = ramp.svg?.cy !== undefined ? ramp.svg.cy : 50;
+        const r = ramp.svg?.r !== undefined ? ramp.svg.r : 50;
+        const fx = ramp.svg?.fx !== undefined ? ramp.svg.fx : cx;
+        const fy = ramp.svg?.fy !== undefined ? ramp.svg.fy : cy;
+        const gradientUnits = ramp.svg?.gradientUnits || 'objectBoundingBox';
+
         return `<!-- SVG Radial Gradient Definition -->
+<!-- Center: (${cx}%, ${cy}%), Radius: ${r}%, Focal: (${fx}%, ${fy}%) -->
 <svg width="400" height="400" xmlns="http://www.w3.org/2000/svg">
   <defs>
-    <radialGradient id="${rampName}Gradient" cx="50%" cy="50%" r="50%">
+    <radialGradient
+      id="${rampName}Gradient"
+      cx="${cx}%"
+      cy="${cy}%"
+      r="${r}%"
+      fx="${fx}%"
+      fy="${fy}%"
+      gradientUnits="${gradientUnits}"
+    >
 ${sortedStops.map(stop => {
   return `      <stop offset="${stop.position}%" style="stop-color:${stop.color};stop-opacity:${stop.alpha || 1}" />`;
 }).join('\n')}
