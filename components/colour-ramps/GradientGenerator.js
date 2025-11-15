@@ -27,6 +27,14 @@ export default function GradientGenerator({ onGenerateGradient }) {
   const [svgX2, setSvgX2] = useState(100); // End X coordinate (%)
   const [svgY2, setSvgY2] = useState(0); // End Y coordinate (%)
 
+  // SVG Radial Gradient Coordinates (M4)
+  const [svgCx, setSvgCx] = useState(50); // Center X coordinate (%)
+  const [svgCy, setSvgCy] = useState(50); // Center Y coordinate (%)
+  const [svgR, setSvgR] = useState(50); // Radius (%)
+  const [svgFx, setSvgFx] = useState(50); // Focal point X coordinate (%)
+  const [svgFy, setSvgFy] = useState(50); // Focal point Y coordinate (%)
+  const [svgGradientUnits, setSvgGradientUnits] = useState('objectBoundingBox'); // 'objectBoundingBox' or 'userSpaceOnUse'
+
   // Preview tab state
   const [previewTab, setPreviewTab] = useState('css'); // 'css' or 'svg'
 
@@ -98,6 +106,15 @@ export default function GradientGenerator({ onGenerateGradient }) {
       gradientConfig.shape = radialShape;
       gradientConfig.size = radialSize;
       gradientConfig.position = radialPosition;
+      // SVG Radial Gradient Coordinates (M4)
+      gradientConfig.svg = {
+        cx: svgCx,
+        cy: svgCy,
+        r: svgR,
+        fx: svgFx,
+        fy: svgFy,
+        gradientUnits: svgGradientUnits
+      };
     }
 
     onGenerateGradient(gradientConfig);
@@ -408,6 +425,148 @@ export default function GradientGenerator({ onGenerateGradient }) {
                 <option value="bottom right">Bottom Right</option>
               </select>
             </div>
+
+            {/* SVG Coordinate Controls (M4) */}
+            <div className="mt-3 pt-3 border-t border-gray-200 dark:border-[#2a2a2a]">
+              <h4 className="text-xs font-semibold text-gray-700 dark:text-gray-300 mb-2" style={{ fontFamily: 'IBM Plex Sans, sans-serif' }}>
+                SVG Coordinates
+              </h4>
+              <div className="space-y-2">
+                {/* Center (cx, cy) and Radius (r) */}
+                <div className="flex items-center gap-2">
+                  <label className="text-xs text-gray-600 dark:text-gray-400 w-12" style={{ fontFamily: 'IBM Plex Sans, sans-serif' }}>
+                    Center
+                  </label>
+                  <div className="flex items-center gap-2 flex-1">
+                    <div className="flex items-center gap-1 flex-1">
+                      <span className="text-xs text-gray-500 dark:text-gray-500 font-mono w-6">cx</span>
+                      <input
+                        type="number"
+                        min="0"
+                        max="100"
+                        step="5"
+                        value={svgCx}
+                        onChange={(e) => setSvgCx(parseFloat(e.target.value) || 0)}
+                        className="w-full px-2 py-1 bg-white dark:bg-[#1a1a1a] border border-gray-200 dark:border-[#2a2a2a] rounded text-gray-900 dark:text-gray-100 font-mono text-xs text-center"
+                      />
+                      <span className="text-xs text-gray-500 dark:text-gray-500 font-mono">%</span>
+                    </div>
+                    <div className="flex items-center gap-1 flex-1">
+                      <span className="text-xs text-gray-500 dark:text-gray-500 font-mono w-6">cy</span>
+                      <input
+                        type="number"
+                        min="0"
+                        max="100"
+                        step="5"
+                        value={svgCy}
+                        onChange={(e) => setSvgCy(parseFloat(e.target.value) || 0)}
+                        className="w-full px-2 py-1 bg-white dark:bg-[#1a1a1a] border border-gray-200 dark:border-[#2a2a2a] rounded text-gray-900 dark:text-gray-100 font-mono text-xs text-center"
+                      />
+                      <span className="text-xs text-gray-500 dark:text-gray-500 font-mono">%</span>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Radius */}
+                <div className="flex items-center gap-2">
+                  <label className="text-xs text-gray-600 dark:text-gray-400 w-12" style={{ fontFamily: 'IBM Plex Sans, sans-serif' }}>
+                    Radius
+                  </label>
+                  <div className="flex items-center gap-1 flex-1">
+                    <span className="text-xs text-gray-500 dark:text-gray-500 font-mono w-6">r</span>
+                    <input
+                      type="number"
+                      min="0"
+                      max="100"
+                      step="5"
+                      value={svgR}
+                      onChange={(e) => setSvgR(parseFloat(e.target.value) || 0)}
+                      className="w-full px-2 py-1 bg-white dark:bg-[#1a1a1a] border border-gray-200 dark:border-[#2a2a2a] rounded text-gray-900 dark:text-gray-100 font-mono text-xs text-center"
+                    />
+                    <span className="text-xs text-gray-500 dark:text-gray-500 font-mono">%</span>
+                  </div>
+                </div>
+
+                {/* Focal Point (fx, fy) */}
+                <div className="flex items-center gap-2">
+                  <label className="text-xs text-gray-600 dark:text-gray-400 w-12" style={{ fontFamily: 'IBM Plex Sans, sans-serif' }}>
+                    Focal
+                  </label>
+                  <div className="flex items-center gap-2 flex-1">
+                    <div className="flex items-center gap-1 flex-1">
+                      <span className="text-xs text-gray-500 dark:text-gray-500 font-mono w-6">fx</span>
+                      <input
+                        type="number"
+                        min="0"
+                        max="100"
+                        step="5"
+                        value={svgFx}
+                        onChange={(e) => setSvgFx(parseFloat(e.target.value) || 0)}
+                        className="w-full px-2 py-1 bg-white dark:bg-[#1a1a1a] border border-gray-200 dark:border-[#2a2a2a] rounded text-gray-900 dark:text-gray-100 font-mono text-xs text-center"
+                      />
+                      <span className="text-xs text-gray-500 dark:text-gray-500 font-mono">%</span>
+                    </div>
+                    <div className="flex items-center gap-1 flex-1">
+                      <span className="text-xs text-gray-500 dark:text-gray-500 font-mono w-6">fy</span>
+                      <input
+                        type="number"
+                        min="0"
+                        max="100"
+                        step="5"
+                        value={svgFy}
+                        onChange={(e) => setSvgFy(parseFloat(e.target.value) || 0)}
+                        className="w-full px-2 py-1 bg-white dark:bg-[#1a1a1a] border border-gray-200 dark:border-[#2a2a2a] rounded text-gray-900 dark:text-gray-100 font-mono text-xs text-center"
+                      />
+                      <span className="text-xs text-gray-500 dark:text-gray-500 font-mono">%</span>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Gradient Units */}
+                <div className="flex items-center gap-2">
+                  <label className="text-xs text-gray-600 dark:text-gray-400 w-12" style={{ fontFamily: 'IBM Plex Sans, sans-serif' }}>
+                    Units
+                  </label>
+                  <select
+                    value={svgGradientUnits}
+                    onChange={(e) => setSvgGradientUnits(e.target.value)}
+                    className="flex-1 px-2 py-1 text-xs bg-white dark:bg-[#1a1a1a] border border-gray-200 dark:border-[#2a2a2a] rounded-md text-gray-900 dark:text-gray-100"
+                    style={{ fontFamily: 'IBM Plex Sans, sans-serif' }}
+                  >
+                    <option value="objectBoundingBox">Object Bounding Box</option>
+                    <option value="userSpaceOnUse">User Space On Use</option>
+                  </select>
+                </div>
+
+                {/* Preset Positions */}
+                <div className="grid grid-cols-3 gap-1 mt-2">
+                  <button
+                    onClick={() => { setSvgCx(50); setSvgCy(50); setSvgFx(50); setSvgFy(50); }}
+                    className="px-2 py-1 text-xs bg-white dark:bg-[#1a1a1a] border border-gray-200 dark:border-[#2a2a2a] rounded hover:bg-gray-50 dark:hover:bg-[#2a2a2a] transition-colors"
+                    style={{ fontFamily: 'IBM Plex Sans, sans-serif' }}
+                    title="Center"
+                  >
+                    Center
+                  </button>
+                  <button
+                    onClick={() => { setSvgCx(50); setSvgCy(50); setSvgFx(25); setSvgFy(25); }}
+                    className="px-2 py-1 text-xs bg-white dark:bg-[#1a1a1a] border border-gray-200 dark:border-[#2a2a2a] rounded hover:bg-gray-50 dark:hover:bg-[#2a2a2a] transition-colors"
+                    style={{ fontFamily: 'IBM Plex Sans, sans-serif' }}
+                    title="Top-left focal"
+                  >
+                    TL Focal
+                  </button>
+                  <button
+                    onClick={() => { setSvgCx(50); setSvgCy(50); setSvgFx(75); setSvgFy(25); }}
+                    className="px-2 py-1 text-xs bg-white dark:bg-[#1a1a1a] border border-gray-200 dark:border-[#2a2a2a] rounded hover:bg-gray-50 dark:hover:bg-[#2a2a2a] transition-colors"
+                    style={{ fontFamily: 'IBM Plex Sans, sans-serif' }}
+                    title="Top-right focal"
+                  >
+                    TR Focal
+                  </button>
+                </div>
+              </div>
+            </div>
           </div>
         )}
       </div>
@@ -532,7 +691,15 @@ export default function GradientGenerator({ onGenerateGradient }) {
             <svg width="100%" height="128" className="rounded-md border border-gray-200 dark:border-[#2a2a2a]">
               <defs>
                 {gradientType === 'radial' ? (
-                  <radialGradient id="preview-gradient" cx="50%" cy="50%" r="50%">
+                  <radialGradient
+                    id="preview-gradient"
+                    cx={`${svgCx}%`}
+                    cy={`${svgCy}%`}
+                    r={`${svgR}%`}
+                    fx={`${svgFx}%`}
+                    fy={`${svgFy}%`}
+                    gradientUnits={svgGradientUnits}
+                  >
                     {generateSVGGradient().map((stop, i) => (
                       <stop
                         key={i}
