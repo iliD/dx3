@@ -11,9 +11,7 @@ export default function GradientGenerator({ onGenerateGradient }) {
 
   // CSS Linear Gradient Controls
   const [gradientType, setGradientType] = useState('linear'); // 'linear' or 'radial'
-  const [direction, setDirection] = useState('to right'); // CSS direction keyword
-  const [angle, setAngle] = useState(90); // Angle in degrees
-  const [useAngle, setUseAngle] = useState(false); // Toggle between keyword and angle
+  const [angle, setAngle] = useState(90); // Angle in degrees (0-360)
 
   // CSS Radial Gradient Controls
   const [radialShape, setRadialShape] = useState('circle'); // 'circle' or 'ellipse'
@@ -93,7 +91,7 @@ export default function GradientGenerator({ onGenerateGradient }) {
 
     // Add type-specific config
     if (gradientType === 'linear') {
-      gradientConfig.direction = useAngle ? `${angle}deg` : direction;
+      gradientConfig.direction = `${angle}deg`;
       // SVG Linear Gradient Coordinates (M3)
       gradientConfig.svg = {
         x1: svgX1,
@@ -131,8 +129,7 @@ export default function GradientGenerator({ onGenerateGradient }) {
       return `radial-gradient(${radialShape} ${radialSize} at ${radialPosition}, ${stopsStr})`;
     } else {
       // Linear gradient
-      const dir = useAngle ? `${angle}deg` : direction;
-      return `linear-gradient(${dir}, ${stopsStr})`;
+      return `linear-gradient(${angle}deg, ${stopsStr})`;
     }
   };
 
@@ -143,18 +140,6 @@ export default function GradientGenerator({ onGenerateGradient }) {
   };
 
   const sortedStops = [...colorStops].sort((a, b) => a.position - b.position);
-
-  // Direction presets
-  const directionPresets = [
-    { value: 'to right', label: 'To Right →', angle: 90 },
-    { value: 'to left', label: 'To Left ←', angle: 270 },
-    { value: 'to bottom', label: 'To Bottom ↓', angle: 180 },
-    { value: 'to top', label: 'To Top ↑', angle: 0 },
-    { value: 'to bottom right', label: 'To Bottom Right ↘', angle: 135 },
-    { value: 'to bottom left', label: 'To Bottom Left ↙', angle: 225 },
-    { value: 'to top right', label: 'To Top Right ↗', angle: 45 },
-    { value: 'to top left', label: 'To Top Left ↖', angle: 315 }
-  ];
 
   return (
     <div className="space-y-4">
@@ -179,71 +164,32 @@ export default function GradientGenerator({ onGenerateGradient }) {
         {/* Linear Gradient Direction Controls */}
         {gradientType === 'linear' && (
           <div className="space-y-2">
-            {/* Toggle between keyword and angle */}
-            <div className="flex items-center gap-2">
-              <button
-                onClick={() => setUseAngle(false)}
-                className={`flex-1 px-3 py-1.5 text-xs rounded transition-colors ${
-                  !useAngle
-                    ? 'bg-gray-900 dark:bg-gray-100 text-white dark:text-black'
-                    : 'bg-white dark:bg-[#1a1a1a] text-gray-600 dark:text-gray-400 border border-gray-200 dark:border-[#2a2a2a]'
-                }`}
-                style={{ fontFamily: 'IBM Plex Sans, sans-serif' }}
-              >
-                Direction
-              </button>
-              <button
-                onClick={() => setUseAngle(true)}
-                className={`flex-1 px-3 py-1.5 text-xs rounded transition-colors ${
-                  useAngle
-                    ? 'bg-gray-900 dark:bg-gray-100 text-white dark:text-black'
-                    : 'bg-white dark:bg-[#1a1a1a] text-gray-600 dark:text-gray-400 border border-gray-200 dark:border-[#2a2a2a]'
-                }`}
-                style={{ fontFamily: 'IBM Plex Sans, sans-serif' }}
-              >
-                Angle
-              </button>
+            {/* Angle label */}
+            <label className="text-xs text-gray-600 dark:text-gray-400" style={{ fontFamily: 'IBM Plex Sans, sans-serif' }}>
+              Direction
+            </label>
+
+            {/* Angle Slider and Input */}
+            <div className="flex items-center gap-3">
+              <input
+                type="range"
+                min="0"
+                max="360"
+                step="1"
+                value={angle}
+                onChange={(e) => setAngle(parseInt(e.target.value))}
+                className="flex-1 h-1 bg-gray-300 dark:bg-[#3a3a3a] rounded-full appearance-none cursor-pointer accent-gray-900 dark:accent-gray-100"
+              />
+              <input
+                type="number"
+                min="0"
+                max="360"
+                value={angle}
+                onChange={(e) => setAngle(parseInt(e.target.value) || 0)}
+                className="w-20 px-3 py-1.5 bg-white dark:bg-[#1a1a1a] border border-gray-200 dark:border-[#2a2a2a] rounded text-gray-900 dark:text-gray-100 font-mono text-sm text-center"
+              />
+              <span className="text-xs text-gray-500 dark:text-gray-500 font-mono">°</span>
             </div>
-
-            {/* Direction Keyword Selector */}
-            {!useAngle && (
-              <select
-                value={direction}
-                onChange={(e) => setDirection(e.target.value)}
-                className="w-full px-3 py-1.5 text-sm bg-white dark:bg-[#1a1a1a] border border-gray-200 dark:border-[#2a2a2a] rounded-md text-gray-900 dark:text-gray-100"
-                style={{ fontFamily: 'IBM Plex Sans, sans-serif' }}
-              >
-                {directionPresets.map(preset => (
-                  <option key={preset.value} value={preset.value}>
-                    {preset.label}
-                  </option>
-                ))}
-              </select>
-            )}
-
-            {/* Angle Input */}
-            {useAngle && (
-              <div className="flex items-center gap-3">
-                <input
-                  type="range"
-                  min="0"
-                  max="360"
-                  step="1"
-                  value={angle}
-                  onChange={(e) => setAngle(parseInt(e.target.value))}
-                  className="flex-1 h-1 bg-gray-300 dark:bg-[#3a3a3a] rounded-full appearance-none cursor-pointer accent-gray-900 dark:accent-gray-100"
-                />
-                <input
-                  type="number"
-                  min="0"
-                  max="360"
-                  value={angle}
-                  onChange={(e) => setAngle(parseInt(e.target.value) || 0)}
-                  className="w-20 px-3 py-1.5 bg-white dark:bg-[#1a1a1a] border border-gray-200 dark:border-[#2a2a2a] rounded text-gray-900 dark:text-gray-100 font-mono text-sm text-center"
-                />
-                <span className="text-xs text-gray-500 dark:text-gray-500 font-mono">°</span>
-              </div>
-            )}
 
             {/* SVG Coordinate Controls (M3) */}
             <div className="mt-3 pt-3 border-t border-gray-200 dark:border-[#2a2a2a]">
