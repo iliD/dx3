@@ -16,6 +16,11 @@ export default function GradientGenerator({ onGenerateGradient }) {
   const [angle, setAngle] = useState(90); // Angle in degrees
   const [useAngle, setUseAngle] = useState(false); // Toggle between keyword and angle
 
+  // CSS Radial Gradient Controls
+  const [radialShape, setRadialShape] = useState('circle'); // 'circle' or 'ellipse'
+  const [radialSize, setRadialSize] = useState('farthest-corner'); // Size keyword
+  const [radialPosition, setRadialPosition] = useState('center'); // Position keyword
+
   // Preview tab state
   const [previewTab, setPreviewTab] = useState('css'); // 'css' or 'svg'
 
@@ -63,16 +68,26 @@ export default function GradientGenerator({ onGenerateGradient }) {
   const handleGenerate = () => {
     const sortedStops = [...colorStops].sort((a, b) => a.position - b.position);
 
-    onGenerateGradient({
+    const gradientConfig = {
       name: gradientName || 'untitled',
       type: gradientType,
-      direction: useAngle ? `${angle}deg` : direction,
       stops: sortedStops.map(stop => ({
         color: stop.color,
         position: stop.position,
         alpha: 1
       }))
-    });
+    };
+
+    // Add type-specific config
+    if (gradientType === 'linear') {
+      gradientConfig.direction = useAngle ? `${angle}deg` : direction;
+    } else if (gradientType === 'radial') {
+      gradientConfig.shape = radialShape;
+      gradientConfig.size = radialSize;
+      gradientConfig.position = radialPosition;
+    }
+
+    onGenerateGradient(gradientConfig);
   };
 
   // Generate CSS gradient string for preview
@@ -82,8 +97,14 @@ export default function GradientGenerator({ onGenerateGradient }) {
       .map(stop => `${stop.color} ${stop.position}%`)
       .join(', ');
 
-    const dir = useAngle ? `${angle}deg` : direction;
-    return `linear-gradient(${dir}, ${stopsStr})`;
+    if (gradientType === 'radial') {
+      // Radial gradient: radial-gradient(shape size at position, color-stops)
+      return `radial-gradient(${radialShape} ${radialSize} at ${radialPosition}, ${stopsStr})`;
+    } else {
+      // Linear gradient
+      const dir = useAngle ? `${angle}deg` : direction;
+      return `linear-gradient(${dir}, ${stopsStr})`;
+    }
   };
 
   // Generate SVG gradient for preview
@@ -125,7 +146,7 @@ export default function GradientGenerator({ onGenerateGradient }) {
           />
         </div>
 
-        {/* Gradient Type (Linear only for now) */}
+        {/* Gradient Type */}
         <div className="flex items-center gap-3">
           <label className="text-xs text-gray-600 dark:text-gray-400" style={{ fontFamily: 'IBM Plex Sans, sans-serif' }}>
             Type
@@ -137,78 +158,142 @@ export default function GradientGenerator({ onGenerateGradient }) {
             style={{ fontFamily: 'IBM Plex Sans, sans-serif' }}
           >
             <option value="linear">Linear</option>
-            <option value="radial" disabled>Radial (coming soon)</option>
+            <option value="radial">Radial</option>
           </select>
         </div>
 
-        {/* Direction Controls */}
-        <div className="space-y-2">
-          {/* Toggle between keyword and angle */}
-          <div className="flex items-center gap-2">
-            <button
-              onClick={() => setUseAngle(false)}
-              className={`flex-1 px-3 py-1.5 text-xs rounded transition-colors ${
-                !useAngle
-                  ? 'bg-gray-900 dark:bg-gray-100 text-white dark:text-black'
-                  : 'bg-white dark:bg-[#1a1a1a] text-gray-600 dark:text-gray-400 border border-gray-200 dark:border-[#2a2a2a]'
-              }`}
-              style={{ fontFamily: 'IBM Plex Sans, sans-serif' }}
-            >
-              Direction
-            </button>
-            <button
-              onClick={() => setUseAngle(true)}
-              className={`flex-1 px-3 py-1.5 text-xs rounded transition-colors ${
-                useAngle
-                  ? 'bg-gray-900 dark:bg-gray-100 text-white dark:text-black'
-                  : 'bg-white dark:bg-[#1a1a1a] text-gray-600 dark:text-gray-400 border border-gray-200 dark:border-[#2a2a2a]'
-              }`}
-              style={{ fontFamily: 'IBM Plex Sans, sans-serif' }}
-            >
-              Angle
-            </button>
-          </div>
-
-          {/* Direction Keyword Selector */}
-          {!useAngle && (
-            <select
-              value={direction}
-              onChange={(e) => setDirection(e.target.value)}
-              className="w-full px-3 py-1.5 text-sm bg-white dark:bg-[#1a1a1a] border border-gray-200 dark:border-[#2a2a2a] rounded-md text-gray-900 dark:text-gray-100"
-              style={{ fontFamily: 'IBM Plex Sans, sans-serif' }}
-            >
-              {directionPresets.map(preset => (
-                <option key={preset.value} value={preset.value}>
-                  {preset.label}
-                </option>
-              ))}
-            </select>
-          )}
-
-          {/* Angle Input */}
-          {useAngle && (
-            <div className="flex items-center gap-3">
-              <input
-                type="range"
-                min="0"
-                max="360"
-                step="1"
-                value={angle}
-                onChange={(e) => setAngle(parseInt(e.target.value))}
-                className="flex-1 h-1 bg-gray-300 dark:bg-[#3a3a3a] rounded-full appearance-none cursor-pointer accent-gray-900 dark:accent-gray-100"
-              />
-              <input
-                type="number"
-                min="0"
-                max="360"
-                value={angle}
-                onChange={(e) => setAngle(parseInt(e.target.value) || 0)}
-                className="w-20 px-3 py-1.5 bg-white dark:bg-[#1a1a1a] border border-gray-200 dark:border-[#2a2a2a] rounded text-gray-900 dark:text-gray-100 font-mono text-sm text-center"
-              />
-              <span className="text-xs text-gray-500 dark:text-gray-500 font-mono">°</span>
+        {/* Linear Gradient Direction Controls */}
+        {gradientType === 'linear' && (
+          <div className="space-y-2">
+            {/* Toggle between keyword and angle */}
+            <div className="flex items-center gap-2">
+              <button
+                onClick={() => setUseAngle(false)}
+                className={`flex-1 px-3 py-1.5 text-xs rounded transition-colors ${
+                  !useAngle
+                    ? 'bg-gray-900 dark:bg-gray-100 text-white dark:text-black'
+                    : 'bg-white dark:bg-[#1a1a1a] text-gray-600 dark:text-gray-400 border border-gray-200 dark:border-[#2a2a2a]'
+                }`}
+                style={{ fontFamily: 'IBM Plex Sans, sans-serif' }}
+              >
+                Direction
+              </button>
+              <button
+                onClick={() => setUseAngle(true)}
+                className={`flex-1 px-3 py-1.5 text-xs rounded transition-colors ${
+                  useAngle
+                    ? 'bg-gray-900 dark:bg-gray-100 text-white dark:text-black'
+                    : 'bg-white dark:bg-[#1a1a1a] text-gray-600 dark:text-gray-400 border border-gray-200 dark:border-[#2a2a2a]'
+                }`}
+                style={{ fontFamily: 'IBM Plex Sans, sans-serif' }}
+              >
+                Angle
+              </button>
             </div>
-          )}
-        </div>
+
+            {/* Direction Keyword Selector */}
+            {!useAngle && (
+              <select
+                value={direction}
+                onChange={(e) => setDirection(e.target.value)}
+                className="w-full px-3 py-1.5 text-sm bg-white dark:bg-[#1a1a1a] border border-gray-200 dark:border-[#2a2a2a] rounded-md text-gray-900 dark:text-gray-100"
+                style={{ fontFamily: 'IBM Plex Sans, sans-serif' }}
+              >
+                {directionPresets.map(preset => (
+                  <option key={preset.value} value={preset.value}>
+                    {preset.label}
+                  </option>
+                ))}
+              </select>
+            )}
+
+            {/* Angle Input */}
+            {useAngle && (
+              <div className="flex items-center gap-3">
+                <input
+                  type="range"
+                  min="0"
+                  max="360"
+                  step="1"
+                  value={angle}
+                  onChange={(e) => setAngle(parseInt(e.target.value))}
+                  className="flex-1 h-1 bg-gray-300 dark:bg-[#3a3a3a] rounded-full appearance-none cursor-pointer accent-gray-900 dark:accent-gray-100"
+                />
+                <input
+                  type="number"
+                  min="0"
+                  max="360"
+                  value={angle}
+                  onChange={(e) => setAngle(parseInt(e.target.value) || 0)}
+                  className="w-20 px-3 py-1.5 bg-white dark:bg-[#1a1a1a] border border-gray-200 dark:border-[#2a2a2a] rounded text-gray-900 dark:text-gray-100 font-mono text-sm text-center"
+                />
+                <span className="text-xs text-gray-500 dark:text-gray-500 font-mono">°</span>
+              </div>
+            )}
+          </div>
+        )}
+
+        {/* Radial Gradient Controls */}
+        {gradientType === 'radial' && (
+          <div className="space-y-2">
+            {/* Shape Selector */}
+            <div className="flex items-center gap-3">
+              <label className="text-xs text-gray-600 dark:text-gray-400 w-16" style={{ fontFamily: 'IBM Plex Sans, sans-serif' }}>
+                Shape
+              </label>
+              <select
+                value={radialShape}
+                onChange={(e) => setRadialShape(e.target.value)}
+                className="flex-1 px-3 py-1.5 text-sm bg-white dark:bg-[#1a1a1a] border border-gray-200 dark:border-[#2a2a2a] rounded-md text-gray-900 dark:text-gray-100"
+                style={{ fontFamily: 'IBM Plex Sans, sans-serif' }}
+              >
+                <option value="circle">Circle</option>
+                <option value="ellipse">Ellipse</option>
+              </select>
+            </div>
+
+            {/* Size Selector */}
+            <div className="flex items-center gap-3">
+              <label className="text-xs text-gray-600 dark:text-gray-400 w-16" style={{ fontFamily: 'IBM Plex Sans, sans-serif' }}>
+                Size
+              </label>
+              <select
+                value={radialSize}
+                onChange={(e) => setRadialSize(e.target.value)}
+                className="flex-1 px-3 py-1.5 text-sm bg-white dark:bg-[#1a1a1a] border border-gray-200 dark:border-[#2a2a2a] rounded-md text-gray-900 dark:text-gray-100"
+                style={{ fontFamily: 'IBM Plex Sans, sans-serif' }}
+              >
+                <option value="closest-side">Closest Side</option>
+                <option value="farthest-side">Farthest Side</option>
+                <option value="closest-corner">Closest Corner</option>
+                <option value="farthest-corner">Farthest Corner</option>
+              </select>
+            </div>
+
+            {/* Position Selector */}
+            <div className="flex items-center gap-3">
+              <label className="text-xs text-gray-600 dark:text-gray-400 w-16" style={{ fontFamily: 'IBM Plex Sans, sans-serif' }}>
+                Position
+              </label>
+              <select
+                value={radialPosition}
+                onChange={(e) => setRadialPosition(e.target.value)}
+                className="flex-1 px-3 py-1.5 text-sm bg-white dark:bg-[#1a1a1a] border border-gray-200 dark:border-[#2a2a2a] rounded-md text-gray-900 dark:text-gray-100"
+                style={{ fontFamily: 'IBM Plex Sans, sans-serif' }}
+              >
+                <option value="center">Center</option>
+                <option value="top">Top</option>
+                <option value="bottom">Bottom</option>
+                <option value="left">Left</option>
+                <option value="right">Right</option>
+                <option value="top left">Top Left</option>
+                <option value="top right">Top Right</option>
+                <option value="bottom left">Bottom Left</option>
+                <option value="bottom right">Bottom Right</option>
+              </select>
+            </div>
+          </div>
+        )}
       </div>
 
       {/* Color Stops */}
@@ -330,20 +415,32 @@ export default function GradientGenerator({ onGenerateGradient }) {
           <div className="space-y-2">
             <svg width="100%" height="128" className="rounded-md border border-gray-200 dark:border-[#2a2a2a]">
               <defs>
-                <linearGradient id="preview-gradient" x1="0%" y1="0%" x2="100%" y2="0%">
-                  {generateSVGGradient().map((stop, i) => (
-                    <stop
-                      key={i}
-                      offset={`${stop.position}%`}
-                      style={{ stopColor: stop.color, stopOpacity: 1 }}
-                    />
-                  ))}
-                </linearGradient>
+                {gradientType === 'radial' ? (
+                  <radialGradient id="preview-gradient" cx="50%" cy="50%" r="50%">
+                    {generateSVGGradient().map((stop, i) => (
+                      <stop
+                        key={i}
+                        offset={`${stop.position}%`}
+                        style={{ stopColor: stop.color, stopOpacity: 1 }}
+                      />
+                    ))}
+                  </radialGradient>
+                ) : (
+                  <linearGradient id="preview-gradient" x1="0%" y1="0%" x2="100%" y2="0%">
+                    {generateSVGGradient().map((stop, i) => (
+                      <stop
+                        key={i}
+                        offset={`${stop.position}%`}
+                        style={{ stopColor: stop.color, stopOpacity: 1 }}
+                      />
+                    ))}
+                  </linearGradient>
+                )}
               </defs>
               <rect width="100%" height="100%" fill="url(#preview-gradient)" />
             </svg>
             <div className="text-xs text-gray-500 dark:text-gray-500">
-              SVG linearGradient with {sortedStops.length} stops
+              SVG {gradientType}Gradient with {sortedStops.length} stops
             </div>
           </div>
         )}
