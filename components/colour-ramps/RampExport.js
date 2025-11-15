@@ -175,13 +175,36 @@ ${sortedStops.map(stop => {
   )`;
       }
 
+      // M6: Browser Compatibility - Generate vendor-prefixed versions
+      const webkitValue = gradientValue.replace('linear-gradient', '-webkit-linear-gradient')
+        .replace('radial-gradient', '-webkit-radial-gradient');
+      const mozValue = gradientValue.replace('linear-gradient', '-moz-linear-gradient')
+        .replace('radial-gradient', '-moz-radial-gradient');
+
       return `:root {
   /* ${rampName.charAt(0).toUpperCase() + rampName.slice(1)} Gradient */
   --${rampName}-gradient: ${gradientValue};
+  --${rampName}-gradient-webkit: ${webkitValue};
+  --${rampName}-gradient-moz: ${mozValue};
 }
 
-/* Usage example */
+/* Browser Compatibility Notes (M6):
+ * - Modern browsers (Chrome 26+, Firefox 16+, Safari 7+, Edge 12+): Use standard syntax
+ * - Older WebKit (Safari 5.1-6.0, Chrome 10-25): Use -webkit- prefix
+ * - Older Firefox (Firefox 3.6-15): Use -moz- prefix
+ * - Internet Explorer 10+: Supports standard linear-gradient
+ * - Internet Explorer 6-9: Not supported, requires filter fallback
+ */
+
+/* Usage example with browser compatibility */
 .${rampName}-bg {
+  /* Fallback for very old browsers */
+  background: ${sortedStops[0].color};
+  /* Older WebKit */
+  background: var(--${rampName}-gradient-webkit);
+  /* Older Firefox */
+  background: var(--${rampName}-gradient-moz);
+  /* Modern browsers */
   background: var(--${rampName}-gradient);
 }`;
     }
@@ -296,6 +319,13 @@ ${sortedStops.map(stop => {
 
         return `<!-- SVG Radial Gradient Definition -->
 <!-- Center: (${cx}%, ${cy}%), Radius: ${r}%, Focal: (${fx}%, ${fy}%) -->
+
+<!-- Browser Compatibility (M6):
+  - All modern browsers support SVG gradients (Chrome 1+, Firefox 1.5+, Safari 3+, Edge 12+)
+  - Internet Explorer 9+: Full support
+  - Internet Explorer 6-8: Partial support with workarounds
+-->
+
 <svg width="400" height="400" xmlns="http://www.w3.org/2000/svg">
   <defs>
     <radialGradient
@@ -325,6 +355,13 @@ ${sortedStops.map(stop => {
 
         return `<!-- SVG Linear Gradient Definition -->
 <!-- Coordinates: (${x1}%, ${y1}%) to (${x2}%, ${y2}%) -->
+
+<!-- Browser Compatibility (M6):
+  - All modern browsers support SVG gradients (Chrome 1+, Firefox 1.5+, Safari 3+, Edge 12+)
+  - Internet Explorer 9+: Full support
+  - Internet Explorer 6-8: Partial support with workarounds
+-->
+
 <svg width="400" height="100" xmlns="http://www.w3.org/2000/svg">
   <defs>
     <linearGradient id="${rampName}Gradient" x1="${x1}%" y1="${y1}%" x2="${x2}%" y2="${y2}%">
