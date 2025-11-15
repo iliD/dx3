@@ -43,6 +43,14 @@ export default function ColourRampsPage() {
     setGradient(generatedGradient);
   };
 
+  const handleGradientNameChange = (newName) => {
+    setGradient(prev => ({ ...prev, name: newName }));
+  };
+
+  const handleRampNameChange = (newName) => {
+    setRamp(prev => ({ ...prev, name: newName }));
+  };
+
   return (
     <div className="py-12 bg-white dark:bg-[#1a1a1a]">
       {/* Hero Section */}
@@ -98,19 +106,13 @@ export default function ColourRampsPage() {
 
         {/* Right Column - Preview & Export */}
         <div className="space-y-6">
-          {mode === 'gradient' && (
-            <div className="border border-gray-200 dark:border-[#2a2a2a] rounded-lg p-6">
-              <h2 className="text-lg font-semibold mb-4 text-gray-900 dark:text-gray-100">Preview</h2>
-              <RampPreview ramp={ramp} mode={mode} />
-            </div>
-          )}
-
           <div className="border border-gray-200 dark:border-[#2a2a2a] rounded-lg p-6">
             <h2 className="text-lg font-semibold mb-4 text-gray-900 dark:text-gray-100">Export</h2>
             <RampExport
               ramp={mode === 'gradient' ? gradient : ramp}
               mode={mode}
               gradient={mode === 'gradient' ? gradient : null}
+              onNameChange={mode === 'gradient' ? handleGradientNameChange : handleRampNameChange}
             />
           </div>
         </div>

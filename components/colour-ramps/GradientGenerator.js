@@ -7,7 +7,6 @@ export default function GradientGenerator({ onGenerateGradient }) {
     { id: 1, color: '#667eea', position: 0 },
     { id: 2, color: '#764ba2', position: 100 }
   ]);
-  const [gradientName, setGradientName] = useState('');
   const [nextId, setNextId] = useState(3);
 
   // CSS Linear Gradient Controls
@@ -83,7 +82,7 @@ export default function GradientGenerator({ onGenerateGradient }) {
     const sortedStops = [...colorStops].sort((a, b) => a.position - b.position);
 
     const gradientConfig = {
-      name: gradientName || 'untitled',
+      name: '',
       type: gradientType,
       stops: sortedStops.map(stop => ({
         color: stop.color,
@@ -161,21 +160,6 @@ export default function GradientGenerator({ onGenerateGradient }) {
     <div className="space-y-4">
       {/* Gradient Preferences */}
       <div className="p-3 bg-gray-50 dark:bg-[#0a0a0a] rounded-md space-y-3">
-        {/* Name Input */}
-        <div>
-          <input
-            type="text"
-            value={gradientName}
-            onChange={(e) => setGradientName(e.target.value)}
-            placeholder="Gradient name (required)"
-            className={`w-full px-3 py-1.5 bg-white dark:bg-[#1a1a1a] border rounded text-gray-900 dark:text-gray-100 text-sm ${
-              !gradientName ? 'border-red-300 dark:border-red-700' : 'border-gray-200 dark:border-[#2a2a2a]'
-            }`}
-            style={{ fontFamily: 'IBM Plex Sans, sans-serif' }}
-            required
-          />
-        </div>
-
         {/* Gradient Type */}
         <div className="flex items-center gap-3">
           <label className="text-xs text-gray-600 dark:text-gray-400" style={{ fontFamily: 'IBM Plex Sans, sans-serif' }}>
@@ -732,8 +716,7 @@ export default function GradientGenerator({ onGenerateGradient }) {
       {/* Generate Button */}
       <button
         onClick={handleGenerate}
-        disabled={!gradientName}
-        className="w-full px-4 py-2.5 bg-gray-900 dark:bg-gray-100 text-white dark:text-black rounded-md hover:bg-gray-800 dark:hover:bg-gray-200 transition-colors font-medium text-sm disabled:opacity-50 disabled:cursor-not-allowed"
+        className="w-full px-4 py-2.5 bg-gray-900 dark:bg-gray-100 text-white dark:text-black rounded-md hover:bg-gray-800 dark:hover:bg-gray-200 transition-colors font-medium text-sm"
       >
         Generate gradient
       </button>

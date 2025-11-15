@@ -11,7 +11,6 @@ export default function SteppedRampGenerator({ onGenerateRamp }) {
   const [steps, setSteps] = useState(10);
   const [colorSpace, setColorSpace] = useState('rgb');
   const [colorModel, setColorModel] = useState('hex');
-  const [rampName, setRampName] = useState('');
   const [nextId, setNextId] = useState(4);
 
   const hexToRgb = (hex) => {
@@ -264,7 +263,7 @@ export default function SteppedRampGenerator({ onGenerateRamp }) {
     }));
 
     onGenerateRamp({
-      name: rampName || 'untitled',
+      name: '',
       stops: stops,
       range: {
         min: 0,
@@ -280,21 +279,6 @@ export default function SteppedRampGenerator({ onGenerateRamp }) {
     <div className="space-y-4">
       {/* Ramp Preferences */}
       <div className="flex items-center gap-3 p-3 bg-gray-50 dark:bg-[#0a0a0a] rounded-md">
-        {/* Name Input */}
-        <div className="flex-1">
-          <input
-            type="text"
-            value={rampName}
-            onChange={(e) => setRampName(e.target.value)}
-            placeholder="Ramp name (required)"
-            className={`w-full px-3 py-1.5 bg-white dark:bg-[#1a1a1a] border rounded text-gray-900 dark:text-gray-100 text-sm ${
-              !rampName ? 'border-red-300 dark:border-red-700' : 'border-gray-200 dark:border-[#2a2a2a]'
-            }`}
-            style={{ fontFamily: 'IBM Plex Sans, sans-serif' }}
-            required
-          />
-        </div>
-
         {/* Color Model Selector */}
         <select
           value={colorModel}

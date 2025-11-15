@@ -3,7 +3,7 @@
 import { useState, useEffect } from 'react';
 import CodeBlock from '@/components/CodeBlock';
 
-export default function RampExport({ ramp, mode }) {
+export default function RampExport({ ramp, mode, onNameChange }) {
   // Set initial format based on mode
   const getInitialFormat = () => {
     return mode === 'gradient' ? 'css-gradient' : 'css';
@@ -11,6 +11,14 @@ export default function RampExport({ ramp, mode }) {
 
   const [exportFormat, setExportFormat] = useState(getInitialFormat());
   const [casingRule, setCasingRule] = useState('kebab'); // 'kebab', 'camel', 'pascal', 'snake'
+  const [name, setName] = useState(ramp.name || '');
+  const [showError, setShowError] = useState(false);
+
+  // Update name when ramp changes
+  useEffect(() => {
+    setName(ramp.name || '');
+    setShowError(false);
+  }, [ramp.name]);
 
   // Update export format when mode changes
   useEffect(() => {
@@ -21,6 +29,24 @@ export default function RampExport({ ramp, mode }) {
     }
   }, [mode]);
 
+  // Handle name change and notify parent
+  const handleNameChange = (newName) => {
+    setName(newName);
+    if (showError && newName) {
+      setShowError(false);
+    }
+    if (onNameChange) {
+      onNameChange(newName);
+    }
+  };
+
+  // Handle blur to show error if empty
+  const handleNameBlur = () => {
+    if (!name) {
+      setShowError(true);
+    }
+  };
+
   const hexToRgb = (hex) => {
     const result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
     return result ? {
@@ -30,23 +56,23 @@ export default function RampExport({ ramp, mode }) {
     } : { r: 0, g: 0, b: 0 };
   };
 
-  const applyCasing = (name) => {
-    if (!name) return 'untitled';
+  const applyCasing = (nameToConvert) => {
+    if (!nameToConvert) return 'untitled';
 
     switch (casingRule) {
       case 'camel':
-        return name.replace(/[-_\s](.)/g, (_, c) => c.toUpperCase()).replace(/^(.)/, (_, c) => c.toLowerCase());
+        return nameToConvert.replace(/[-_\s](.)/g, (_, c) => c.toUpperCase()).replace(/^(.)/, (_, c) => c.toLowerCase());
       case 'pascal':
-        return name.replace(/[-_\s](.)/g, (_, c) => c.toUpperCase()).replace(/^(.)/, (_, c) => c.toUpperCase());
+        return nameToConvert.replace(/[-_\s](.)/g, (_, c) => c.toUpperCase()).replace(/^(.)/, (_, c) => c.toUpperCase());
       case 'snake':
-        return name.replace(/[-\s]/g, '_').toLowerCase();
+        return nameToConvert.replace(/[-\s]/g, '_').toLowerCase();
       case 'kebab':
       default:
-        return name.replace(/[_\s]/g, '-').toLowerCase();
+        return nameToConvert.replace(/[_\s]/g, '-').toLowerCase();
     }
   };
 
-  const rampName = applyCasing(ramp.name);
+  const rampName = applyCasing(name);
 
   // Determine if casing selector should be shown for current format
   const showCasingSelector = () => {
@@ -529,6 +555,11 @@ ${sortedStops.map((stop, i) => {
   };
 
   const downloadCode = () => {
+    if (!name) {
+      setShowError(true);
+      return;
+    }
+
     const code = getExportCode();
     const extension = getFileExtension();
     const filename = `${rampName}-ramp.${extension}`;
@@ -544,73 +575,85 @@ ${sortedStops.map((stop, i) => {
 
   return (
     <div className="space-y-4">
-      {/* Format Selector */}
-      <div className="flex items-center gap-2">
-        <select
-          value={exportFormat}
-          onChange={(e) => setExportFormat(e.target.value)}
-          className="flex-1 px-3 py-2 bg-white dark:bg-[#1a1a1a] border border-gray-200 dark:border-[#2a2a2a] rounded-md text-gray-900 dark:text-gray-100 text-sm"
-        >
-          {mode === 'scale' ? (
-            <optgroup label="Color Scales">
-              <option value="css">CSS Variables</option>
-              <option value="tokens">Design Tokens (JSON)</option>
-              <option value="figma">Figma Variables</option>
-              <option value="tailwind">Tailwind Config</option>
-              <option value="scss">SCSS Variables</option>
-            </optgroup>
-          ) : (
-            <>
-              <optgroup label="Gradients - Web">
-                <option value="css-gradient">CSS Gradient</option>
-                <option value="svg">SVG Gradient</option>
-              </optgroup>
-              <optgroup label="Gradients - iOS/macOS">
-                <option value="swiftui">SwiftUI</option>
-              </optgroup>
-              <optgroup label="Gradients - Android">
-                <option value="android-xml">XML Drawable</option>
-                <option value="compose">Jetpack Compose</option>
-              </optgroup>
-            </>
-          )}
-        </select>
+      {/* Export Controls - All in one line */}
+      <div>
+        <div className="flex items-center gap-2">
+          {/* Name Input */}
+          <div className="flex-1 min-w-0">
+            <input
+              type="text"
+              value={name}
+              onChange={(e) => handleNameChange(e.target.value)}
+              onBlur={handleNameBlur}
+              placeholder={mode === 'gradient' ? 'Name (required)' : 'Ramp name (required)'}
+              className={`w-full px-3 py-2 bg-white dark:bg-[#1a1a1a] ${
+                showError && !name ? 'border-red-500' : 'border-gray-200 dark:border-[#2a2a2a]'
+              } border rounded-md text-gray-900 dark:text-gray-100 text-sm`}
+              style={{ fontFamily: 'IBM Plex Sans, sans-serif' }}
+            />
+          </div>
 
-        {/* Casing Selector - Only for applicable formats */}
-        {showCasingSelector() && (
+          {/* Format Selector */}
           <select
-            value={casingRule}
-            onChange={(e) => setCasingRule(e.target.value)}
+            value={exportFormat}
+            onChange={(e) => setExportFormat(e.target.value)}
             className="px-3 py-2 bg-white dark:bg-[#1a1a1a] border border-gray-200 dark:border-[#2a2a2a] rounded-md text-gray-900 dark:text-gray-100 text-sm"
-            title="Naming convention"
           >
-            <option value="kebab">kebab-case</option>
-            <option value="camel">camelCase</option>
-            <option value="pascal">PascalCase</option>
-            <option value="snake">snake_case</option>
+            {mode === 'scale' ? (
+              <optgroup label="Color Scales">
+                <option value="css">CSS Variables</option>
+                <option value="tokens">Design Tokens (JSON)</option>
+                <option value="figma">Figma Variables</option>
+                <option value="tailwind">Tailwind Config</option>
+                <option value="scss">SCSS Variables</option>
+              </optgroup>
+            ) : (
+              <>
+                <optgroup label="Gradients - Web">
+                  <option value="css-gradient">CSS Gradient</option>
+                  <option value="svg">SVG Gradient</option>
+                </optgroup>
+                <optgroup label="Gradients - iOS/macOS">
+                  <option value="swiftui">SwiftUI</option>
+                </optgroup>
+                <optgroup label="Gradients - Android">
+                  <option value="android-xml">XML Drawable</option>
+                  <option value="compose">Jetpack Compose</option>
+                </optgroup>
+              </>
+            )}
           </select>
+
+          {/* Casing Selector - Only for applicable formats */}
+          {showCasingSelector() && (
+            <select
+              value={casingRule}
+              onChange={(e) => setCasingRule(e.target.value)}
+              className="px-3 py-2 bg-white dark:bg-[#1a1a1a] border border-gray-200 dark:border-[#2a2a2a] rounded-md text-gray-900 dark:text-gray-100 text-sm"
+              title="Naming convention"
+            >
+              <option value="kebab">kebab-case</option>
+              <option value="camel">camelCase</option>
+              <option value="pascal">PascalCase</option>
+              <option value="snake">snake_case</option>
+            </select>
+          )}
+
+          {/* Download Button */}
+          <button
+            onClick={downloadCode}
+            className="px-4 py-2 bg-gray-900 dark:bg-gray-100 text-white dark:text-black rounded-md hover:bg-gray-800 dark:hover:bg-gray-200 transition-colors text-sm font-medium whitespace-nowrap"
+          >
+            Download
+          </button>
+        </div>
+
+        {/* Error message below controls */}
+        {showError && !name && (
+          <p className="mt-2 text-xs text-red-500" style={{ fontFamily: 'IBM Plex Sans, sans-serif' }}>
+            Name is required for export
+          </p>
         )}
-
-        <button
-          onClick={downloadCode}
-          className="px-4 py-2 bg-gray-900 dark:bg-gray-100 text-white dark:text-black rounded-md hover:bg-gray-800 dark:hover:bg-gray-200 transition-colors text-sm font-medium"
-        >
-          Download
-        </button>
-      </div>
-
-      {/* Format Description */}
-      <div className="text-xs text-gray-600 dark:text-gray-400">
-        {exportFormat === 'css' && 'CSS custom properties with RGB values for color scales'}
-        {exportFormat === 'tokens' && 'W3C Design Tokens format with full metadata'}
-        {exportFormat === 'figma' && 'Figma-compatible token format for design handoff'}
-        {exportFormat === 'tailwind' && 'Tailwind CSS theme configuration for color scales'}
-        {exportFormat === 'scss' && 'SCSS variables and color maps for Sass projects'}
-        {exportFormat === 'css-gradient' && 'CSS linear-gradient as custom property, ready to use'}
-        {exportFormat === 'svg' && 'SVG gradient definition for use in SVG graphics'}
-        {exportFormat === 'swiftui' && 'SwiftUI LinearGradient extension for iOS/macOS apps'}
-        {exportFormat === 'android-xml' && 'Android XML gradient drawable resource'}
-        {exportFormat === 'compose' && 'Jetpack Compose Brush.linearGradient for Android'}
       </div>
 
       {/* Code Preview */}
