@@ -9,14 +9,20 @@ export default function GradientGenerator({ onGenerateGradient }) {
   ]);
   const [nextId, setNextId] = useState(3);
 
+  // Gradient Type Selection
+  const [gradientType, setGradientType] = useState('css-linear'); // 'css-linear', 'css-radial', 'css-conic', 'svg-linear', 'svg-radial'
+
   // CSS Linear Gradient Controls
-  const [gradientType, setGradientType] = useState('linear'); // 'linear' or 'radial'
   const [angle, setAngle] = useState(90); // Angle in degrees (0-360)
 
   // CSS Radial Gradient Controls
   const [radialShape, setRadialShape] = useState('circle'); // 'circle' or 'ellipse'
   const [radialSize, setRadialSize] = useState('farthest-corner'); // Size keyword
   const [radialPosition, setRadialPosition] = useState('center'); // Position keyword
+
+  // CSS Conic Gradient Controls
+  const [conicAngle, setConicAngle] = useState(0); // Starting angle in degrees (0-360)
+  const [conicPosition, setConicPosition] = useState('center'); // Position keyword
 
   // SVG Linear Gradient Coordinates (M3)
   const [svgX1, setSvgX1] = useState(0); // Start X coordinate (%)
@@ -90,8 +96,16 @@ export default function GradientGenerator({ onGenerateGradient }) {
     };
 
     // Add type-specific config
-    if (gradientType === 'linear') {
+    if (gradientType === 'css-linear') {
       gradientConfig.direction = `${angle}deg`;
+    } else if (gradientType === 'css-radial') {
+      gradientConfig.shape = radialShape;
+      gradientConfig.size = radialSize;
+      gradientConfig.position = radialPosition;
+    } else if (gradientType === 'css-conic') {
+      gradientConfig.angle = `${conicAngle}deg`;
+      gradientConfig.position = conicPosition;
+    } else if (gradientType === 'svg-linear') {
       // SVG Linear Gradient Coordinates (M3)
       gradientConfig.svg = {
         x1: svgX1,
@@ -99,10 +113,7 @@ export default function GradientGenerator({ onGenerateGradient }) {
         x2: svgX2,
         y2: svgY2
       };
-    } else if (gradientType === 'radial') {
-      gradientConfig.shape = radialShape;
-      gradientConfig.size = radialSize;
-      gradientConfig.position = radialPosition;
+    } else if (gradientType === 'svg-radial') {
       // SVG Radial Gradient Coordinates (M4)
       gradientConfig.svg = {
         cx: svgCx,
@@ -124,11 +135,17 @@ export default function GradientGenerator({ onGenerateGradient }) {
       .map(stop => `${stop.color} ${stop.position}%`)
       .join(', ');
 
-    if (gradientType === 'radial') {
+    if (gradientType === 'css-radial') {
       // Radial gradient: radial-gradient(shape size at position, color-stops)
       return `radial-gradient(${radialShape} ${radialSize} at ${radialPosition}, ${stopsStr})`;
-    } else {
+    } else if (gradientType === 'css-conic') {
+      // Conic gradient: conic-gradient(from angle at position, color-stops)
+      return `conic-gradient(from ${conicAngle}deg at ${conicPosition}, ${stopsStr})`;
+    } else if (gradientType === 'css-linear') {
       // Linear gradient
+      return `linear-gradient(${angle}deg, ${stopsStr})`;
+    } else {
+      // For SVG types, return a placeholder or linear gradient
       return `linear-gradient(${angle}deg, ${stopsStr})`;
     }
   };
@@ -156,13 +173,16 @@ export default function GradientGenerator({ onGenerateGradient }) {
             className="flex-1 px-3 py-1.5 text-sm bg-white dark:bg-[#1a1a1a] border border-gray-200 dark:border-[#2a2a2a] rounded-md text-gray-900 dark:text-gray-100"
             style={{ fontFamily: 'IBM Plex Sans, sans-serif' }}
           >
-            <option value="linear">Linear</option>
-            <option value="radial">Radial</option>
+            <option value="css-linear">CSS Linear</option>
+            <option value="css-radial">CSS Radial</option>
+            <option value="css-conic">CSS Conic</option>
+            <option value="svg-linear">SVG Linear</option>
+            <option value="svg-radial">SVG Radial</option>
           </select>
         </div>
 
-        {/* Linear Gradient Direction Controls */}
-        {gradientType === 'linear' && (
+        {/* CSS Linear Gradient Direction Controls */}
+        {gradientType === 'css-linear' && (
           <div className="space-y-2">
             {/* Angle label */}
             <label className="text-xs text-gray-600 dark:text-gray-400" style={{ fontFamily: 'IBM Plex Sans, sans-serif' }}>
@@ -190,7 +210,12 @@ export default function GradientGenerator({ onGenerateGradient }) {
               />
               <span className="text-xs text-gray-500 dark:text-gray-500 font-mono">°</span>
             </div>
+          </div>
+        )}
 
+        {/* SVG Linear Gradient Coordinate Controls */}
+        {gradientType === 'svg-linear' && (
+          <div className="space-y-2">
             {/* SVG Coordinate Controls (M3) */}
             <div className="mt-3 pt-3 border-t border-gray-200 dark:border-[#2a2a2a]">
               <h4 className="text-xs font-semibold text-gray-700 dark:text-gray-300 mb-2" style={{ fontFamily: 'IBM Plex Sans, sans-serif' }}>
@@ -296,8 +321,8 @@ export default function GradientGenerator({ onGenerateGradient }) {
           </div>
         )}
 
-        {/* Radial Gradient Controls */}
-        {gradientType === 'radial' && (
+        {/* CSS Radial Gradient Controls */}
+        {gradientType === 'css-radial' && (
           <div className="space-y-2">
             {/* Shape Selector */}
             <div className="flex items-center gap-3">
@@ -355,7 +380,67 @@ export default function GradientGenerator({ onGenerateGradient }) {
                 <option value="bottom right">Bottom Right</option>
               </select>
             </div>
+          </div>
+        )}
 
+        {/* CSS Conic Gradient Controls */}
+        {gradientType === 'css-conic' && (
+          <div className="space-y-2">
+            {/* Starting Angle */}
+            <div className="space-y-2">
+              <label className="text-xs text-gray-600 dark:text-gray-400" style={{ fontFamily: 'IBM Plex Sans, sans-serif' }}>
+                Starting Angle
+              </label>
+              <div className="flex items-center gap-3">
+                <input
+                  type="range"
+                  min="0"
+                  max="360"
+                  step="1"
+                  value={conicAngle}
+                  onChange={(e) => setConicAngle(parseInt(e.target.value))}
+                  className="flex-1 h-1 bg-gray-300 dark:bg-[#3a3a3a] rounded-full appearance-none cursor-pointer accent-gray-900 dark:accent-gray-100"
+                />
+                <input
+                  type="number"
+                  min="0"
+                  max="360"
+                  value={conicAngle}
+                  onChange={(e) => setConicAngle(parseInt(e.target.value) || 0)}
+                  className="w-20 px-3 py-1.5 bg-white dark:bg-[#1a1a1a] border border-gray-200 dark:border-[#2a2a2a] rounded text-gray-900 dark:text-gray-100 font-mono text-sm text-center"
+                />
+                <span className="text-xs text-gray-500 dark:text-gray-500 font-mono">°</span>
+              </div>
+            </div>
+
+            {/* Position Selector */}
+            <div className="flex items-center gap-3">
+              <label className="text-xs text-gray-600 dark:text-gray-400 w-16" style={{ fontFamily: 'IBM Plex Sans, sans-serif' }}>
+                Position
+              </label>
+              <select
+                value={conicPosition}
+                onChange={(e) => setConicPosition(e.target.value)}
+                className="flex-1 px-3 py-1.5 text-sm bg-white dark:bg-[#1a1a1a] border border-gray-200 dark:border-[#2a2a2a] rounded-md text-gray-900 dark:text-gray-100"
+                style={{ fontFamily: 'IBM Plex Sans, sans-serif' }}
+              >
+                <option value="center">Center</option>
+                <option value="top">Top</option>
+                <option value="bottom">Bottom</option>
+                <option value="left">Left</option>
+                <option value="right">Right</option>
+                <option value="top left">Top Left</option>
+                <option value="top right">Top Right</option>
+                <option value="bottom left">Bottom Left</option>
+                <option value="bottom right">Bottom Right</option>
+              </select>
+            </div>
+          </div>
+        )}
+
+        {/* SVG Radial Gradient Controls */}
+        {gradientType === 'svg-radial' && (
+          <div className="space-y-2">
             {/* SVG Coordinate Controls (M4) */}
             <div className="mt-3 pt-3 border-t border-gray-200 dark:border-[#2a2a2a]">
               <h4 className="text-xs font-semibold text-gray-700 dark:text-gray-300 mb-2" style={{ fontFamily: 'IBM Plex Sans, sans-serif' }}>
@@ -620,7 +705,7 @@ export default function GradientGenerator({ onGenerateGradient }) {
           <div className="space-y-2">
             <svg width="100%" height="128" className="rounded-md border border-gray-200 dark:border-[#2a2a2a]">
               <defs>
-                {gradientType === 'radial' ? (
+                {gradientType === 'svg-radial' ? (
                   <radialGradient
                     id="preview-gradient"
                     cx={`${svgCx}%`}
@@ -653,7 +738,7 @@ export default function GradientGenerator({ onGenerateGradient }) {
               <rect width="100%" height="100%" fill="url(#preview-gradient)" />
             </svg>
             <div className="text-xs text-gray-500 dark:text-gray-500">
-              SVG {gradientType}Gradient with {sortedStops.length} stops
+              SVG {gradientType === 'svg-radial' ? 'radial' : 'linear'}Gradient with {sortedStops.length} stops
             </div>
           </div>
         )}
