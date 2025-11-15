@@ -79,26 +79,6 @@ export default function RampPreview({ ramp }) {
     }
   };
 
-  const generateLegendItems = (count = 10) => {
-    const items = [];
-    const sortedStops = [...ramp.stops].sort((a, b) => a.value - b.value);
-
-    for (let i = 0; i < count; i++) {
-      const factor = i / (count - 1);
-      const value = ramp.range.min + (ramp.range.max - ramp.range.min) * factor;
-      const color = getColorAtValue(value);
-
-      items.push({
-        value: value.toFixed(ramp.range.decimals),
-        color: `rgba(${color.r}, ${color.g}, ${color.b}, ${color.alpha})`
-      });
-    }
-
-    return items;
-  };
-
-  const legendItems = generateLegendItems();
-
   return (
     <div className="space-y-6">
       {/* Gradient Canvas */}
@@ -133,7 +113,7 @@ export default function RampPreview({ ramp }) {
                   style={{ backgroundColor: stop.color, opacity: stop.alpha }}
                 />
                 <div className="text-xs font-mono text-gray-600 dark:text-gray-400 mt-1">
-                  {stop.value.toFixed(ramp.range.decimals)}
+                  {index + 1}
                 </div>
               </div>
             );
@@ -141,46 +121,11 @@ export default function RampPreview({ ramp }) {
         </div>
       </div>
 
-      {/* Legend */}
-      <div>
-        <h3 className="text-sm font-semibold mb-3 text-gray-900 dark:text-gray-100">Legend</h3>
-        <div className="space-y-1">
-          {legendItems.map((item, index) => (
-            <div key={index} className="flex items-center gap-3">
-              <div
-                className="w-12 h-6 rounded border border-gray-200 dark:border-[#2a2a2a]"
-                style={{
-                  backgroundColor: item.color,
-                  backgroundImage: 'repeating-conic-gradient(#ddd 0% 25%, transparent 0% 50%) 50% / 10px 10px'
-                }}
-              />
-              <span className="text-sm font-mono text-gray-700 dark:text-gray-300">
-                {item.value}
-              </span>
-            </div>
-          ))}
-        </div>
-      </div>
-
       {/* Statistics */}
-      <div className="grid grid-cols-3 gap-3">
-        <div className="p-3 bg-gray-50 dark:bg-[#0a0a0a] rounded-lg">
-          <div className="text-xs text-gray-600 dark:text-gray-400 mb-1">Stops</div>
-          <div className="text-lg font-bold text-gray-900 dark:text-gray-100">
-            {ramp.stops.length}
-          </div>
-        </div>
-        <div className="p-3 bg-gray-50 dark:bg-[#0a0a0a] rounded-lg">
-          <div className="text-xs text-gray-600 dark:text-gray-400 mb-1">Min value</div>
-          <div className="text-lg font-bold font-mono text-gray-900 dark:text-gray-100">
-            {ramp.range.min}
-          </div>
-        </div>
-        <div className="p-3 bg-gray-50 dark:bg-[#0a0a0a] rounded-lg">
-          <div className="text-xs text-gray-600 dark:text-gray-400 mb-1">Max value</div>
-          <div className="text-lg font-bold font-mono text-gray-900 dark:text-gray-100">
-            {ramp.range.max}
-          </div>
+      <div className="p-3 bg-gray-50 dark:bg-[#0a0a0a] rounded-lg">
+        <div className="text-xs text-gray-600 dark:text-gray-400 mb-1">Total steps</div>
+        <div className="text-lg font-bold text-gray-900 dark:text-gray-100">
+          {ramp.stops.length}
         </div>
       </div>
     </div>
