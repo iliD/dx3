@@ -1,9 +1,11 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import ColorPicker from '@/components/colour/ColorPicker';
 import ColorInputs from '@/components/colour/ColorInputs';
 import ColorPalette from '@/components/colour/ColorPalette';
+import ColorWheel from '@/components/colour/ColorWheel';
+import ShadesTints from '@/components/colour/ShadesTints';
 import AccessibilityChecker from '@/components/colour/AccessibilityChecker';
 import ExportPanel from '@/components/colour/ExportPanel';
 import { converter, formatHex, formatRgb, formatHsl } from 'culori';
@@ -29,6 +31,18 @@ export default function ColourPage() {
   const [selectedPaletteIndex, setSelectedPaletteIndex] = useState(0);
   const [colorSpace, setColorSpace] = useState('oklch');
   const [contrastCheckColor, setContrastCheckColor] = useState('#ffffff');
+  const [harmony, setHarmony] = useState('none');
+
+  useEffect(() => {
+    // Listen for harmony colors to be added to palette
+    const handleAddHarmony = (event) => {
+      const colors = event.detail;
+      setPalette([...palette, ...colors]);
+    };
+
+    window.addEventListener('addHarmonyToPalette', handleAddHarmony);
+    return () => window.removeEventListener('addHarmonyToPalette', handleAddHarmony);
+  }, [palette]);
 
   const updateColor = (newColor) => {
     setCurrentColor(newColor);
@@ -44,6 +58,10 @@ export default function ColourPage() {
   const addColorToPalette = () => {
     setPalette([...palette, currentColor.hex]);
     setSelectedPaletteIndex(palette.length);
+  };
+
+  const addMultipleColorsToPalette = (colors) => {
+    setPalette([...palette, ...colors]);
   };
 
   const removeColorFromPalette = (index) => {
@@ -79,6 +97,25 @@ export default function ColourPage() {
               color={currentColor}
               onChange={updateColor}
               colorSpace={colorSpace}
+            />
+          </div>
+
+          <div className="border border-gray-200 dark:border-[#2a2a2a] rounded-lg p-6">
+            <h2 className="text-lg font-semibold mb-4 text-gray-900 dark:text-gray-100">Color wheel & harmony</h2>
+            <ColorWheel
+              color={currentColor}
+              onChange={updateColor}
+              harmony={harmony}
+              onHarmonyChange={setHarmony}
+            />
+          </div>
+
+          <div className="border border-gray-200 dark:border-[#2a2a2a] rounded-lg p-6">
+            <h2 className="text-lg font-semibold mb-4 text-gray-900 dark:text-gray-100">Shades & tints</h2>
+            <ShadesTints
+              color={currentColor}
+              onChange={updateColor}
+              onAddToPalette={addMultipleColorsToPalette}
             />
           </div>
 
