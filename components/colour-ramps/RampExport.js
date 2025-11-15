@@ -359,12 +359,70 @@ ${sortedStops.map((stop, i) => {
 </svg>`;
   };
 
+  const generateGradientTokens = () => {
+    // M5: Design Token Structure for gradients
+    if (mode === 'gradient' && ramp.stops[0].hasOwnProperty('position')) {
+      const sortedStops = [...ramp.stops].sort((a, b) => a.position - b.position);
+
+      const token = {
+        [rampName]: {
+          type: 'gradient',
+          value: {
+            type: ramp.type,
+            stops: sortedStops.map(stop => ({
+              color: stop.color,
+              position: stop.position,
+              alpha: stop.alpha || 1
+            }))
+          },
+          metadata: {
+            created: new Date().toISOString(),
+            version: '1.0.0',
+            description: `${rampName.charAt(0).toUpperCase() + rampName.slice(1)} gradient`
+          }
+        }
+      };
+
+      // Add type-specific properties
+      if (ramp.type === 'linear') {
+        token[rampName].value.direction = ramp.direction || 'to right';
+        if (ramp.svg) {
+          token[rampName].value.svg = {
+            x1: ramp.svg.x1,
+            y1: ramp.svg.y1,
+            x2: ramp.svg.x2,
+            y2: ramp.svg.y2
+          };
+        }
+      } else if (ramp.type === 'radial') {
+        token[rampName].value.shape = ramp.shape || 'circle';
+        token[rampName].value.size = ramp.size || 'farthest-corner';
+        token[rampName].value.position = ramp.position || 'center';
+        if (ramp.svg) {
+          token[rampName].value.svg = {
+            cx: ramp.svg.cx,
+            cy: ramp.svg.cy,
+            r: ramp.svg.r,
+            fx: ramp.svg.fx,
+            fy: ramp.svg.fy,
+            gradientUnits: ramp.svg.gradientUnits
+          };
+        }
+      }
+
+      return JSON.stringify(token, null, 2);
+    }
+
+    // Fallback for ramp mode - use existing generateDesignTokens
+    return generateDesignTokens();
+  };
+
   const getExportCode = () => {
     switch (exportFormat) {
       case 'css':
         return generateCSS();
       case 'tokens':
-        return generateDesignTokens();
+        return mode === 'gradient' ? generateGradientTokens() : generateDesignTokens();
       case 'figma':
         return generateFigma();
       case 'tailwind':
