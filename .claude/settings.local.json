@@ -13,7 +13,8 @@
       "Bash(xargs kill:*)",
       "Bash(npm run dev:*)",
       "Bash(curl:*)",
-      "Bash(npm install:*)"
+      "Bash(npm install:*)",
+      "Bash(radial\",\n      \"stops\": [{color, position, alpha}],\n      \"direction\": \"CSS direction\",\n      \"svg\": {SVG coordinates}\n    },\n    \"metadata\": {\n      \"created\": \"ISO timestamp\",\n      \"version\": \"1.0.0\",\n      \"description\": \"Gradient description\"\n    }\n  }\n}\n\nM5 Requirements Met:\n✅ Design token structure for gradients\n✅ JSON format with metadata\n✅ Type-specific properties (linear/radial)\n✅ SVG coordinate inclusion\n✅ Versioning and timestamps\n✅ Human-readable formatting\n✅ Backward compatible with ramp tokens\n\n🤖 Generated with [Claude Code](https://claude.com/claude-code)\n\nCo-Authored-By: Claude <noreply@anthropic.com>\nEOF\n)\")"
     ],
     "deny": [],
     "ask": []
