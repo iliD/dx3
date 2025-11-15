@@ -5,6 +5,7 @@ import ColorRampEditor from '@/components/colour-ramps/ColorRampEditor';
 import RampPreview from '@/components/colour-ramps/RampPreview';
 import RampTemplates from '@/components/colour-ramps/RampTemplates';
 import RampExport from '@/components/colour-ramps/RampExport';
+import SteppedRampGenerator from '@/components/colour-ramps/SteppedRampGenerator';
 
 export default function ColourRampsPage() {
   const [ramp, setRamp] = useState({
@@ -57,6 +58,10 @@ export default function ColourRampsPage() {
     setRamp(template);
   };
 
+  const generateFromSteps = (generatedRamp) => {
+    setRamp(generatedRamp);
+  };
+
   return (
     <div className="py-12 bg-white dark:bg-[#1a1a1a]">
       {/* Hero Section */}
@@ -74,6 +79,11 @@ export default function ColourRampsPage() {
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-8" style={{ marginLeft: 'clamp(1.5rem, 8vw, 6rem)', marginRight: 'clamp(1.5rem, 8vw, 6rem)' }}>
         {/* Left Column - Editor & Templates */}
         <div className="lg:col-span-5 space-y-6">
+          <div className="border border-gray-200 dark:border-[#2a2a2a] rounded-lg p-6">
+            <h2 className="text-lg font-semibold mb-4 text-gray-900 dark:text-gray-100">Stepped ramp generator</h2>
+            <SteppedRampGenerator onGenerateRamp={generateFromSteps} />
+          </div>
+
           <div className="border border-gray-200 dark:border-[#2a2a2a] rounded-lg p-6">
             <h2 className="text-lg font-semibold mb-4 text-gray-900 dark:text-gray-100">Templates</h2>
             <RampTemplates onLoadTemplate={loadTemplate} />
