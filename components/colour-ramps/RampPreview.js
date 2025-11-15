@@ -79,54 +79,48 @@ export default function RampPreview({ ramp }) {
     }
   };
 
+  const sortedStops = [...ramp.stops].sort((a, b) => a.value - b.value);
+
   return (
-    <div className="space-y-6">
-      {/* Gradient Canvas */}
+    <div className="space-y-4">
+      {/* Discrete Steps Preview */}
       <div>
-        <h3 className="text-sm font-semibold mb-3 text-gray-900 dark:text-gray-100">Gradient</h3>
+        <div className="flex items-center justify-between mb-2">
+          <h3 className="text-sm font-medium text-gray-900 dark:text-gray-100">Color steps</h3>
+          <span className="text-xs text-gray-500 dark:text-gray-500 font-mono">
+            {sortedStops.length} steps
+          </span>
+        </div>
+        <div className="flex h-16 rounded-md overflow-hidden border border-gray-200 dark:border-[#2a2a2a]">
+          {sortedStops.map((stop, index) => (
+            <div
+              key={index}
+              className="flex-1 relative group"
+              style={{ backgroundColor: stop.color, opacity: stop.alpha }}
+              title={`Step ${index + 1}: ${stop.color}`}
+            >
+              <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity bg-black/20">
+                <span className="text-xs font-mono text-white font-medium">
+                  {index + 1}
+                </span>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      {/* Smooth Gradient Preview */}
+      <div>
+        <h3 className="text-sm font-medium mb-2 text-gray-900 dark:text-gray-100">Interpolated gradient</h3>
         <canvas
           ref={canvasRef}
           width={800}
-          height={60}
-          className="w-full h-16 rounded-lg border border-gray-200 dark:border-[#2a2a2a]"
+          height={48}
+          className="w-full h-12 rounded-md border border-gray-200 dark:border-[#2a2a2a]"
           style={{
-            imageRendering: 'pixelated',
-            background: 'repeating-conic-gradient(#ddd 0% 25%, transparent 0% 50%) 50% / 20px 20px'
+            imageRendering: 'auto'
           }}
         />
-      </div>
-
-      {/* Color Stops Visualization */}
-      <div>
-        <h3 className="text-sm font-semibold mb-3 text-gray-900 dark:text-gray-100">Color stops</h3>
-        <div className="relative h-12 bg-gray-100 dark:bg-[#0a0a0a] rounded-lg border border-gray-200 dark:border-[#2a2a2a]">
-          {[...ramp.stops].sort((a, b) => a.value - b.value).map((stop, index) => {
-            const position = ((stop.value - ramp.range.min) / (ramp.range.max - ramp.range.min)) * 100;
-            return (
-              <div
-                key={index}
-                className="absolute top-1/2 -translate-y-1/2 -translate-x-1/2 flex flex-col items-center"
-                style={{ left: `${position}%` }}
-              >
-                <div
-                  className="w-6 h-6 rounded-full border-2 border-white shadow-lg"
-                  style={{ backgroundColor: stop.color, opacity: stop.alpha }}
-                />
-                <div className="text-xs font-mono text-gray-600 dark:text-gray-400 mt-1">
-                  {index + 1}
-                </div>
-              </div>
-            );
-          })}
-        </div>
-      </div>
-
-      {/* Statistics */}
-      <div className="p-3 bg-gray-50 dark:bg-[#0a0a0a] rounded-lg">
-        <div className="text-xs text-gray-600 dark:text-gray-400 mb-1">Total steps</div>
-        <div className="text-lg font-bold text-gray-900 dark:text-gray-100">
-          {ramp.stops.length}
-        </div>
       </div>
     </div>
   );

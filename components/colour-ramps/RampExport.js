@@ -1,11 +1,25 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import CodeBlock from '@/components/CodeBlock';
 
-export default function RampExport({ ramp }) {
-  const [exportFormat, setExportFormat] = useState('css');
+export default function RampExport({ ramp, mode }) {
+  // Set initial format based on mode
+  const getInitialFormat = () => {
+    return mode === 'gradient' ? 'css-gradient' : 'css';
+  };
+
+  const [exportFormat, setExportFormat] = useState(getInitialFormat());
   const [rampName, setRampName] = useState('primary');
+
+  // Update export format when mode changes
+  useEffect(() => {
+    if (mode === 'gradient') {
+      setExportFormat('css-gradient');
+    } else {
+      setExportFormat('css');
+    }
+  }, [mode]);
 
   const hexToRgb = (hex) => {
     const result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
@@ -337,24 +351,29 @@ ${sortedStops.map((stop, i) => {
           onChange={(e) => setExportFormat(e.target.value)}
           className="flex-1 px-3 py-2 bg-white dark:bg-[#1a1a1a] border border-gray-200 dark:border-[#2a2a2a] rounded-md text-gray-900 dark:text-gray-100 text-sm"
         >
-          <optgroup label="Color Scales">
-            <option value="css">CSS Variables</option>
-            <option value="tokens">Design Tokens (JSON)</option>
-            <option value="figma">Figma Variables</option>
-            <option value="tailwind">Tailwind Config</option>
-            <option value="scss">SCSS Variables</option>
-          </optgroup>
-          <optgroup label="Gradients - Web">
-            <option value="css-gradient">CSS Gradient</option>
-            <option value="svg">SVG Gradient</option>
-          </optgroup>
-          <optgroup label="Gradients - iOS/macOS">
-            <option value="swiftui">SwiftUI</option>
-          </optgroup>
-          <optgroup label="Gradients - Android">
-            <option value="android-xml">XML Drawable</option>
-            <option value="compose">Jetpack Compose</option>
-          </optgroup>
+          {mode === 'scale' ? (
+            <optgroup label="Color Scales">
+              <option value="css">CSS Variables</option>
+              <option value="tokens">Design Tokens (JSON)</option>
+              <option value="figma">Figma Variables</option>
+              <option value="tailwind">Tailwind Config</option>
+              <option value="scss">SCSS Variables</option>
+            </optgroup>
+          ) : (
+            <>
+              <optgroup label="Gradients - Web">
+                <option value="css-gradient">CSS Gradient</option>
+                <option value="svg">SVG Gradient</option>
+              </optgroup>
+              <optgroup label="Gradients - iOS/macOS">
+                <option value="swiftui">SwiftUI</option>
+              </optgroup>
+              <optgroup label="Gradients - Android">
+                <option value="android-xml">XML Drawable</option>
+                <option value="compose">Jetpack Compose</option>
+              </optgroup>
+            </>
+          )}
         </select>
         <button
           onClick={downloadCode}
