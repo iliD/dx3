@@ -233,40 +233,13 @@ export default function SteppedRampGenerator({ onGenerateRamp }) {
         )}
       </div>
 
-      {/* Horizontal Legend View */}
-      <div>
-        <label className="block text-sm font-semibold mb-3 text-gray-900 dark:text-gray-100">
-          Horizontal legend
-        </label>
-        <div className="space-y-2">
-          {colors.map((color, index) => (
-            <div key={index} className="flex items-center gap-3">
-              <div
-                className="w-16 h-6 rounded border border-gray-200 dark:border-[#2a2a2a]"
-                style={{ backgroundColor: color.hex }}
-              />
-              <span className="text-sm font-mono text-gray-700 dark:text-gray-300">
-                {color.hex}
-              </span>
-              <span className="text-xs text-gray-500 dark:text-gray-500">
-                Step {index + 1}
-              </span>
-            </div>
-          ))}
-        </div>
-      </div>
-
       {/* Generate Button */}
       <button
         onClick={handleGenerate}
         className="w-full px-4 py-3 bg-gray-900 dark:bg-gray-100 text-white dark:text-black rounded-md hover:bg-gray-800 dark:hover:bg-gray-200 transition-colors font-medium"
       >
-        Generate ramp from these steps
+        Use this ramp
       </button>
-
-      <p className="text-xs text-gray-500 dark:text-gray-500">
-        This will replace the current color stops with the stepped colors shown above.
-      </p>
     </div>
   );
 }

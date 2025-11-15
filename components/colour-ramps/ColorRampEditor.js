@@ -3,41 +3,6 @@
 export default function ColorRampEditor({ stops, range, onUpdateStop, onRemoveStop, onUpdateRange }) {
   return (
     <div className="space-y-6">
-      {/* Range Configuration */}
-      <div className="space-y-4 pb-6 border-b border-gray-200 dark:border-[#2a2a2a]">
-        <h3 className="text-sm font-semibold text-gray-900 dark:text-gray-100">Value range</h3>
-        <div className="grid grid-cols-3 gap-3">
-          <div>
-            <label className="block text-xs text-gray-600 dark:text-gray-400 mb-1">Min value</label>
-            <input
-              type="number"
-              value={range.min}
-              onChange={(e) => onUpdateRange({ min: parseFloat(e.target.value) || 0 })}
-              className="w-full px-3 py-2 bg-white dark:bg-[#1a1a1a] border border-gray-200 dark:border-[#2a2a2a] rounded-md text-gray-900 dark:text-gray-100 text-sm font-mono"
-            />
-          </div>
-          <div>
-            <label className="block text-xs text-gray-600 dark:text-gray-400 mb-1">Max value</label>
-            <input
-              type="number"
-              value={range.max}
-              onChange={(e) => onUpdateRange({ max: parseFloat(e.target.value) || 100 })}
-              className="w-full px-3 py-2 bg-white dark:bg-[#1a1a1a] border border-gray-200 dark:border-[#2a2a2a] rounded-md text-gray-900 dark:text-gray-100 text-sm font-mono"
-            />
-          </div>
-          <div>
-            <label className="block text-xs text-gray-600 dark:text-gray-400 mb-1">Decimals</label>
-            <input
-              type="number"
-              min="0"
-              max="5"
-              value={range.decimals}
-              onChange={(e) => onUpdateRange({ decimals: parseInt(e.target.value) || 0 })}
-              className="w-full px-3 py-2 bg-white dark:bg-[#1a1a1a] border border-gray-200 dark:border-[#2a2a2a] rounded-md text-gray-900 dark:text-gray-100 text-sm font-mono"
-            />
-          </div>
-        </div>
-      </div>
 
       {/* Color Stops */}
       <div className="space-y-3">
@@ -54,18 +19,6 @@ export default function ColorRampEditor({ stops, range, onUpdateStop, onRemoveSt
               className="w-12 h-12 rounded border border-gray-200 dark:border-[#2a2a2a] cursor-pointer"
             />
 
-            {/* Value Input */}
-            <div className="flex-1">
-              <label className="block text-xs text-gray-600 dark:text-gray-400 mb-1">Value</label>
-              <input
-                type="number"
-                value={stop.value}
-                onChange={(e) => onUpdateStop(index, { value: parseFloat(e.target.value) || 0 })}
-                step={range.decimals > 0 ? Math.pow(10, -range.decimals) : 1}
-                className="w-full px-3 py-2 bg-white dark:bg-[#1a1a1a] border border-gray-200 dark:border-[#2a2a2a] rounded-md text-gray-900 dark:text-gray-100 text-sm font-mono"
-              />
-            </div>
-
             {/* Color Hex Input */}
             <div className="flex-1">
               <label className="block text-xs text-gray-600 dark:text-gray-400 mb-1">Color</label>
@@ -77,18 +30,12 @@ export default function ColorRampEditor({ stops, range, onUpdateStop, onRemoveSt
               />
             </div>
 
-            {/* Alpha Input */}
+            {/* Step Label */}
             <div className="w-20">
-              <label className="block text-xs text-gray-600 dark:text-gray-400 mb-1">Alpha</label>
-              <input
-                type="number"
-                min="0"
-                max="1"
-                step="0.1"
-                value={stop.alpha}
-                onChange={(e) => onUpdateStop(index, { alpha: parseFloat(e.target.value) || 1 })}
-                className="w-full px-3 py-2 bg-white dark:bg-[#1a1a1a] border border-gray-200 dark:border-[#2a2a2a] rounded-md text-gray-900 dark:text-gray-100 text-sm font-mono"
-              />
+              <label className="block text-xs text-gray-600 dark:text-gray-400 mb-1">Step</label>
+              <div className="px-3 py-2 text-center bg-gray-100 dark:bg-[#0a0a0a] border border-gray-200 dark:border-[#2a2a2a] rounded-md text-gray-900 dark:text-gray-100 text-sm font-mono">
+                {index + 1}
+              </div>
             </div>
 
             {/* Remove Button */}

@@ -3,7 +3,6 @@
 import { useState } from 'react';
 import ColorRampEditor from '@/components/colour-ramps/ColorRampEditor';
 import RampPreview from '@/components/colour-ramps/RampPreview';
-import RampTemplates from '@/components/colour-ramps/RampTemplates';
 import RampExport from '@/components/colour-ramps/RampExport';
 import SteppedRampGenerator from '@/components/colour-ramps/SteppedRampGenerator';
 
@@ -54,10 +53,6 @@ export default function ColourRampsPage() {
     setRamp({ ...ramp, range: { ...ramp.range, ...updates } });
   };
 
-  const loadTemplate = (template) => {
-    setRamp(template);
-  };
-
   const generateFromSteps = (generatedRamp) => {
     setRamp(generatedRamp);
   };
@@ -71,32 +66,27 @@ export default function ColourRampsPage() {
             Colour ramp generator
           </h1>
           <p className="text-xl text-gray-600 dark:text-gray-400 mb-8">
-            Create custom color gradients for data visualization, mapping, and GIS applications. Export to multiple formats including HTML, JSON, CSS, SLD, QGIS, and Google Earth Engine.
+            Create stepped color ramps for design systems. Export to CSS variables, design tokens, and Figma.
           </p>
         </div>
       </section>
 
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-8" style={{ marginLeft: 'clamp(1.5rem, 8vw, 6rem)', marginRight: 'clamp(1.5rem, 8vw, 6rem)' }}>
-        {/* Left Column - Editor & Templates */}
+        {/* Left Column - Generator & Editor */}
         <div className="lg:col-span-5 space-y-6">
           <div className="border border-gray-200 dark:border-[#2a2a2a] rounded-lg p-6">
-            <h2 className="text-lg font-semibold mb-4 text-gray-900 dark:text-gray-100">Stepped ramp generator</h2>
+            <h2 className="text-lg font-semibold mb-4 text-gray-900 dark:text-gray-100">Create ramp</h2>
             <SteppedRampGenerator onGenerateRamp={generateFromSteps} />
           </div>
 
           <div className="border border-gray-200 dark:border-[#2a2a2a] rounded-lg p-6">
-            <h2 className="text-lg font-semibold mb-4 text-gray-900 dark:text-gray-100">Templates</h2>
-            <RampTemplates onLoadTemplate={loadTemplate} />
-          </div>
-
-          <div className="border border-gray-200 dark:border-[#2a2a2a] rounded-lg p-6">
             <div className="flex items-center justify-between mb-4">
-              <h2 className="text-lg font-semibold text-gray-900 dark:text-gray-100">Color stops</h2>
+              <h2 className="text-lg font-semibold text-gray-900 dark:text-gray-100">Adjust colors</h2>
               <button
                 onClick={addStop}
                 className="px-3 py-1.5 text-sm bg-gray-900 dark:bg-gray-100 text-white dark:text-black rounded-md hover:bg-gray-800 dark:hover:bg-gray-200 transition-colors"
               >
-                Add stop
+                Add step
               </button>
             </div>
             <ColorRampEditor
