@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useMemo } from 'react';
 
 export default function GradientGenerator({ onGenerateGradient }) {
   const [colorStops, setColorStops] = useState([
@@ -157,6 +157,38 @@ export default function GradientGenerator({ onGenerateGradient }) {
   };
 
   const sortedStops = [...colorStops].sort((a, b) => a.position - b.position);
+
+  // Memoized gradient generation for real-time preview updates
+  const liveGradient = useMemo(() => generateCSSGradient(), [
+    gradientType,
+    colorStops,
+    angle,
+    radialShape,
+    radialSize,
+    radialPosition,
+    conicAngle,
+    conicPosition
+  ]);
+
+  // Determine preview layout based on gradient type
+  const previewConfig = useMemo(() => {
+    if (gradientType === 'css-linear') {
+      return {
+        height: 'h-12',
+        label: 'Linear gradient preview'
+      };
+    } else if (gradientType === 'css-radial' || gradientType === 'css-conic') {
+      return {
+        height: 'h-48',
+        label: `${gradientType === 'css-radial' ? 'Radial' : 'Conic'} gradient preview`
+      };
+    } else {
+      return {
+        height: 'h-32',
+        label: 'SVG gradient preview'
+      };
+    }
+  }, [gradientType]);
 
   return (
     <div className="space-y-4">
@@ -690,12 +722,21 @@ export default function GradientGenerator({ onGenerateGradient }) {
         {/* CSS Preview */}
         {previewTab === 'css' && (
           <div className="space-y-2">
+            {/* Interactive preview with type-specific layout */}
             <div
-              className="w-full h-32 rounded-md border border-gray-200 dark:border-[#2a2a2a]"
-              style={{ background: generateCSSGradient() }}
+              className={`w-full ${previewConfig.height} rounded-md border border-gray-200 dark:border-[#2a2a2a] transition-all duration-200 ease-in-out`}
+              style={{ background: liveGradient }}
+              title={previewConfig.label}
             />
-            <div className="text-xs text-gray-500 dark:text-gray-500 font-mono p-2 bg-gray-50 dark:bg-[#0a0a0a] rounded">
-              {generateCSSGradient()}
+
+            {/* Gradient code display */}
+            <div className="space-y-1">
+              <div className="text-xs text-gray-600 dark:text-gray-400" style={{ fontFamily: 'IBM Plex Sans, sans-serif' }}>
+                CSS Code
+              </div>
+              <div className="text-xs text-gray-500 dark:text-gray-500 font-mono p-2 bg-gray-50 dark:bg-[#0a0a0a] rounded break-all">
+                {liveGradient}
+              </div>
             </div>
           </div>
         )}
@@ -703,7 +744,12 @@ export default function GradientGenerator({ onGenerateGradient }) {
         {/* SVG Preview */}
         {previewTab === 'svg' && (
           <div className="space-y-2">
-            <svg width="100%" height="128" className="rounded-md border border-gray-200 dark:border-[#2a2a2a]">
+            {/* SVG gradient visualization */}
+            <svg
+              width="100%"
+              height={previewConfig.height === 'h-48' ? '192' : '128'}
+              className="rounded-md border border-gray-200 dark:border-[#2a2a2a]"
+            >
               <defs>
                 {gradientType === 'svg-radial' ? (
                   <radialGradient
@@ -724,7 +770,13 @@ export default function GradientGenerator({ onGenerateGradient }) {
                     ))}
                   </radialGradient>
                 ) : (
-                  <linearGradient id="preview-gradient" x1={`${svgX1}%`} y1={`${svgY1}%`} x2={`${svgX2}%`} y2={`${svgY2}%`}>
+                  <linearGradient
+                    id="preview-gradient"
+                    x1={`${svgX1}%`}
+                    y1={`${svgY1}%`}
+                    x2={`${svgX2}%`}
+                    y2={`${svgY2}%`}
+                  >
                     {generateSVGGradient().map((stop, i) => (
                       <stop
                         key={i}
@@ -737,8 +789,17 @@ export default function GradientGenerator({ onGenerateGradient }) {
               </defs>
               <rect width="100%" height="100%" fill="url(#preview-gradient)" />
             </svg>
-            <div className="text-xs text-gray-500 dark:text-gray-500">
-              SVG {gradientType === 'svg-radial' ? 'radial' : 'linear'}Gradient with {sortedStops.length} stops
+
+            {/* SVG info display */}
+            <div className="space-y-1">
+              <div className="text-xs text-gray-600 dark:text-gray-400" style={{ fontFamily: 'IBM Plex Sans, sans-serif' }}>
+                SVG Details
+              </div>
+              <div className="text-xs text-gray-500 dark:text-gray-500 font-mono p-2 bg-gray-50 dark:bg-[#0a0a0a] rounded">
+                {gradientType === 'svg-radial' ? 'radialGradient' : 'linearGradient'} • {sortedStops.length} stops
+                {gradientType === 'svg-radial' && ` • cx:${svgCx}% cy:${svgCy}% r:${svgR}%`}
+                {gradientType === 'svg-linear' && ` • x1:${svgX1}% y1:${svgY1}% x2:${svgX2}% y2:${svgY2}%`}
+              </div>
             </div>
           </div>
         )}
