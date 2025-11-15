@@ -110,6 +110,119 @@ ${sortedStops.map((stop, i) => {
 );`;
   };
 
+  const generateCSSGradient = () => {
+    const sortedStops = [...ramp.stops].sort((a, b) => a.value - b.value);
+
+    return `:root {
+  /* ${rampName.charAt(0).toUpperCase() + rampName.slice(1)} Gradient */
+  --${rampName}-gradient: linear-gradient(
+    to right,
+${sortedStops.map((stop, i) => {
+  const percent = (i / (sortedStops.length - 1)) * 100;
+  return `    ${stop.color} ${percent.toFixed(1)}%`;
+}).join(',\n')}
+  );
+}
+
+/* Usage example */
+.${rampName}-bg {
+  background: var(--${rampName}-gradient);
+}`;
+  };
+
+  const generateSwiftUI = () => {
+    const sortedStops = [...ramp.stops].sort((a, b) => a.value - b.value);
+
+    return `// SwiftUI LinearGradient
+// ${rampName.charAt(0).toUpperCase() + rampName.slice(1)} Gradient
+
+import SwiftUI
+
+extension LinearGradient {
+    static var ${rampName}: LinearGradient {
+        LinearGradient(
+            gradient: Gradient(colors: [
+${sortedStops.map(stop => {
+  const rgb = hexToRgb(stop.color);
+  return `                Color(red: ${(rgb.r / 255).toFixed(3)}, green: ${(rgb.g / 255).toFixed(3)}, blue: ${(rgb.b / 255).toFixed(3)})`;
+}).join(',\n')}
+            ]),
+            startPoint: .leading,
+            endPoint: .trailing
+        )
+    }
+}
+
+// Usage:
+// Rectangle()
+//     .fill(LinearGradient.${rampName})`;
+  };
+
+  const generateAndroidXML = () => {
+    const sortedStops = [...ramp.stops].sort((a, b) => a.value - b.value);
+
+    return `<?xml version="1.0" encoding="utf-8"?>
+<!-- ${rampName.charAt(0).toUpperCase() + rampName.slice(1)} Gradient -->
+<!-- Save as: drawable/${rampName}_gradient.xml -->
+<shape xmlns:android="http://schemas.android.com/apk/res/android"
+    android:shape="rectangle">
+    <gradient
+        android:type="linear"
+        android:angle="0"
+${sortedStops.map((stop, i) => {
+  if (i === 0) return `        android:startColor="${stop.color}"`;
+  if (i === sortedStops.length - 1) return `        android:endColor="${stop.color}"`;
+  return `        android:centerColor="${stop.color}"`;
+}).join('\n')}
+    />
+</shape>`;
+  };
+
+  const generateKotlinCompose = () => {
+    const sortedStops = [...ramp.stops].sort((a, b) => a.value - b.value);
+
+    return `// Jetpack Compose Gradient
+// ${rampName.charAt(0).toUpperCase() + rampName.slice(1)} Gradient
+
+import androidx.compose.ui.graphics.Brush
+import androidx.compose.ui.graphics.Color
+
+val ${rampName}Gradient = Brush.linearGradient(
+    colors = listOf(
+${sortedStops.map(stop => {
+  const rgb = hexToRgb(stop.color);
+  return `        Color(0xFF${stop.color.substring(1).toUpperCase()})`;
+}).join(',\n')}
+    )
+)
+
+// Usage:
+// Box(
+//     modifier = Modifier
+//         .fillMaxWidth()
+//         .background(${rampName}Gradient)
+// )`;
+  };
+
+  const generateSVG = () => {
+    const sortedStops = [...ramp.stops].sort((a, b) => a.value - b.value);
+
+    return `<!-- SVG Linear Gradient Definition -->
+<svg width="400" height="100" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="${rampName}Gradient" x1="0%" y1="0%" x2="100%" y2="0%">
+${sortedStops.map((stop, i) => {
+  const percent = (i / (sortedStops.length - 1)) * 100;
+  return `      <stop offset="${percent.toFixed(1)}%" style="stop-color:${stop.color};stop-opacity:1" />`;
+}).join('\n')}
+    </linearGradient>
+  </defs>
+
+  <!-- Usage example -->
+  <rect width="400" height="100" fill="url(#${rampName}Gradient)" />
+</svg>`;
+  };
+
   const getExportCode = () => {
     switch (exportFormat) {
       case 'css':
@@ -122,6 +235,16 @@ ${sortedStops.map((stop, i) => {
         return generateTailwind();
       case 'scss':
         return generateSCSS();
+      case 'css-gradient':
+        return generateCSSGradient();
+      case 'swiftui':
+        return generateSwiftUI();
+      case 'android-xml':
+        return generateAndroidXML();
+      case 'compose':
+        return generateKotlinCompose();
+      case 'svg':
+        return generateSVG();
       default:
         return '';
     }
@@ -131,12 +254,19 @@ ${sortedStops.map((stop, i) => {
     switch (exportFormat) {
       case 'css':
       case 'scss':
+      case 'css-gradient':
         return 'css';
       case 'tailwind':
         return 'javascript';
       case 'tokens':
       case 'figma':
         return 'json';
+      case 'swiftui':
+      case 'compose':
+        return 'swift';
+      case 'android-xml':
+      case 'svg':
+        return 'xml';
       default:
         return 'text';
     }
@@ -145,6 +275,7 @@ ${sortedStops.map((stop, i) => {
   const getFileExtension = () => {
     switch (exportFormat) {
       case 'css':
+      case 'css-gradient':
         return 'css';
       case 'scss':
         return 'scss';
@@ -153,6 +284,14 @@ ${sortedStops.map((stop, i) => {
       case 'tokens':
       case 'figma':
         return 'json';
+      case 'swiftui':
+        return 'swift';
+      case 'android-xml':
+        return 'xml';
+      case 'compose':
+        return 'kt';
+      case 'svg':
+        return 'svg';
       default:
         return 'txt';
     }
@@ -198,11 +337,24 @@ ${sortedStops.map((stop, i) => {
           onChange={(e) => setExportFormat(e.target.value)}
           className="flex-1 px-3 py-2 bg-white dark:bg-[#1a1a1a] border border-gray-200 dark:border-[#2a2a2a] rounded-md text-gray-900 dark:text-gray-100 text-sm"
         >
-          <option value="css">CSS Variables</option>
-          <option value="tokens">Design Tokens (JSON)</option>
-          <option value="figma">Figma Variables</option>
-          <option value="tailwind">Tailwind Config</option>
-          <option value="scss">SCSS Variables</option>
+          <optgroup label="Color Scales">
+            <option value="css">CSS Variables</option>
+            <option value="tokens">Design Tokens (JSON)</option>
+            <option value="figma">Figma Variables</option>
+            <option value="tailwind">Tailwind Config</option>
+            <option value="scss">SCSS Variables</option>
+          </optgroup>
+          <optgroup label="Gradients - Web">
+            <option value="css-gradient">CSS Gradient</option>
+            <option value="svg">SVG Gradient</option>
+          </optgroup>
+          <optgroup label="Gradients - iOS/macOS">
+            <option value="swiftui">SwiftUI</option>
+          </optgroup>
+          <optgroup label="Gradients - Android">
+            <option value="android-xml">XML Drawable</option>
+            <option value="compose">Jetpack Compose</option>
+          </optgroup>
         </select>
         <button
           onClick={downloadCode}
@@ -214,11 +366,16 @@ ${sortedStops.map((stop, i) => {
 
       {/* Format Description */}
       <div className="text-xs text-gray-600 dark:text-gray-400">
-        {exportFormat === 'css' && 'CSS custom properties with RGB values for your stylesheets'}
+        {exportFormat === 'css' && 'CSS custom properties with RGB values for color scales'}
         {exportFormat === 'tokens' && 'W3C Design Tokens format with full metadata'}
         {exportFormat === 'figma' && 'Figma-compatible token format for design handoff'}
-        {exportFormat === 'tailwind' && 'Tailwind CSS configuration for your theme'}
-        {exportFormat === 'scss' && 'SCSS variables and color map for Sass projects'}
+        {exportFormat === 'tailwind' && 'Tailwind CSS theme configuration for color scales'}
+        {exportFormat === 'scss' && 'SCSS variables and color maps for Sass projects'}
+        {exportFormat === 'css-gradient' && 'CSS linear-gradient as custom property, ready to use'}
+        {exportFormat === 'svg' && 'SVG gradient definition for use in SVG graphics'}
+        {exportFormat === 'swiftui' && 'SwiftUI LinearGradient extension for iOS/macOS apps'}
+        {exportFormat === 'android-xml' && 'Android XML gradient drawable resource'}
+        {exportFormat === 'compose' && 'Jetpack Compose Brush.linearGradient for Android'}
       </div>
 
       {/* Code Preview */}
