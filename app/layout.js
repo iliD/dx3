@@ -2,6 +2,8 @@ import './globals.css';
 import { Analytics } from '@vercel/analytics/react';
 import { ThemeProvider } from '@/components/ThemeProvider';
 import { IBM_Plex_Sans, IBM_Plex_Serif, IBM_Plex_Mono } from 'next/font/google';
+import Header from '@/components/Header';
+import Footer from '@/components/Footer';
 
 const ibmPlexSans = IBM_Plex_Sans({
   weight: ['400', '700'],
@@ -34,7 +36,11 @@ export default function RootLayout({ children }) {
     <html lang="en" className={`${ibmPlexSans.variable} ${ibmPlexSerif.variable} ${ibmPlexMono.variable}`} suppressHydrationWarning>
       <body className="bg-white dark:bg-[#1a1a1a] text-gray-900 dark:text-gray-100 transition-colors">
         <ThemeProvider>
-          {children}
+          <Header />
+          <main className="min-h-screen">
+            {children}
+          </main>
+          <Footer />
           <Analytics />
         </ThemeProvider>
       </body>
