@@ -45,6 +45,12 @@ export default function GradientGenerator({ onGenerateGradient }) {
   const [draggingStopId, setDraggingStopId] = useState(null);
   const [hoveredStopId, setHoveredStopId] = useState(null);
   const [newlyAddedStopId, setNewlyAddedStopId] = useState(null);
+  const [draggingCenter, setDraggingCenter] = useState(false);
+  const [draggingAngle, setDraggingAngle] = useState(false);
+
+  // Center point position for radial/conic (percentage-based for visual display)
+  const [centerX, setCenterX] = useState(50);
+  const [centerY, setCenterY] = useState(50);
 
   // Global mouseup handler to end dragging anywhere
   useEffect(() => {
@@ -52,11 +58,17 @@ export default function GradientGenerator({ onGenerateGradient }) {
       if (draggingStopId) {
         setDraggingStopId(null);
       }
+      if (draggingCenter) {
+        setDraggingCenter(false);
+      }
+      if (draggingAngle) {
+        setDraggingAngle(false);
+      }
     };
 
     window.addEventListener('mouseup', handleGlobalMouseUp);
     return () => window.removeEventListener('mouseup', handleGlobalMouseUp);
-  }, [draggingStopId]);
+  }, [draggingStopId, draggingCenter, draggingAngle]);
 
   // Clear newly added highlight after animation
   useEffect(() => {
@@ -146,6 +158,44 @@ export default function GradientGenerator({ onGenerateGradient }) {
     setColorStops([...colorStops, newStop]);
     setNextId(nextId + 1);
     setNewlyAddedStopId(newStopId);
+  };
+
+  // Handlers for radial/conic center point dragging
+  const handleCenterDragStart = () => {
+    setDraggingCenter(true);
+  };
+
+  const handleCenterDrag = (e) => {
+    if (!draggingCenter) return;
+
+    const rect = e.currentTarget.getBoundingClientRect();
+    const x = ((e.clientX - rect.left) / rect.width) * 100;
+    const y = ((e.clientY - rect.top) / rect.height) * 100;
+
+    setCenterX(Math.max(0, Math.min(100, x)));
+    setCenterY(Math.max(0, Math.min(100, y)));
+  };
+
+  // Handler for linear gradient angle dragging
+  const handleAngleDragStart = () => {
+    setDraggingAngle(true);
+  };
+
+  const handleAngleDrag = (e) => {
+    if (!draggingAngle) return;
+
+    const rect = e.currentTarget.getBoundingClientRect();
+    const centerX = rect.left + rect.width / 2;
+    const centerY = rect.top + rect.height / 2;
+
+    const deltaX = e.clientX - centerX;
+    const deltaY = e.clientY - centerY;
+
+    // Calculate angle in degrees (0-360), where 0 is top
+    let calculatedAngle = Math.atan2(deltaX, -deltaY) * (180 / Math.PI);
+    if (calculatedAngle < 0) calculatedAngle += 360;
+
+    setAngle(Math.round(calculatedAngle));
   };
 
   const handleGenerate = () => {
@@ -799,11 +849,17 @@ export default function GradientGenerator({ onGenerateGradient }) {
             {/* Interactive preview with type-specific layout and draggable stops */}
             <div className="relative">
               <div
-                className={`w-full ${previewConfig.height} rounded-md border border-gray-200 dark:border-[#2a2a2a] transition-all duration-200 ease-in-out ${draggingStopId ? 'cursor-grabbing' : 'cursor-pointer'}`}
+                className={`w-full ${previewConfig.height} rounded-md border border-gray-200 dark:border-[#2a2a2a] transition-all duration-200 ease-in-out ${
+                  draggingStopId || draggingCenter || draggingAngle ? 'cursor-grabbing' : 'cursor-pointer'
+                }`}
                 style={{ background: liveGradient }}
                 title={previewConfig.label}
-                onClick={handlePreviewClick}
-                onMouseMove={handlePreviewMouseMove}
+                onClick={gradientType === 'css-linear' ? handlePreviewClick : undefined}
+                onMouseMove={(e) => {
+                  handlePreviewMouseMove(e);
+                  handleCenterDrag(e);
+                  handleAngleDrag(e);
+                }}
                 onMouseUp={handlePreviewMouseUp}
               />
 
@@ -849,12 +905,44 @@ export default function GradientGenerator({ onGenerateGradient }) {
                   ))}
                 </div>
               )}
+
+              {/* Draggable center point marker - for radial/conic gradients */}
+              {(gradientType === 'css-radial' || gradientType === 'css-conic') && (
+                <div className="absolute inset-0 pointer-events-none">
+                  <div
+                    className="absolute pointer-events-auto"
+                    style={{
+                      left: `${centerX}%`,
+                      top: `${centerY}%`,
+                      transform: 'translate(-50%, -50%)'
+                    }}
+                    onMouseDown={(e) => {
+                      e.stopPropagation();
+                      handleCenterDragStart();
+                    }}
+                    title={`Center point: ${Math.round(centerX)}%, ${Math.round(centerY)}%`}
+                  >
+                    <div
+                      className={`w-6 h-6 rounded-full bg-white dark:bg-gray-900 border-2 border-purple-500 dark:border-purple-400 shadow-lg ${
+                        draggingCenter ? 'cursor-grabbing scale-125 ring-4 ring-purple-500 dark:ring-purple-400' : 'cursor-grab hover:scale-110'
+                      } transition-transform flex items-center justify-center`}
+                    >
+                      <div className="w-1.5 h-1.5 rounded-full bg-purple-500 dark:bg-purple-400" />
+                    </div>
+                  </div>
+                </div>
+              )}
             </div>
 
             {/* Helper text */}
             {gradientType === 'css-linear' && (
               <div className="text-xs text-gray-500 dark:text-gray-500 italic" style={{ fontFamily: 'IBM Plex Sans, sans-serif' }}>
                 Click to add stops • Drag stops to reposition
+              </div>
+            )}
+            {(gradientType === 'css-radial' || gradientType === 'css-conic') && (
+              <div className="text-xs text-gray-500 dark:text-gray-500 italic" style={{ fontFamily: 'IBM Plex Sans, sans-serif' }}>
+                Drag center point to reposition
               </div>
             )}
 
