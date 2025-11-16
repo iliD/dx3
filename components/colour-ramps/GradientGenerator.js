@@ -4,8 +4,8 @@ import { useState, useMemo, useEffect } from 'react';
 
 export default function GradientGenerator({ onGenerateGradient }) {
   const [colorStops, setColorStops] = useState([
-    { id: 1, color: '#667eea', position: 0 },
-    { id: 2, color: '#764ba2', position: 100 }
+    { id: 1, color: '#667eea', position: 0, alpha: 1 },
+    { id: 2, color: '#764ba2', position: 100, alpha: 1 }
   ]);
   const [nextId, setNextId] = useState(3);
 
@@ -104,7 +104,8 @@ export default function GradientGenerator({ onGenerateGradient }) {
     setColorStops([...colorStops, {
       id: nextId,
       color: '#808080',
-      position: newPosition
+      position: newPosition,
+      alpha: 1
     }]);
     setNextId(nextId + 1);
   };
@@ -152,7 +153,8 @@ export default function GradientGenerator({ onGenerateGradient }) {
     const newStop = {
       id: newStopId,
       color: '#808080',
-      position: Math.round(percentage)
+      position: Math.round(percentage),
+      alpha: 1
     };
 
     setColorStops([...colorStops, newStop]);
@@ -269,11 +271,23 @@ export default function GradientGenerator({ onGenerateGradient }) {
     onGenerateGradient(gradientConfig);
   };
 
+  // Helper function to convert hex color to rgba
+  const hexToRgba = (hex, alpha) => {
+    const r = parseInt(hex.slice(1, 3), 16);
+    const g = parseInt(hex.slice(3, 5), 16);
+    const b = parseInt(hex.slice(5, 7), 16);
+    return `rgba(${r}, ${g}, ${b}, ${alpha})`;
+  };
+
   // Generate CSS gradient string for preview
   const generateCSSGradient = () => {
     const sortedStops = [...colorStops].sort((a, b) => a.position - b.position);
     const stopsStr = sortedStops
-      .map(stop => `${stop.color} ${stop.position}%`)
+      .map(stop => {
+        const alpha = stop.alpha !== undefined ? stop.alpha : 1;
+        const color = alpha < 1 ? hexToRgba(stop.color, alpha) : stop.color;
+        return `${color} ${stop.position}%`;
+      })
       .join(', ');
 
     if (gradientType === 'css-radial') {
@@ -773,7 +787,7 @@ export default function GradientGenerator({ onGenerateGradient }) {
         {sortedStops.map((stop) => (
           <div
             key={stop.id}
-            className={`flex items-center gap-3 p-3 rounded-md transition-all ${
+            className={`p-3 rounded-md transition-all ${
               newlyAddedStopId === stop.id
                 ? 'bg-green-50 dark:bg-green-900/20 ring-2 ring-green-500 dark:ring-green-400 animate-pulse'
                 : hoveredStopId === stop.id
@@ -783,59 +797,87 @@ export default function GradientGenerator({ onGenerateGradient }) {
             onMouseEnter={() => setHoveredStopId(stop.id)}
             onMouseLeave={() => setHoveredStopId(null)}
           >
-            {/* Color Picker */}
-            <input
-              type="color"
-              value={stop.color}
-              onChange={(e) => updateColorStop(stop.id, { color: e.target.value })}
-              className="w-10 h-10 rounded cursor-pointer border-0"
-            />
+            {/* Top Row: Color picker, hex value, position, buttons */}
+            <div className="flex items-center gap-3 mb-2">
+              {/* Color Picker */}
+              <input
+                type="color"
+                value={stop.color}
+                onChange={(e) => updateColorStop(stop.id, { color: e.target.value })}
+                className="w-10 h-10 rounded cursor-pointer border-0"
+              />
 
-            {/* Color Value Input */}
-            <input
-              type="text"
-              value={stop.color}
-              onChange={(e) => updateColorStop(stop.id, { color: e.target.value })}
-              className="flex-1 px-2 py-1 bg-transparent text-gray-900 dark:text-gray-100 font-mono text-sm outline-none"
-            />
+              {/* Color Value Input */}
+              <input
+                type="text"
+                value={stop.color}
+                onChange={(e) => updateColorStop(stop.id, { color: e.target.value })}
+                className="flex-1 px-2 py-1 bg-transparent text-gray-900 dark:text-gray-100 font-mono text-sm outline-none"
+              />
 
-            {/* Position Input */}
-            <div className="flex items-center gap-2">
+              {/* Position Input */}
+              <div className="flex items-center gap-2">
+                <input
+                  type="number"
+                  min="0"
+                  max="100"
+                  value={stop.position}
+                  onChange={(e) => updateColorStop(stop.id, { position: parseFloat(e.target.value) || 0 })}
+                  className="w-16 px-2 py-1 bg-white dark:bg-[#1a1a1a] border border-gray-200 dark:border-[#2a2a2a] rounded text-gray-900 dark:text-gray-100 font-mono text-sm text-center"
+                />
+                <span className="text-xs text-gray-500 dark:text-gray-500 font-mono">%</span>
+              </div>
+
+              {/* Add/Delete Buttons */}
+              <button
+                onClick={addColorStop}
+                className="p-1.5 text-gray-500 dark:text-gray-500 hover:text-gray-700 dark:hover:text-gray-300 rounded transition-colors"
+                title="Add color stop"
+              >
+                <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" />
+                </svg>
+              </button>
+
+              {colorStops.length > 2 ? (
+                <button
+                  onClick={() => removeColorStop(stop.id)}
+                  className="p-1.5 text-gray-500 dark:text-gray-500 hover:text-gray-700 dark:hover:text-gray-300 rounded transition-colors"
+                  title="Remove stop"
+                >
+                  <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M20 12H4" />
+                  </svg>
+                </button>
+              ) : (
+                <div className="w-8" />
+              )}
+            </div>
+
+            {/* Bottom Row: Opacity slider */}
+            <div className="flex items-center gap-3">
+              <label className="text-xs text-gray-600 dark:text-gray-400 w-12" style={{ fontFamily: 'IBM Plex Sans, sans-serif' }}>
+                Opacity
+              </label>
+              <input
+                type="range"
+                min="0"
+                max="1"
+                step="0.01"
+                value={stop.alpha !== undefined ? stop.alpha : 1}
+                onChange={(e) => updateColorStop(stop.id, { alpha: parseFloat(e.target.value) })}
+                className="flex-1 h-1 bg-gray-300 dark:bg-[#3a3a3a] rounded-full appearance-none cursor-pointer accent-gray-900 dark:accent-gray-100"
+              />
               <input
                 type="number"
                 min="0"
-                max="100"
-                value={stop.position}
-                onChange={(e) => updateColorStop(stop.id, { position: parseFloat(e.target.value) || 0 })}
-                className="w-16 px-2 py-1 bg-white dark:bg-[#1a1a1a] border border-gray-200 dark:border-[#2a2a2a] rounded text-gray-900 dark:text-gray-100 font-mono text-sm text-center"
+                max="1"
+                step="0.01"
+                value={stop.alpha !== undefined ? stop.alpha : 1}
+                onChange={(e) => updateColorStop(stop.id, { alpha: parseFloat(e.target.value) || 0 })}
+                className="w-16 px-2 py-1 bg-white dark:bg-[#1a1a1a] border border-gray-200 dark:border-[#2a2a2a] rounded text-gray-900 dark:text-gray-100 font-mono text-xs text-center"
               />
-              <span className="text-xs text-gray-500 dark:text-gray-500 font-mono">%</span>
             </div>
-
-            {/* Add/Delete Buttons */}
-            <button
-              onClick={addColorStop}
-              className="p-1.5 text-gray-500 dark:text-gray-500 hover:text-gray-700 dark:hover:text-gray-300 rounded transition-colors"
-              title="Add color stop"
-            >
-              <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" />
-              </svg>
-            </button>
-
-            {colorStops.length > 2 ? (
-              <button
-                onClick={() => removeColorStop(stop.id)}
-                className="p-1.5 text-gray-500 dark:text-gray-500 hover:text-gray-700 dark:hover:text-gray-300 rounded transition-colors"
-                title="Remove stop"
-              >
-                <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M20 12H4" />
-                </svg>
-              </button>
-            ) : (
-              <div className="w-8" />
-            )}
           </div>
         ))}
       </div>
@@ -906,10 +948,10 @@ export default function GradientGenerator({ onGenerateGradient }) {
                       }}
                       onMouseEnter={() => setHoveredStopId(stop.id)}
                       onMouseLeave={() => setHoveredStopId(null)}
-                      title={`${stop.color} at ${stop.position}%`}
+                      title={`${stop.color} at ${stop.position}% (opacity: ${stop.alpha !== undefined ? stop.alpha : 1})`}
                     >
                       <div
-                        className={`w-4 h-4 rounded-full shadow-lg transition-all ${
+                        className={`w-4 h-4 rounded-full shadow-lg transition-all relative overflow-hidden ${
                           newlyAddedStopId === stop.id
                             ? 'scale-150 ring-4 ring-green-500 dark:ring-green-400 animate-pulse'
                             : draggingStopId === stop.id
@@ -924,8 +966,32 @@ export default function GradientGenerator({ onGenerateGradient }) {
                             ? 'border-2 border-blue-500 dark:border-blue-400'
                             : 'border-2 border-white dark:border-gray-900'
                         }`}
-                        style={{ backgroundColor: stop.color }}
-                      />
+                      >
+                        {/* Checkered background for transparent colors */}
+                        {(stop.alpha !== undefined && stop.alpha < 1) && (
+                          <div
+                            className="absolute inset-0 rounded-full"
+                            style={{
+                              backgroundImage: `
+                                linear-gradient(45deg, #ccc 25%, transparent 25%),
+                                linear-gradient(-45deg, #ccc 25%, transparent 25%),
+                                linear-gradient(45deg, transparent 75%, #ccc 75%),
+                                linear-gradient(-45deg, transparent 75%, #ccc 75%)
+                              `,
+                              backgroundSize: '4px 4px',
+                              backgroundPosition: '0 0, 0 2px, 2px -2px, -2px 0px'
+                            }}
+                          />
+                        )}
+                        {/* Color overlay */}
+                        <div
+                          className="absolute inset-0 rounded-full"
+                          style={{
+                            backgroundColor: stop.color,
+                            opacity: stop.alpha !== undefined ? stop.alpha : 1
+                          }}
+                        />
+                      </div>
                     </div>
                   ))}
 
