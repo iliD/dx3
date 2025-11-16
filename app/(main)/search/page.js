@@ -46,14 +46,14 @@ export default async function SearchPage({ searchParams }) {
       <header className="mb-8">
         <h1 className="text-4xl mb-4">Search results</h1>
         {query ? (
-          <p className="text-xl text-gray-600">
+          <p className="text-xl text-white">
             {totalResults === 0
               ? `No results found for \u2018${query}\u2019`
               : `${totalResults} ${totalResults === 1 ? 'result' : 'results'} for \u2018${query}\u2019`
             }
           </p>
         ) : (
-          <p className="text-xl text-gray-600">
+          <p className="text-xl text-white">
             Enter a search query to find products, articles, and frameworks
           </p>
         )}
