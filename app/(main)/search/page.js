@@ -26,7 +26,7 @@ export default async function SearchPage({ searchParams }) {
 
     // Search blog posts
     const posts = await client.fetch(
-      `*[_type == "blogPost" && (title match $query || excerpt match $query)] | order(publishedAt desc)`,
+      `*[_type == "article" && (title match $query || excerpt match $query)] | order(publishedAt desc)`,
       { query: `${query}*` }
     );
 
