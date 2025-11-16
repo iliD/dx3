@@ -18,8 +18,8 @@ export default function ScrollytellingPage() {
   const opacity3 = useTransform(scrollYProgress, [0.45, 0.65, 0.8], [0, 1, 0]);
   const opacity4 = useTransform(scrollYProgress, [0.75, 0.95], [0, 1]);
 
-  const xPos1 = useTransform(scrollYProgress, [0, 0.25], [-100, 0]);
-  const xPos2 = useTransform(scrollYProgress, [0.2, 0.45], [100, 0]);
+  const xPos1 = useTransform(scrollYProgress, [0.15, 0.35], [-200, 0]);
+  const xPos2 = useTransform(scrollYProgress, [0.15, 0.35], [200, 0]);
   const yPos = useTransform(scrollYProgress, [0.4, 0.7], [100, -100]);
   const scale = useTransform(scrollYProgress, [0.6, 0.9], [0.5, 1.5]);
 
@@ -64,64 +64,106 @@ export default function ScrollytellingPage() {
       {/* Section 2: Horizontal Movement */}
       <section className="min-h-screen flex items-center justify-center relative">
         <div className="max-w-4xl w-full" style={{ marginLeft: 'clamp(1.5rem, 8vw, 6rem)', marginRight: 'clamp(1.5rem, 8vw, 6rem)' }}>
-          <motion.div style={{ opacity: opacity2 }} className="space-y-8">
-            <h2 className="text-4xl font-bold text-gray-900 dark:text-gray-100">
+          <div className="space-y-8">
+            <motion.h2
+              initial={{ opacity: 0 }}
+              whileInView={{ opacity: 1 }}
+              viewport={{ once: false, amount: 0.5 }}
+              className="text-4xl font-bold text-gray-900 dark:text-gray-100"
+            >
               Horizontal Movement
-            </h2>
-            <p className="text-lg text-gray-600 dark:text-gray-400">
+            </motion.h2>
+            <motion.p
+              initial={{ opacity: 0 }}
+              whileInView={{ opacity: 1 }}
+              viewport={{ once: false, amount: 0.5 }}
+              className="text-lg text-gray-600 dark:text-gray-400"
+            >
               Elements slide in from the sides, creating dynamic horizontal motion.
-            </p>
+            </motion.p>
             <div className="space-y-4">
               <motion.div
-                style={{ x: xPos1 }}
+                initial={{ x: -200, opacity: 0 }}
+                whileInView={{ x: 0, opacity: 1 }}
+                viewport={{ once: false, amount: 0.5 }}
+                transition={{ duration: 0.8 }}
                 className="h-24 bg-gradient-to-r from-cyan-500 to-blue-500 rounded-lg"
               ></motion.div>
               <motion.div
-                style={{ x: xPos2 }}
+                initial={{ x: 200, opacity: 0 }}
+                whileInView={{ x: 0, opacity: 1 }}
+                viewport={{ once: false, amount: 0.5 }}
+                transition={{ duration: 0.8 }}
                 className="h-24 bg-gradient-to-r from-violet-500 to-purple-500 rounded-lg"
               ></motion.div>
             </div>
-          </motion.div>
+          </div>
         </div>
       </section>
 
       {/* Section 3: Vertical Movement */}
       <section className="min-h-screen flex items-center justify-center relative">
         <div className="max-w-4xl w-full" style={{ marginLeft: 'clamp(1.5rem, 8vw, 6rem)', marginRight: 'clamp(1.5rem, 8vw, 6rem)' }}>
-          <motion.div style={{ opacity: opacity3 }} className="space-y-8">
-            <h2 className="text-4xl font-bold text-gray-900 dark:text-gray-100">
+          <div className="space-y-8">
+            <motion.h2
+              initial={{ opacity: 0 }}
+              whileInView={{ opacity: 1 }}
+              viewport={{ once: false, amount: 0.5 }}
+              className="text-4xl font-bold text-gray-900 dark:text-gray-100"
+            >
               Vertical Movement
-            </h2>
-            <p className="text-lg text-gray-600 dark:text-gray-400">
+            </motion.h2>
+            <motion.p
+              initial={{ opacity: 0 }}
+              whileInView={{ opacity: 1 }}
+              viewport={{ once: false, amount: 0.5 }}
+              className="text-lg text-gray-600 dark:text-gray-400"
+            >
               Watch elements move up and down as you scroll.
-            </p>
-            <div className="relative h-64">
+            </motion.p>
+            <div className="relative h-64 flex items-center justify-center">
               <motion.div
-                style={{ y: yPos }}
-                className="absolute left-1/2 -translate-x-1/2 w-32 h-32 bg-gradient-to-br from-amber-500 to-orange-500 rounded-lg"
+                initial={{ y: 100, opacity: 0 }}
+                whileInView={{ y: 0, opacity: 1 }}
+                viewport={{ once: false, amount: 0.5 }}
+                transition={{ duration: 0.8 }}
+                className="w-32 h-32 bg-gradient-to-br from-amber-500 to-orange-500 rounded-lg"
               ></motion.div>
             </div>
-          </motion.div>
+          </div>
         </div>
       </section>
 
-      {/* Section 4: Scale & Rotation */}
+      {/* Section 4: Scale Transformations */}
       <section className="min-h-screen flex items-center justify-center relative">
         <div className="max-w-4xl w-full" style={{ marginLeft: 'clamp(1.5rem, 8vw, 6rem)', marginRight: 'clamp(1.5rem, 8vw, 6rem)' }}>
-          <motion.div style={{ opacity: opacity4 }} className="space-y-8">
-            <h2 className="text-4xl font-bold text-gray-900 dark:text-gray-100">
+          <div className="space-y-8">
+            <motion.h2
+              initial={{ opacity: 0 }}
+              whileInView={{ opacity: 1 }}
+              viewport={{ once: false, amount: 0.5 }}
+              className="text-4xl font-bold text-gray-900 dark:text-gray-100"
+            >
               Scale Transformations
-            </h2>
-            <p className="text-lg text-gray-600 dark:text-gray-400">
+            </motion.h2>
+            <motion.p
+              initial={{ opacity: 0 }}
+              whileInView={{ opacity: 1 }}
+              viewport={{ once: false, amount: 0.5 }}
+              className="text-lg text-gray-600 dark:text-gray-400"
+            >
               Elements can grow and shrink based on scroll position.
-            </p>
+            </motion.p>
             <div className="flex justify-center items-center h-64">
               <motion.div
-                style={{ scale }}
+                initial={{ scale: 0.5, opacity: 0 }}
+                whileInView={{ scale: 1, opacity: 1 }}
+                viewport={{ once: false, amount: 0.5 }}
+                transition={{ duration: 0.8 }}
                 className="w-48 h-48 bg-gradient-to-br from-emerald-500 to-teal-500 rounded-lg"
               ></motion.div>
             </div>
-          </motion.div>
+          </div>
         </div>
       </section>
 
@@ -162,15 +204,10 @@ export default function ScrollytellingPage() {
       </section>
 
       {/* Sticky Section */}
-      <section className="h-[200vh] relative">
-        <div className="sticky top-0 h-screen flex items-center justify-center">
+      <div className="h-[200vh] relative">
+        <div className="sticky top-0 h-screen flex items-center justify-center bg-white dark:bg-[#1a1a1a] z-10">
           <div className="max-w-4xl w-full" style={{ marginLeft: 'clamp(1.5rem, 8vw, 6rem)', marginRight: 'clamp(1.5rem, 8vw, 6rem)' }}>
-            <motion.div
-              initial={{ opacity: 0 }}
-              whileInView={{ opacity: 1 }}
-              viewport={{ amount: 0.5 }}
-              className="text-center space-y-8"
-            >
+            <div className="text-center space-y-8">
               <h2 className="text-4xl font-bold text-gray-900 dark:text-gray-100">
                 Sticky Storytelling
               </h2>
@@ -183,10 +220,10 @@ export default function ScrollytellingPage() {
                 <div className="aspect-square bg-cyan-500 rounded-lg"></div>
                 <div className="aspect-square bg-lime-500 rounded-lg"></div>
               </div>
-            </motion.div>
+            </div>
           </div>
         </div>
-      </section>
+      </div>
 
       {/* Finale */}
       <section className="min-h-screen flex items-center justify-center" style={{ marginLeft: 'clamp(1.5rem, 8vw, 6rem)', marginRight: 'clamp(1.5rem, 8vw, 6rem)' }}>
