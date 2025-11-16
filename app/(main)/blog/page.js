@@ -29,7 +29,7 @@ export default async function BlogPage({ searchParams }) {
     <div className="py-12" style={{ marginLeft: 'clamp(1.5rem, 8vw, 6rem)', marginRight: 'clamp(1.5rem, 4vw, 1.5rem)' }}>
       <div className="mb-8">
         <h1 className="text-4xl mb-4">Articles</h1>
-        <p className="text-xl text-white">
+        <p className="text-xl text-black dark:text-white">
           Insights, tutorials, and updates about digital products and e-commerce
         </p>
       </div>
@@ -85,20 +85,20 @@ export default async function BlogPage({ searchParams }) {
                       {post.category}
                     </span>
                   )}
-                  <time className="text-sm text-white">
+                  <time className="text-sm text-black dark:text-white">
                     {format(new Date(post.publishedAt), 'MMMM dd, yyyy')}
                   </time>
                 </div>
-                <h2 className="text-3xl mb-4 text-white group-hover:opacity-70 transition-opacity">
+                <h2 className="text-3xl mb-4 text-black dark:text-white group-hover:opacity-70 transition-opacity">
                   {post.title}
                 </h2>
                 {post.excerpt && (
-                  <p className="text-lg text-white mb-4 leading-relaxed">
+                  <p className="text-lg text-black dark:text-white mb-4 leading-relaxed">
                     {post.excerpt}
                   </p>
                 )}
                 {post.author && (
-                  <p className="text-sm text-white">By {post.author}</p>
+                  <p className="text-sm text-black dark:text-white">By {post.author}</p>
                 )}
               </Link>
             </article>

@@ -46,14 +46,14 @@ export default async function SearchPage({ searchParams }) {
       <header className="mb-8">
         <h1 className="text-4xl mb-4">Search results</h1>
         {query ? (
-          <p className="text-xl text-white">
+          <p className="text-xl text-black dark:text-white">
             {totalResults === 0
               ? `No results found for \u2018${query}\u2019`
               : `${totalResults} ${totalResults === 1 ? 'result' : 'results'} for \u2018${query}\u2019`
             }
           </p>
         ) : (
-          <p className="text-xl text-white">
+          <p className="text-xl text-black dark:text-white">
             Enter a search query to find products, articles, and frameworks
           </p>
         )}
@@ -143,21 +143,21 @@ export default async function SearchPage({ searchParams }) {
                       </span>
                     )}
                     {post.publishedAt && (
-                      <time className="text-sm text-white">
+                      <time className="text-sm text-black dark:text-white">
                         {format(new Date(post.publishedAt), 'MMMM dd, yyyy')}
                       </time>
                     )}
                   </div>
-                  <h3 className="text-3xl mb-4 text-white group-hover:opacity-70 transition-opacity">
+                  <h3 className="text-3xl mb-4 text-black dark:text-white group-hover:opacity-70 transition-opacity">
                     {post.title}
                   </h3>
                   {post.excerpt && (
-                    <p className="text-lg text-white mb-4 leading-relaxed">
+                    <p className="text-lg text-black dark:text-white mb-4 leading-relaxed">
                       {post.excerpt}
                     </p>
                   )}
                   {post.author && (
-                    <p className="text-sm text-white">By {post.author}</p>
+                    <p className="text-sm text-black dark:text-white">By {post.author}</p>
                   )}
                 </Link>
               </article>
