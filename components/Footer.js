@@ -3,7 +3,7 @@
 export default function Footer() {
   return (
     <footer className="w-full bg-white dark:bg-[#1a1a1a] border-t border-gray-200 dark:border-gray-800 py-8">
-      <div style={{ marginLeft: 'clamp(1.5rem, 8vw, 6rem)', marginRight: 'clamp(1.5rem, 4vw, 1.5rem)' }}>
+      <div style={{ marginLeft: 'clamp(1.5rem, 8vw, 6rem)', marginRight: 'clamp(1.5rem, 8vw, 6rem)' }}>
         <div className="flex flex-col md:flex-row md:items-start md:justify-between gap-8">
           {/* Info Section */}
           <div className="font-mono text-sm space-y-2">

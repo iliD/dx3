@@ -23,7 +23,7 @@ export default function Header() {
 
   return (
     <header className="sticky top-0 z-50 w-full bg-white dark:bg-[#1a1a1a] border-b border-gray-200 dark:border-gray-800">
-      <div style={{ marginLeft: 'clamp(1.5rem, 8vw, 6rem)', marginRight: 'clamp(1.5rem, 4vw, 1.5rem)' }}>
+      <div style={{ marginLeft: 'clamp(1.5rem, 8vw, 6rem)', marginRight: 'clamp(1.5rem, 8vw, 6rem)' }}>
         <div className="flex items-center justify-between h-16">
           {/* Logo */}
           <Link

@@ -26,7 +26,7 @@ export default async function BlogPage({ searchParams }) {
   const uniqueCategories = [...new Set(categories.flatMap((c) => c.categories || []).filter(Boolean))];
 
   return (
-    <div className="py-12" style={{ marginLeft: 'clamp(1.5rem, 8vw, 6rem)', marginRight: 'clamp(1.5rem, 4vw, 1.5rem)' }}>
+    <div className="py-12" style={{ marginLeft: 'clamp(1.5rem, 8vw, 6rem)', marginRight: 'clamp(1.5rem, 8vw, 6rem)' }}>
       <div className="mb-8">
         <h1 className="text-4xl mb-4">Articles</h1>
         <p className="text-xl text-black dark:text-white">
