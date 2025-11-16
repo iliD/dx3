@@ -81,7 +81,7 @@ export default async function BlogPage({ searchParams }) {
               <Link href={`/blog/${post.slug.current}`} className="group">
                 <div className="flex items-center gap-4 mb-3">
                   {post.category && (
-                    <span className="text-xs font-semibold px-3 py-1 bg-black text-white rounded-full">
+                    <span className="text-xs font-semibold px-3 py-1 bg-white text-black border border-gray-200 rounded-full">
                       {post.category}
                     </span>
                   )}
