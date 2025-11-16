@@ -36,7 +36,7 @@ export default function Header() {
           {/* Desktop Navigation - Right aligned, order from right: Search, Theme, Studio, Articles, Process */}
           <div className="hidden md:flex items-center gap-6 transition-all duration-200 ease-out">
             <Link
-              href="/process"
+              href="/colour-ramps"
               className="text-sm font-medium hover:opacity-70 transition-opacity"
             >
               Process
@@ -152,7 +152,7 @@ export default function Header() {
             Articles
           </Link>
           <Link
-            href="/process"
+            href="/colour-ramps"
             className="text-xl font-medium hover:opacity-70 transition-opacity"
             onClick={() => setIsOpen(false)}
           >
