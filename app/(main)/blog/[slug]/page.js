@@ -42,7 +42,7 @@ const portableTextComponents = {
     h2: ({ children }) => <h2 className="text-3xl font-bold mt-8 mb-4">{children}</h2>,
     h3: ({ children }) => <h3 className="text-2xl font-bold mt-6 mb-3">{children}</h3>,
     h4: ({ children }) => <h4 className="text-xl font-bold mt-6 mb-3">{children}</h4>,
-    normal: ({ children }) => <p className="mb-4 text-lg leading-relaxed">{children}</p>,
+    normal: ({ children }) => <p className="mb-4 text-lg leading-relaxed font-serif">{children}</p>,
     blockquote: ({ children }) => (
       <blockquote className="border-l-4 border-gray-300 pl-4 my-6 italic text-gray-700 dark:text-gray-300">
         {children}
@@ -50,12 +50,12 @@ const portableTextComponents = {
     ),
   },
   list: {
-    bullet: ({ children }) => <ul className="list-disc list-inside mb-4 space-y-2">{children}</ul>,
-    number: ({ children }) => <ol className="list-decimal list-inside mb-4 space-y-2">{children}</ol>,
+    bullet: ({ children }) => <ul className="list-disc list-inside mb-4 space-y-2 font-serif">{children}</ul>,
+    number: ({ children }) => <ol className="list-decimal list-inside mb-4 space-y-2 font-serif">{children}</ol>,
   },
   listItem: {
-    bullet: ({ children }) => <li className="ml-4">{children}</li>,
-    number: ({ children }) => <li className="ml-4">{children}</li>,
+    bullet: ({ children }) => <li className="ml-4 font-serif">{children}</li>,
+    number: ({ children }) => <li className="ml-4 font-serif">{children}</li>,
   },
   marks: {
     link: ({ children, value }) => (
@@ -95,7 +95,7 @@ export default async function BlogPost({ params }) {
   }
 
   return (
-    <article className="py-12" style={{ marginLeft: 'clamp(1.5rem, 8vw, 6rem)', marginRight: 'clamp(1.5rem, 4vw, 1.5rem)', maxWidth: '800px' }}>
+    <article className="py-12" style={{ marginLeft: 'clamp(1.5rem, 8vw, 6rem)', marginRight: 'clamp(1.5rem, 4vw, 1.5rem)', maxWidth: '65ch' }}>
       {/* Header */}
       <header className="mb-8">
         {post.categories && post.categories.length > 0 && (
@@ -110,7 +110,7 @@ export default async function BlogPost({ params }) {
             ))}
           </div>
         )}
-        <h1 className="text-5xl font-bold mb-4">{post.title}</h1>
+        <h1 className="text-5xl mb-4">{post.title}</h1>
         <div className="flex items-center gap-4 text-gray-600 dark:text-gray-400">
           {post.author && <span>By {post.author}</span>}
           <span>•</span>
@@ -131,7 +131,7 @@ export default async function BlogPost({ params }) {
 
       {/* Excerpt */}
       {post.excerpt && (
-        <div className="text-xl text-gray-700 dark:text-gray-300 mb-8 pb-8 border-b border-gray-200 dark:border-gray-800">
+        <div className="text-xl text-gray-700 dark:text-gray-300 mb-8 font-serif">
           {post.excerpt}
         </div>
       )}
