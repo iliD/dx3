@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useMemo } from 'react';
+import { useState, useMemo, useEffect } from 'react';
 
 export default function GradientGenerator({ onGenerateGradient }) {
   const [colorStops, setColorStops] = useState([
@@ -41,6 +41,21 @@ export default function GradientGenerator({ onGenerateGradient }) {
   // Preview tab state
   const [previewTab, setPreviewTab] = useState('css'); // 'css' or 'svg'
 
+  // Drag and drop state
+  const [draggingStopId, setDraggingStopId] = useState(null);
+
+  // Global mouseup handler to end dragging anywhere
+  useEffect(() => {
+    const handleGlobalMouseUp = () => {
+      if (draggingStopId) {
+        setDraggingStopId(null);
+      }
+    };
+
+    window.addEventListener('mouseup', handleGlobalMouseUp);
+    return () => window.removeEventListener('mouseup', handleGlobalMouseUp);
+  }, [draggingStopId]);
+
   const addColorStop = () => {
     const positions = colorStops.map(s => s.position).sort((a, b) => a - b);
     let newPosition = 50;
@@ -80,6 +95,43 @@ export default function GradientGenerator({ onGenerateGradient }) {
     if (colorStops.length > 2) {
       setColorStops(colorStops.filter(stop => stop.id !== id));
     }
+  };
+
+  // Drag and drop handlers for interactive preview
+  const handleStopDragStart = (stopId) => {
+    setDraggingStopId(stopId);
+  };
+
+  const handlePreviewMouseMove = (e) => {
+    if (!draggingStopId) return;
+
+    const rect = e.currentTarget.getBoundingClientRect();
+    const x = e.clientX - rect.left;
+    const percentage = Math.max(0, Math.min(100, (x / rect.width) * 100));
+
+    updateColorStop(draggingStopId, { position: Math.round(percentage) });
+  };
+
+  const handlePreviewMouseUp = () => {
+    setDraggingStopId(null);
+  };
+
+  const handlePreviewClick = (e) => {
+    // Only add stop if not dragging and clicking on the preview background
+    if (draggingStopId || e.target.classList.contains('gradient-stop-marker')) return;
+
+    const rect = e.currentTarget.getBoundingClientRect();
+    const x = e.clientX - rect.left;
+    const percentage = Math.max(0, Math.min(100, (x / rect.width) * 100));
+
+    const newStop = {
+      id: nextId,
+      color: '#808080',
+      position: Math.round(percentage)
+    };
+
+    setColorStops([...colorStops, newStop]);
+    setNextId(nextId + 1);
   };
 
   const handleGenerate = () => {
@@ -722,12 +774,53 @@ export default function GradientGenerator({ onGenerateGradient }) {
         {/* CSS Preview */}
         {previewTab === 'css' && (
           <div className="space-y-2">
-            {/* Interactive preview with type-specific layout */}
-            <div
-              className={`w-full ${previewConfig.height} rounded-md border border-gray-200 dark:border-[#2a2a2a] transition-all duration-200 ease-in-out`}
-              style={{ background: liveGradient }}
-              title={previewConfig.label}
-            />
+            {/* Interactive preview with type-specific layout and draggable stops */}
+            <div className="relative">
+              <div
+                className={`w-full ${previewConfig.height} rounded-md border border-gray-200 dark:border-[#2a2a2a] transition-all duration-200 ease-in-out ${draggingStopId ? 'cursor-grabbing' : 'cursor-pointer'}`}
+                style={{ background: liveGradient }}
+                title={previewConfig.label}
+                onClick={handlePreviewClick}
+                onMouseMove={handlePreviewMouseMove}
+                onMouseUp={handlePreviewMouseUp}
+              />
+
+              {/* Draggable color stop markers - only for linear gradients */}
+              {gradientType === 'css-linear' && (
+                <div className="absolute inset-0 pointer-events-none">
+                  {sortedStops.map((stop) => (
+                    <div
+                      key={stop.id}
+                      className="gradient-stop-marker absolute pointer-events-auto"
+                      style={{
+                        left: `${stop.position}%`,
+                        top: '50%',
+                        transform: 'translate(-50%, -50%)'
+                      }}
+                      onMouseDown={(e) => {
+                        e.stopPropagation();
+                        handleStopDragStart(stop.id);
+                      }}
+                      title={`${stop.color} at ${stop.position}%`}
+                    >
+                      <div
+                        className={`w-4 h-4 rounded-full border-2 border-white dark:border-gray-900 shadow-lg ${
+                          draggingStopId === stop.id ? 'cursor-grabbing scale-125' : 'cursor-grab hover:scale-110'
+                        } transition-transform`}
+                        style={{ backgroundColor: stop.color }}
+                      />
+                    </div>
+                  ))}
+                </div>
+              )}
+            </div>
+
+            {/* Helper text */}
+            {gradientType === 'css-linear' && (
+              <div className="text-xs text-gray-500 dark:text-gray-500 italic" style={{ fontFamily: 'IBM Plex Sans, sans-serif' }}>
+                Click to add stops • Drag stops to reposition
+              </div>
+            )}
 
             {/* Gradient code display */}
             <div className="space-y-1">
