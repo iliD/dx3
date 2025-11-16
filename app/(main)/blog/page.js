@@ -85,20 +85,20 @@ export default async function BlogPage({ searchParams }) {
                       {post.category}
                     </span>
                   )}
-                  <time className="text-sm text-gray-500">
+                  <time className="text-sm text-white">
                     {format(new Date(post.publishedAt), 'MMMM dd, yyyy')}
                   </time>
                 </div>
-                <h2 className="text-3xl mb-4 group-hover:opacity-70 transition-opacity">
+                <h2 className="text-3xl mb-4 text-white group-hover:opacity-70 transition-opacity">
                   {post.title}
                 </h2>
                 {post.excerpt && (
-                  <p className="text-lg text-gray-700 mb-4 leading-relaxed">
+                  <p className="text-lg text-white mb-4 leading-relaxed">
                     {post.excerpt}
                   </p>
                 )}
                 {post.author && (
-                  <p className="text-sm text-gray-500">By {post.author}</p>
+                  <p className="text-sm text-white">By {post.author}</p>
                 )}
               </Link>
             </article>
