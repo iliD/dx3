@@ -13,7 +13,7 @@ export default function ThemeToggle() {
 
   if (!mounted) {
     return (
-      <button className="p-2 rounded-md hover:bg-gray-100 dark:hover:bg-[#2a2a2a] transition-colors" aria-label="Toggle theme">
+      <button className="hover:opacity-70 transition-opacity" aria-label="Toggle theme">
         <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" />
         </svg>
@@ -24,7 +24,7 @@ export default function ThemeToggle() {
   return (
     <button
       onClick={() => setTheme(theme === 'dark' ? 'light' : 'dark')}
-      className="p-2 rounded-md hover:bg-gray-100 dark:hover:bg-[#2a2a2a] transition-colors cursor-pointer"
+      className="hover:opacity-70 transition-opacity cursor-pointer"
       aria-label={`Switch to ${theme === 'dark' ? 'light' : 'dark'} mode`}
     >
       {theme === 'dark' ? (

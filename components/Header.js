@@ -33,14 +33,8 @@ export default function Header() {
             dDD
           </Link>
 
-          {/* Desktop Navigation */}
-          <nav className="hidden md:flex items-center space-x-8">
-            <Link
-              href="/blog"
-              className="text-sm font-medium hover:opacity-70 transition-opacity"
-            >
-              Articles
-            </Link>
+          {/* Desktop Navigation - Right aligned, order from right: Search, Theme, Studio, Articles, Process */}
+          <div className="hidden md:flex items-center gap-6 transition-all duration-200 ease-out">
             <Link
               href="/process"
               className="text-sm font-medium hover:opacity-70 transition-opacity"
@@ -48,29 +42,33 @@ export default function Header() {
               Process
             </Link>
             <Link
+              href="/blog"
+              className="text-sm font-medium hover:opacity-70 transition-opacity"
+            >
+              Articles
+            </Link>
+            <Link
               href="/studio"
               className="text-sm font-medium hover:opacity-70 transition-opacity"
             >
               Studio
             </Link>
-          </nav>
-
-          {/* Desktop Actions */}
-          <div className="hidden md:flex items-center space-x-2">
             <ThemeToggle />
 
             {/* Search Icon/Input */}
-            <div className="relative">
-              {!isSearchOpen ? (
+            <div className="relative flex items-center" style={{ width: isSearchOpen ? '12rem' : '18px', transition: 'width 200ms ease-out' }}>
+              <div className="absolute right-0 flex items-center">
                 <button
                   onClick={() => setIsSearchOpen(true)}
-                  className="p-2 rounded-md hover:bg-gray-100 dark:hover:bg-[#2a2a2a] transition-colors"
+                  className="hover:opacity-70 transition-opacity"
                   aria-label="Open search"
+                  style={{ opacity: isSearchOpen ? 0 : 1, pointerEvents: isSearchOpen ? 'none' : 'auto' }}
                 >
-                  <Search className="w-5 h-5" />
+                  <Search className="w-[18px] h-[18px]" />
                 </button>
-              ) : (
-                <form onSubmit={handleSearch} className="flex items-center">
+              </div>
+              {isSearchOpen && (
+                <form onSubmit={handleSearch} className="w-full relative">
                   <input
                     type="search"
                     value={query}
@@ -82,15 +80,15 @@ export default function Header() {
                     }}
                     placeholder="Search..."
                     autoFocus
-                    className="w-48 h-9 px-3 pr-9 text-sm border border-gray-300 dark:border-gray-700 rounded-md bg-white dark:bg-[#2a2a2a] focus:outline-none focus:ring-2 focus:ring-gray-900 dark:focus:ring-gray-100 transition-all animate-in slide-in-from-right-2 duration-200"
+                    className="w-full h-9 pl-3 pr-9 text-sm border border-gray-300 dark:border-gray-700 rounded-md bg-white dark:bg-[#2a2a2a] focus:outline-none focus:ring-2 focus:ring-gray-900 dark:focus:ring-gray-100"
                     aria-label="Search"
                   />
                   <button
                     type="submit"
-                    className="absolute right-2 p-1"
+                    className="absolute right-2 top-1/2 -translate-y-1/2 hover:opacity-70 transition-opacity"
                     aria-label="Submit search"
                   >
-                    <Search className="w-4 h-4" />
+                    <Search className="w-[18px] h-[18px]" />
                   </button>
                 </form>
               )}
