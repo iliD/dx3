@@ -43,6 +43,8 @@ export default function GradientGenerator({ onGenerateGradient }) {
 
   // Drag and drop state
   const [draggingStopId, setDraggingStopId] = useState(null);
+  const [hoveredStopId, setHoveredStopId] = useState(null);
+  const [newlyAddedStopId, setNewlyAddedStopId] = useState(null);
 
   // Global mouseup handler to end dragging anywhere
   useEffect(() => {
@@ -55,6 +57,16 @@ export default function GradientGenerator({ onGenerateGradient }) {
     window.addEventListener('mouseup', handleGlobalMouseUp);
     return () => window.removeEventListener('mouseup', handleGlobalMouseUp);
   }, [draggingStopId]);
+
+  // Clear newly added highlight after animation
+  useEffect(() => {
+    if (newlyAddedStopId) {
+      const timer = setTimeout(() => {
+        setNewlyAddedStopId(null);
+      }, 1000);
+      return () => clearTimeout(timer);
+    }
+  }, [newlyAddedStopId]);
 
   const addColorStop = () => {
     const positions = colorStops.map(s => s.position).sort((a, b) => a - b);
@@ -124,14 +136,16 @@ export default function GradientGenerator({ onGenerateGradient }) {
     const x = e.clientX - rect.left;
     const percentage = Math.max(0, Math.min(100, (x / rect.width) * 100));
 
+    const newStopId = nextId;
     const newStop = {
-      id: nextId,
+      id: newStopId,
       color: '#808080',
       position: Math.round(percentage)
     };
 
     setColorStops([...colorStops, newStop]);
     setNextId(nextId + 1);
+    setNewlyAddedStopId(newStopId);
   };
 
   const handleGenerate = () => {
@@ -684,7 +698,15 @@ export default function GradientGenerator({ onGenerateGradient }) {
         {sortedStops.map((stop) => (
           <div
             key={stop.id}
-            className="flex items-center gap-3 p-3 bg-gray-50 dark:bg-[#0a0a0a] rounded-md"
+            className={`flex items-center gap-3 p-3 rounded-md transition-all ${
+              newlyAddedStopId === stop.id
+                ? 'bg-green-50 dark:bg-green-900/20 ring-2 ring-green-500 dark:ring-green-400 animate-pulse'
+                : hoveredStopId === stop.id
+                ? 'bg-blue-50 dark:bg-blue-900/20 ring-2 ring-blue-500 dark:ring-blue-400'
+                : 'bg-gray-50 dark:bg-[#0a0a0a]'
+            }`}
+            onMouseEnter={() => setHoveredStopId(stop.id)}
+            onMouseLeave={() => setHoveredStopId(null)}
           >
             {/* Color Picker */}
             <input
@@ -801,12 +823,26 @@ export default function GradientGenerator({ onGenerateGradient }) {
                         e.stopPropagation();
                         handleStopDragStart(stop.id);
                       }}
+                      onMouseEnter={() => setHoveredStopId(stop.id)}
+                      onMouseLeave={() => setHoveredStopId(null)}
                       title={`${stop.color} at ${stop.position}%`}
                     >
                       <div
-                        className={`w-4 h-4 rounded-full border-2 border-white dark:border-gray-900 shadow-lg ${
-                          draggingStopId === stop.id ? 'cursor-grabbing scale-125' : 'cursor-grab hover:scale-110'
-                        } transition-transform`}
+                        className={`w-4 h-4 rounded-full shadow-lg transition-all ${
+                          newlyAddedStopId === stop.id
+                            ? 'scale-150 ring-4 ring-green-500 dark:ring-green-400 animate-pulse'
+                            : draggingStopId === stop.id
+                            ? 'cursor-grabbing scale-125 ring-2 ring-blue-500 dark:ring-blue-400'
+                            : hoveredStopId === stop.id
+                            ? 'cursor-grab scale-125 ring-2 ring-blue-500 dark:ring-blue-400'
+                            : 'cursor-grab hover:scale-110'
+                        } ${
+                          newlyAddedStopId === stop.id
+                            ? 'border-2 border-green-500 dark:border-green-400'
+                            : hoveredStopId === stop.id
+                            ? 'border-2 border-blue-500 dark:border-blue-400'
+                            : 'border-2 border-white dark:border-gray-900'
+                        }`}
                         style={{ backgroundColor: stop.color }}
                       />
                     </div>
