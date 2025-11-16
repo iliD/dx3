@@ -95,7 +95,7 @@ export default async function BlogPost({ params }) {
   }
 
   return (
-    <article className="py-12 max-w-4xl mx-auto px-4">
+    <article className="py-12" style={{ marginLeft: 'clamp(1.5rem, 8vw, 6rem)', marginRight: 'clamp(1.5rem, 4vw, 1.5rem)', maxWidth: '800px' }}>
       {/* Header */}
       <header className="mb-8">
         {post.categories && post.categories.length > 0 && (
