@@ -195,7 +195,32 @@ export default function GradientGenerator({ onGenerateGradient }) {
     let calculatedAngle = Math.atan2(deltaX, -deltaY) * (180 / Math.PI);
     if (calculatedAngle < 0) calculatedAngle += 360;
 
+    // Snap to common angles if within 5 degrees (with Shift key held, disable snapping)
+    const snapAngles = [0, 45, 90, 135, 180, 225, 270, 315];
+    const snapThreshold = 5;
+
+    if (!e.shiftKey) {
+      for (const snapAngle of snapAngles) {
+        if (Math.abs(calculatedAngle - snapAngle) < snapThreshold) {
+          calculatedAngle = snapAngle;
+          break;
+        }
+      }
+    }
+
     setAngle(Math.round(calculatedAngle));
+  };
+
+  // Calculate angle indicator position for linear gradients
+  const getAngleIndicatorPosition = () => {
+    // Convert angle to radians (angle in CSS is clockwise from top, 0deg = top)
+    const radians = ((angle - 90) * Math.PI) / 180; // Subtract 90 to convert from "top = 0" to "right = 0"
+    const radius = 35; // percentage from center
+
+    return {
+      x: 50 + radius * Math.cos(radians),
+      y: 50 + radius * Math.sin(radians)
+    };
   };
 
   const handleGenerate = () => {
@@ -903,6 +928,75 @@ export default function GradientGenerator({ onGenerateGradient }) {
                       />
                     </div>
                   ))}
+
+                  {/* Angle indicator line and handle */}
+                  {(() => {
+                    const indicatorPos = getAngleIndicatorPosition();
+                    const snapAngles = [0, 45, 90, 135, 180, 225, 270, 315];
+                    const isSnapped = snapAngles.includes(angle);
+
+                    return (
+                      <>
+                        {/* Center dot */}
+                        <div
+                          className="absolute"
+                          style={{
+                            left: '50%',
+                            top: '50%',
+                            transform: 'translate(-50%, -50%)'
+                          }}
+                        >
+                          <div className="w-1.5 h-1.5 rounded-full bg-orange-500 dark:bg-orange-400" />
+                        </div>
+
+                        {/* Angle indicator line */}
+                        <svg
+                          className="absolute inset-0 w-full h-full"
+                          style={{ pointerEvents: 'none' }}
+                        >
+                          <line
+                            x1="50%"
+                            y1="50%"
+                            x2={`${indicatorPos.x}%`}
+                            y2={`${indicatorPos.y}%`}
+                            stroke={isSnapped ? '#f97316' : '#fb923c'}
+                            strokeWidth={isSnapped ? '2' : '1.5'}
+                            strokeDasharray={isSnapped ? '0' : '4 2'}
+                            className="transition-all"
+                          />
+                        </svg>
+
+                        {/* Draggable handle at the end of the line */}
+                        <div
+                          className="absolute pointer-events-auto"
+                          style={{
+                            left: `${indicatorPos.x}%`,
+                            top: `${indicatorPos.y}%`,
+                            transform: 'translate(-50%, -50%)'
+                          }}
+                          onMouseDown={(e) => {
+                            e.stopPropagation();
+                            handleAngleDragStart();
+                          }}
+                          title={`Angle: ${angle}° ${isSnapped ? '(snapped)' : '(hold Shift to disable snap)'}`}
+                        >
+                          <div
+                            className={`w-5 h-5 rounded-full bg-white dark:bg-gray-900 border-2 shadow-lg transition-all ${
+                              draggingAngle
+                                ? 'cursor-grabbing scale-125 ring-4 border-orange-500 dark:border-orange-400 ring-orange-500 dark:ring-orange-400'
+                                : isSnapped
+                                ? 'cursor-grab hover:scale-110 border-orange-500 dark:border-orange-400'
+                                : 'cursor-grab hover:scale-110 border-orange-400 dark:border-orange-300'
+                            } flex items-center justify-center`}
+                          >
+                            <div className={`w-1.5 h-1.5 rounded-full ${
+                              isSnapped ? 'bg-orange-500 dark:bg-orange-400' : 'bg-orange-400 dark:bg-orange-300'
+                            }`} />
+                          </div>
+                        </div>
+                      </>
+                    );
+                  })()}
                 </div>
               )}
 
@@ -937,7 +1031,7 @@ export default function GradientGenerator({ onGenerateGradient }) {
             {/* Helper text */}
             {gradientType === 'css-linear' && (
               <div className="text-xs text-gray-500 dark:text-gray-500 italic" style={{ fontFamily: 'IBM Plex Sans, sans-serif' }}>
-                Click to add stops • Drag stops to reposition
+                Click to add stops • Drag stops to reposition • Drag angle handle to rotate (snaps at 0°, 45°, 90°, etc.)
               </div>
             )}
             {(gradientType === 'css-radial' || gradientType === 'css-conic') && (
