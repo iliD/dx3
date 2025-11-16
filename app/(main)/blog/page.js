@@ -10,19 +10,19 @@ export default async function BlogPage({ searchParams }) {
   const params = await searchParams;
   const category = params?.category;
 
-  let query = `*[_type == "blogPost"] | order(publishedAt desc)`;
+  let query = `*[_type == "article"] | order(publishedAt desc)`;
 
   if (category) {
-    query = `*[_type == "blogPost" && category == "${category}"] | order(publishedAt desc)`;
+    query = `*[_type == "article" && "${category}" in categories] | order(publishedAt desc)`;
   }
 
   const posts = await client.fetch(query);
   const categories = await client.fetch(
-    `*[_type == "blogPost" && defined(category)]{category}`
+    `*[_type == "article" && defined(categories)]{categories}`
   );
 
   // Get unique categories
-  const uniqueCategories = [...new Set(categories.map((c) => c.category).filter(Boolean))];
+  const uniqueCategories = [...new Set(categories.flatMap((c) => c.categories || []).filter(Boolean))];
 
   return (
     <div className="py-12" style={{ marginLeft: 'clamp(1.5rem, 8vw, 6rem)', marginRight: 'clamp(1.5rem, 4vw, 1.5rem)' }}>

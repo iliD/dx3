@@ -1,63 +1,82 @@
 import { client, urlFor } from '@/lib/sanity';
 import { PortableText } from '@portabletext/react';
 import { format } from 'date-fns';
-import Link from 'next/link';
 import { notFound } from 'next/navigation';
 
-// Portable Text components for custom rendering
+export async function generateMetadata({ params }) {
+  const { slug } = await params;
+  const post = await client.fetch(
+    `*[_type == "article" && slug.current == $slug][0]`,
+    { slug }
+  );
+
+  if (!post) {
+    return {
+      title: 'Article Not Found',
+    };
+  }
+
+  return {
+    title: `${post.title} - designDesignsDesign`,
+    description: post.excerpt || post.title,
+  };
+}
+
 const portableTextComponents = {
   types: {
     image: ({ value }) => (
       <div className="my-8">
         <img
           src={urlFor(value).width(800).url()}
-          alt={value.alt || 'Blog image'}
-          className="rounded-lg w-full"
+          alt={value.alt || 'Article image'}
+          className="w-full rounded-lg"
         />
+        {value.alt && (
+          <p className="text-sm text-gray-500 text-center mt-2">{value.alt}</p>
+        )}
       </div>
     ),
   },
   block: {
-    h1: ({ children }) => <h1 className="text-4xl mt-8 mb-4">{children}</h1>,
-    h2: ({ children }) => <h2 className="text-3xl mt-8 mb-4">{children}</h2>,
-    h3: ({ children }) => <h3 className="text-2xl mt-6 mb-3">{children}</h3>,
-    h4: ({ children }) => <h4 className="text-xl mt-6 mb-3">{children}</h4>,
-    normal: ({ children }) => <p className="mb-4 leading-relaxed">{children}</p>,
+    h1: ({ children }) => <h1 className="text-4xl font-bold mt-8 mb-4">{children}</h1>,
+    h2: ({ children }) => <h2 className="text-3xl font-bold mt-8 mb-4">{children}</h2>,
+    h3: ({ children }) => <h3 className="text-2xl font-bold mt-6 mb-3">{children}</h3>,
+    h4: ({ children }) => <h4 className="text-xl font-bold mt-6 mb-3">{children}</h4>,
+    normal: ({ children }) => <p className="mb-4 text-lg leading-relaxed">{children}</p>,
     blockquote: ({ children }) => (
-      <blockquote className="border-l-4 border-black pl-4 my-6 italic text-gray-700">
+      <blockquote className="border-l-4 border-gray-300 pl-4 my-6 italic text-gray-700 dark:text-gray-300">
         {children}
       </blockquote>
     ),
   },
+  list: {
+    bullet: ({ children }) => <ul className="list-disc list-inside mb-4 space-y-2">{children}</ul>,
+    number: ({ children }) => <ol className="list-decimal list-inside mb-4 space-y-2">{children}</ol>,
+  },
+  listItem: {
+    bullet: ({ children }) => <li className="ml-4">{children}</li>,
+    number: ({ children }) => <li className="ml-4">{children}</li>,
+  },
   marks: {
     link: ({ children, value }) => (
-      <a href={value.href} className="text-black underline hover:text-gray-700" target="_blank" rel="noopener noreferrer">
+      <a href={value.href} className="text-black dark:text-white underline hover:opacity-70" target="_blank" rel="noopener noreferrer">
         {children}
       </a>
     ),
+    strong: ({ children }) => <strong className="font-bold">{children}</strong>,
+    em: ({ children }) => <em className="italic">{children}</em>,
     code: ({ children }) => (
-      <code className="bg-gray-100 px-2 py-1 rounded text-sm font-mono">{children}</code>
+      <code className="bg-gray-100 dark:bg-gray-800 px-2 py-1 rounded text-sm font-mono">
+        {children}
+      </code>
     ),
   },
 };
 
-export async function generateMetadata({ params }) {
+export default async function BlogPost({ params }) {
+  const { slug } = await params;
   const post = await client.fetch(
-    `*[_type == "blogPost" && slug.current == $slug][0]`,
-    { slug: params.slug }
-  );
-
-  if (!post) return {};
-
-  return {
-    title: `${post.title} - designDesignsDesign`,
-    description: post.excerpt,
-  };
-}
-
-export default async function BlogPostPage({ params }) {
-  const post = await client.fetch(
-    `*[_type == "blogPost" && slug.current == $slug][0]{
+    `*[_type == "article" && slug.current == $slug][0]{
       _id,
       title,
       slug,
@@ -65,11 +84,10 @@ export default async function BlogPostPage({ params }) {
       publishedAt,
       excerpt,
       mainImage,
-      category,
-      tags,
-      body
+      body,
+      categories
     }`,
-    { slug: params.slug }
+    { slug }
   );
 
   if (!post) {
@@ -77,79 +95,60 @@ export default async function BlogPostPage({ params }) {
   }
 
   return (
-    <article className="container mx-auto px-6 py-12 max-w-4xl">
-      {/* Back Button */}
-      <Link
-        href="/blog"
-        className="inline-flex items-center text-gray-600 hover:text-black mb-8 transition-colors"
-      >
-        ← Back to Articles
-      </Link>
-
+    <article className="py-12 max-w-4xl mx-auto px-4">
       {/* Header */}
       <header className="mb-8">
-        <div className="flex items-center gap-3 mb-4">
-          {post.category && (
-            <span className="text-xs font-semibold px-3 py-1 bg-black text-white rounded-full capitalize">
-              {post.category}
-            </span>
-          )}
-          <time className="text-sm text-gray-500">
-            {format(new Date(post.publishedAt), 'MMMM dd, yyyy')}
-          </time>
-        </div>
-        <h1 className="text-5xl mb-4">{post.title}</h1>
-        <p className="text-xl text-gray-600 mb-4">{post.excerpt}</p>
-        <div className="flex items-center text-gray-600">
-          <span>By {post.author}</span>
+        {post.categories && post.categories.length > 0 && (
+          <div className="flex flex-wrap gap-2 mb-4">
+            {post.categories.map((category) => (
+              <span
+                key={category}
+                className="text-xs font-semibold px-3 py-1 bg-black dark:bg-white text-white dark:text-black rounded-full capitalize"
+              >
+                {category}
+              </span>
+            ))}
+          </div>
+        )}
+        <h1 className="text-5xl font-bold mb-4">{post.title}</h1>
+        <div className="flex items-center gap-4 text-gray-600 dark:text-gray-400">
+          {post.author && <span>By {post.author}</span>}
+          <span>•</span>
+          <time>{format(new Date(post.publishedAt), 'MMMM dd, yyyy')}</time>
         </div>
       </header>
 
       {/* Featured Image */}
       {post.mainImage && (
-        <div className="mb-12">
+        <div className="mb-8">
           <img
-            src={urlFor(post.mainImage).width(1200).height(600).url()}
-            alt={post.title}
+            src={urlFor(post.mainImage).width(1200).url()}
+            alt={post.mainImage.alt || post.title}
             className="w-full rounded-lg"
           />
         </div>
       )}
 
-      {/* Content */}
-      <div className="prose prose-lg max-w-none">
-        <PortableText value={post.body} components={portableTextComponents} />
-      </div>
-
-      {/* Tags */}
-      {post.tags && post.tags.length > 0 && (
-        <div className="mt-12 pt-8 border-t">
-          <h3 className="text-lg mb-3">Tags</h3>
-          <div className="flex flex-wrap gap-2">
-            {post.tags.map((tag, index) => (
-              <span
-                key={index}
-                className="px-3 py-1 bg-gray-100 text-gray-700 rounded-full text-sm"
-              >
-                {tag}
-              </span>
-            ))}
-          </div>
+      {/* Excerpt */}
+      {post.excerpt && (
+        <div className="text-xl text-gray-700 dark:text-gray-300 mb-8 pb-8 border-b border-gray-200 dark:border-gray-800">
+          {post.excerpt}
         </div>
       )}
 
-      {/* Footer CTA */}
-      <div className="mt-12 pt-8 border-t text-center">
-        <h3 className="text-2xl mb-4">Ready to get started?</h3>
-        <p className="text-gray-600 mb-6">
-          Check out our digital products and start your journey today.
-        </p>
-        <Link
-          href="/products"
-          className="inline-block bg-black text-white px-8 py-3 rounded-lg hover:bg-gray-800 transition-colors"
+      {/* Body */}
+      <div className="prose prose-lg dark:prose-invert max-w-none">
+        <PortableText value={post.body} components={portableTextComponents} />
+      </div>
+
+      {/* Back to blog */}
+      <div className="mt-12 pt-8 border-t border-gray-200 dark:border-gray-800">
+        <a
+          href="/blog"
+          className="inline-flex items-center text-black dark:text-white hover:opacity-70 transition-opacity"
         >
-          Browse Products
-        </Link>
+          ← Back to articles
+        </a>
       </div>
     </article>
   );
