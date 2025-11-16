@@ -1,5 +1,6 @@
 import { client } from '@/lib/sanity';
-import BlogCard from '@/components/blog-card';
+import Link from 'next/link';
+import { format } from 'date-fns';
 
 export const metadata = {
   title: 'Articles - designDesignsDesign',
@@ -62,7 +63,7 @@ export default async function BlogPage({ searchParams }) {
         </div>
       )}
 
-      {/* Blog Posts Grid */}
+      {/* Blog Posts List */}
       {posts.length === 0 ? (
         <div className="text-center py-12">
           <p className="text-xl text-gray-600 mb-4">No blog posts available yet.</p>
@@ -74,9 +75,33 @@ export default async function BlogPage({ searchParams }) {
           </p>
         </div>
       ) : (
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+        <div className="space-y-12">
           {posts.map((post) => (
-            <BlogCard key={post._id} post={post} />
+            <article key={post._id} className="border-b border-gray-200 pb-12 last:border-b-0">
+              <Link href={`/blog/${post.slug.current}`} className="group">
+                <div className="flex items-center gap-4 mb-3">
+                  {post.category && (
+                    <span className="text-xs font-semibold px-3 py-1 bg-black text-white rounded-full">
+                      {post.category}
+                    </span>
+                  )}
+                  <time className="text-sm text-gray-500">
+                    {format(new Date(post.publishedAt), 'MMMM dd, yyyy')}
+                  </time>
+                </div>
+                <h2 className="text-3xl mb-4 group-hover:opacity-70 transition-opacity">
+                  {post.title}
+                </h2>
+                {post.excerpt && (
+                  <p className="text-lg text-gray-700 mb-4 leading-relaxed">
+                    {post.excerpt}
+                  </p>
+                )}
+                {post.author && (
+                  <p className="text-sm text-gray-500">By {post.author}</p>
+                )}
+              </Link>
+            </article>
           ))}
         </div>
       )}

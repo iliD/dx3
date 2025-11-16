@@ -1,6 +1,7 @@
 import { client } from '@/lib/sanity';
 import Link from 'next/link';
 import { urlFor } from '@/lib/sanity';
+import { format } from 'date-fns';
 
 export const metadata = {
   title: 'Search - designDesignsDesign',
@@ -131,32 +132,35 @@ export default async function SearchPage({ searchParams }) {
       {results.posts.length > 0 && (
         <section className="mb-12">
           <h2 className="text-2xl mb-6">Articles ({results.posts.length})</h2>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          <div className="space-y-12">
             {results.posts.map((post) => (
-              <Link
-                key={post._id}
-                href={`/blog/${post.slug.current}`}
-                className="border rounded-lg overflow-hidden hover:shadow-lg transition-shadow bg-white"
-              >
-                {post.mainImage && (
-                  <div className="relative h-48 overflow-hidden">
-                    <img
-                      src={urlFor(post.mainImage).width(600).height(400).url()}
-                      alt={post.title}
-                      className="w-full h-full object-cover"
-                    />
+              <article key={post._id} className="border-b border-gray-200 pb-12 last:border-b-0">
+                <Link href={`/blog/${post.slug.current}`} className="group">
+                  <div className="flex items-center gap-4 mb-3">
+                    {post.category && (
+                      <span className="text-xs font-semibold px-3 py-1 bg-black text-white rounded-full">
+                        {post.category}
+                      </span>
+                    )}
+                    {post.publishedAt && (
+                      <time className="text-sm text-gray-500">
+                        {format(new Date(post.publishedAt), 'MMMM dd, yyyy')}
+                      </time>
+                    )}
                   </div>
-                )}
-                <div className="p-6">
-                  <h3 className="text-xl mb-2">{post.title}</h3>
-                  <p className="text-gray-600 mb-4 line-clamp-2">{post.excerpt}</p>
-                  {post.category && (
-                    <span className="inline-block px-3 py-1 bg-gray-100 text-sm rounded capitalize">
-                      {post.category}
-                    </span>
+                  <h3 className="text-3xl mb-4 group-hover:opacity-70 transition-opacity">
+                    {post.title}
+                  </h3>
+                  {post.excerpt && (
+                    <p className="text-lg text-gray-700 mb-4 leading-relaxed">
+                      {post.excerpt}
+                    </p>
                   )}
-                </div>
-              </Link>
+                  {post.author && (
+                    <p className="text-sm text-gray-500">By {post.author}</p>
+                  )}
+                </Link>
+              </article>
             ))}
           </div>
         </section>
