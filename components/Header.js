@@ -33,7 +33,7 @@ export default function Header() {
             dDD
           </Link>
 
-          {/* Desktop Navigation - Right aligned, order from right: Search, Theme, Studio, Articles, Process */}
+          {/* Desktop Navigation - Right aligned, order from right: Search, Theme, Articles, Process */}
           <div className="hidden md:flex items-center gap-6 transition-all duration-200 ease-out">
             <Link
               href="/frameworks"
@@ -46,12 +46,6 @@ export default function Header() {
               className="text-sm font-medium hover:opacity-70 transition-opacity"
             >
               Articles
-            </Link>
-            <Link
-              href="/studio"
-              className="text-sm font-medium hover:opacity-70 transition-opacity"
-            >
-              Studio
             </Link>
             <ThemeToggle />
 
@@ -157,13 +151,6 @@ export default function Header() {
             onClick={() => setIsOpen(false)}
           >
             Process
-          </Link>
-          <Link
-            href="/studio"
-            className="text-xl font-medium hover:opacity-70 transition-opacity"
-            onClick={() => setIsOpen(false)}
-          >
-            Studio
           </Link>
         </nav>
 

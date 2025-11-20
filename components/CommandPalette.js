@@ -16,7 +16,6 @@ export default function CommandPalette() {
     { title: 'Pricing', description: 'View pricing plans', url: '/products', category: 'Navigation' },
     { title: 'Frameworks', description: 'Explore frameworks', url: '/frameworks', category: 'Navigation' },
     { title: 'Articles', description: 'Read blog posts', url: '/blog', category: 'Navigation' },
-    { title: 'Studio', description: 'Open CMS Studio', url: '/studio', category: 'Navigation' },
     { title: 'Contact', description: 'Get in touch', url: '/contact', category: 'Navigation' },
     { title: 'Colophon', description: 'Technical details', url: '/colophon', category: 'Navigation' },
     { title: 'Development Environments', description: 'All development environments', url: '/frameworks/environments', category: 'Toolchain' },

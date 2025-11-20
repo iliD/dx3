@@ -68,10 +68,7 @@ export default async function BlogPage({ searchParams }) {
         <div className="text-center py-12">
           <p className="text-xl text-gray-600 mb-4">No blog posts available yet.</p>
           <p className="text-gray-500">
-            Add blog posts through the{' '}
-            <a href="/studio" className="text-black underline">
-              CMS Studio
-            </a>
+            Check back soon for new content.
           </p>
         </div>
       ) : (

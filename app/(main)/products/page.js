@@ -19,10 +19,7 @@ export default async function ProductsPage() {
         <div className="text-center py-12">
           <p className="text-xl text-gray-600 mb-4">No products available yet.</p>
           <p className="text-gray-500">
-            Add products through the{' '}
-            <a href="/studio" className="text-black underline">
-              CMS Studio
-            </a>
+            Check back soon for new offerings.
           </p>
         </div>
       ) : (

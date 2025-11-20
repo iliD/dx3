@@ -76,13 +76,6 @@ export default function MobileNav() {
           >
             Articles
           </Link>
-          <Link
-            href="/studio"
-            className="text-xl font-medium hover:text-gray-600 hover:underline transition-colors"
-            onClick={() => setIsOpen(false)}
-          >
-            Studio
-          </Link>
         </nav>
 
         {/* Search Section */}
